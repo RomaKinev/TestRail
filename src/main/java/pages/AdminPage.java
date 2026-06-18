@@ -57,6 +57,7 @@ public class AdminPage {
 
     public AdminPage editProjectName(String projectName, String newName) {
         $(By.xpath(String.format(EDIT_PROJECT_BUTTON, projectName))).click();
+        $(byText(EDIT_PROJECT_TITLE)).shouldBe(visible);
         $(PROJECT_NAME_INPUT).setValue(newName);
         $(CREATE_PROJECT_BUTTON).click();
         return this;

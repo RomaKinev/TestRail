@@ -24,8 +24,18 @@ public class ProjectsTest extends BaseTest{
         projectsPage.isPageOpen()
                 .createProject(PROJECT_NAME, PROJECT_DESCRIPTION);
         adminPage.isProjectCreated(PROJECT_NAME)
-                .deleteProject(PROJECT_NAME);
-        adminPage.isProjectDeleted(PROJECT_NAME);
+                .deleteProject(PROJECT_NAME)
+                .isProjectDeleted(PROJECT_NAME);
     }
 
+    @Test
+    public void editProjectNameTest() {
+        loginStep.auth(CONFIG.email(), CONFIG.password());
+        projectsPage.isPageOpen()
+                .createProject(PROJECT_NAME, PROJECT_DESCRIPTION);
+        adminPage.isProjectCreated(PROJECT_NAME)
+                .editProjectName(PROJECT_NAME, "NewProjectName")
+                .isProjectNameChanged(PROJECT_NAME, "NewProjectName")
+                .deleteProject("NewProjectName");
+    }
 }
