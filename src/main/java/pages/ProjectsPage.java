@@ -16,9 +16,9 @@ public class ProjectsPage {
     public final String PROFILE_DROPDOWN = "[data-testid='userDropdown']";
     public final String LOGOUT_BUTTON = "[data-testid='logoutButton']";
     public final String ADD_PROJECT_BUTTON = "[data-testid='sidebarProjectsAddButton']";
-    public final String PROJECT_NAME_INPUT = "[data-testid='addProjectNameInput']";
+    public static final String PROJECT_NAME_INPUT = "[data-testid='addProjectNameInput']";
     public final String PROJECT_DESCRIPTION_INPUT = "[data-testid='addEditProjectAnnouncement'] .fr-element[contenteditable='true']";
-    public final String CREATE_PROJECT_BUTTON = "[data-testid='addEditProjectAddButton']";
+    public static final String CREATE_PROJECT_BUTTON = "[data-testid='addEditProjectAddButton']";
 
     public ProjectsPage isPageOpen() {
         $(byText(PROJECTS_PAGE)).shouldBe(visible);
