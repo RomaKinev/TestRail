@@ -1,6 +1,7 @@
 package pages;
 
 import com.codeborne.selenide.Selenide;
+import dto.Project;
 import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,14 +44,14 @@ public class ProjectsPage {
         return this;
     }
 
-    @Step("Создаём проект '{0}'")
-    public ProjectsPage createProject(String projectName, String projectDescription) {
-        log.info("Создаём проект '{}'", projectName);
+    @Step("Создаём проект '{project.name}'")
+    public ProjectsPage createProject(Project project) {
+        log.info("Создаём проект '{}'", project.getName());
         $(ADD_PROJECT_BUTTON).click();
         createProjectPage.isPageOpen();
-        $(PROJECT_NAME_INPUT).setValue(projectName);
+        $(PROJECT_NAME_INPUT).setValue(project.getName());
         $(PROJECT_DESCRIPTION_INPUT).click();
-        $(PROJECT_DESCRIPTION_INPUT).sendKeys(projectDescription);
+        $(PROJECT_DESCRIPTION_INPUT).sendKeys(project.getDescription());
         $(CREATE_PROJECT_BUTTON).click();
         return this;
     }

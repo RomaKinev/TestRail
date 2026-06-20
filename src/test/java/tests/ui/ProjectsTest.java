@@ -1,41 +1,36 @@
 package tests.ui;
 
-import config.TestConfig;
-import org.aeonbits.owner.ConfigFactory;
+import dto.Project;
 import org.testng.annotations.Test;
 
-public class ProjectsTest extends BaseTest{
+import static dto.ProjectFactory.getProject;
+import static tests.ui.LoginTest.CONFIG;
 
-    private static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
-    private static final String PROJECT_NAME = "TestProject";
-    private static final String PROJECT_DESCRIPTION = "TestProjectDescription";
+public class ProjectsTest extends BaseTest {
 
     @Test
     public void createProjectTest() {
+        Project project = getProject();
         loginStep.auth(CONFIG.email(), CONFIG.password());
-        projectsPage.isPageOpen()
-                .createProject(PROJECT_NAME, PROJECT_DESCRIPTION);
-        adminPage.isProjectCreated(PROJECT_NAME);
+        projectStep.createProject(project);
     }
 
     @Test
     public void createAndDeleteProjectTest() {
+        Project project = getProject();
         loginStep.auth(CONFIG.email(), CONFIG.password());
-        projectsPage.isPageOpen()
-                .createProject(PROJECT_NAME, PROJECT_DESCRIPTION);
-        adminPage.isProjectCreated(PROJECT_NAME)
-                .deleteProject(PROJECT_NAME)
-                .isProjectDeleted(PROJECT_NAME);
+        projectStep.createProject(project);
+        projectStep.deleteProject(project.getName());
     }
 
     @Test
     public void editProjectNameTest() {
+        Project project = getProject();
+        String newName = "Edited_" + project.getName();
         loginStep.auth(CONFIG.email(), CONFIG.password());
-        projectsPage.isPageOpen()
-                .createProject(PROJECT_NAME, PROJECT_DESCRIPTION);
-        adminPage.isProjectCreated(PROJECT_NAME)
-                .editProjectName(PROJECT_NAME, "NewProjectName1")
-                .isProjectNameChanged(PROJECT_NAME, "NewProjectName1")
-                .deleteProject("NewProjectName1");
+        projectStep.createProject(project);
+        adminPage.editProjectName(project.getName(), newName)
+                .isProjectNameChanged(project.getName(), newName)
+                .deleteProject(newName);
     }
 }

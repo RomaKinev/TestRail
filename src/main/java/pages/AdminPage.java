@@ -30,7 +30,7 @@ public class AdminPage {
     @Step("Открываем админ-страницу проектов")
     public AdminPage openAdminPage() {
         log.info("Открываем админ-страницу проектов");
-        Selenide.open("index.php?/admin/projects/overview");
+        Selenide.open("/index.php?/admin/projects/overview");
         return this;
     }
 
