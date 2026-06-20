@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
-import static dict.Elements.SUCCESS_MESSAGE_AFTER_ADD_TEST_CASE;
+import static dict.Elements.*;
 import static pages.TestCasesPage.TEST_CASES_TITLE;
 
 public class TestCasePage {
@@ -25,6 +25,13 @@ public class TestCasePage {
     public TestCasePage isCaseCreated() {
         log.info("Проверяем, что тест-кейс успешно создан");
         $(withText(SUCCESS_MESSAGE_AFTER_ADD_TEST_CASE.trim())).shouldBe(visible);
+        return this;
+    }
+
+    @Step("Проверяем, что тест-кейс успешно обновлен")
+    public TestCasePage isCaseUpdated() {
+        log.info("Проверяем, что тест-кейс успешно обновлен");
+        $(withText(SUCCESS_MESSAGE_AFTER_UPDATE_TEST_CASE.trim())).shouldBe(visible);
         return this;
     }
 

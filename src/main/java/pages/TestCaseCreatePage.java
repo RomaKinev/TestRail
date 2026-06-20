@@ -33,4 +33,13 @@ public class TestCaseCreatePage {
         return new TestCasePage();
     }
 
+    @Step("Редактируем тест-кейс '{0}'")
+    public TestCasePage editTestCase(String newTestCaseTitle) {
+        log.info("Редактируем тест-кейс '{}'", newTestCaseTitle);
+        $(TEST_CASE_INPUT_TITLE).clear();
+        $(TEST_CASE_INPUT_TITLE).setValue(newTestCaseTitle);
+        $(TEST_CASE_ADD_BUTTON).click();
+        return new TestCasePage();
+    }
+
 }

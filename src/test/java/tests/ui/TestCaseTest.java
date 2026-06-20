@@ -38,4 +38,14 @@ public class TestCaseTest extends BaseTest {
                 .openTestCase("case")
                 .isCaseOpen("case");
     }
+
+    @Test
+    public void editTestCaseTest() {
+        loginStep.auth(CONFIG.email(), CONFIG.password());
+        projectsPage.isPageOpen()
+                .openTestCasesByProject("Test")
+                .isPageOpen();
+        testCasesPage.openTestCase("case");
+        testCasesPage.editTestCase("case", "case1");
+    }
 }

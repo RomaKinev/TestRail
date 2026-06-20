@@ -21,6 +21,8 @@ public class TestCasesPage {
     public static final String ADD_SECTION = "[data-testid='addSectionInline']";
     public static final String TEST_CASE_NAME = "//span[text()='%s']";
     public static final String TEST_CASE_CHECKBOX = "//span[text()='%s']/ancestor::tr//input[@type='checkbox']";
+    public static final String EDIT_TEST_CASE_BUTTON = "//span[text()='%s']/ancestor::tr//a[@class='editLink']";
+    public static final String EDIT_TEST_CASE_BUTTON1 = "[data-testid='editCaseEdit']";
     public static final String DELETE_TEST_CASE_BUTTON = "//span[text()='%s']/ancestor::tr//a[@class='deleteLink']";
     public static final String DELETE_FIRST_WINDOW = "[data-testid='casesDeletionDialog']";
     public static final String DELETE_PERMANENTLY_BUTTON = "[data-testid='casesDeletionDialog'] [data-testid='deleteCaseDialogActionSecondary']";
@@ -77,6 +79,16 @@ public class TestCasesPage {
     public TestCasePage openTestCase(String testCaseName) {
         log.info("Открываем тест-кейс '{}'", testCaseName);
         $x(String.format(TEST_CASE_NAME, testCaseName)).click();
+        return new TestCasePage();
+    }
+
+    @Step("Редактируем тест-кейс")
+    public TestCasePage editTestCase(String testCaseName, String newTestCaseTitle) {
+        log.info("Редактируем тест-кейс '{}'", testCaseName);
+        $(EDIT_TEST_CASE_BUTTON1).click();
+        testCaseCreatePage.isPageOpen()
+                .editTestCase(newTestCaseTitle)
+                .isCaseUpdated();
         return new TestCasePage();
     }
 }
