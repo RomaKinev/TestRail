@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,12 +32,14 @@ public class TestCasesPage {
 
 //    }
 
+    @Step("Проверяем, что открыта страница тест-кейсов")
     public TestCasesPage isPageOpen() {
         log.info("Проверяем, что открыта страница тест-кейсов");
         $x(TEST_CASES_TITLE).shouldBe(visible);
         return this;
     }
 
+    @Step("Добавляем тест-кейс")
     public TestCasePage addTestCase() {
         log.info("Добавляем тест-кейс");
         $(ADD_TEST_CASE).click();
@@ -45,6 +48,7 @@ public class TestCasesPage {
         return new TestCasePage();
     }
 
+    @Step("Создаём и удаляем тест-кейс '{1}' в проекте '{0}'")
     public TestCasesPage addAndDeleteTestCase(String projectName, String testCaseName) {
         log.info("Создаём и удаляем тест-кейс '{}' в проекте '{}'", testCaseName, projectName);
         $(ADD_TEST_CASE).click();
@@ -62,12 +66,14 @@ public class TestCasesPage {
         return this;
     }
 
+    @Step("Проверяем, что тест-кейс '{0}' не отображается")
     public TestCasesPage isTestCaseNotVisible(String testCaseName) {
         log.info("Проверяем, что тест-кейс '{}' не отображается", testCaseName);
         $x(String.format(TEST_CASE_NAME, testCaseName)).shouldNot(visible);
         return this;
     }
 
+    @Step("Открываем тест-кейс '{0}'")
     public TestCasePage openTestCase(String testCaseName) {
         log.info("Открываем тест-кейс '{}'", testCaseName);
         $x(String.format(TEST_CASE_NAME, testCaseName)).click();

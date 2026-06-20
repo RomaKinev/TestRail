@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,12 +21,14 @@ public class TestCasePage {
 
     public static final String GO_TO_THE_PROJECT_TEST_CASES_BUTTON = "//a[@data-testid='navigateToCasesButton']";
 
+    @Step("Проверяем, что тест-кейс успешно создан")
     public TestCasePage isCaseCreated() {
         log.info("Проверяем, что тест-кейс успешно создан");
         $(withText(SUCCESS_MESSAGE_AFTER_ADD_TEST_CASE.trim())).shouldBe(visible);
         return this;
     }
 
+    @Step("Проверяем, что открыт тест-кейс '{0}'")
     public TestCasePage isCaseOpen(String testCaseTitle) {
         log.info("Проверяем, что открыт тест-кейс '{}'", testCaseTitle);
         $(TEST_CASE_NAME)
@@ -34,6 +37,7 @@ public class TestCasePage {
         return this;
     }
 
+    @Step("Переходим на страницу тест-кейсов проекта '{0}'")
     public TestCasesPage goToTestCasesPage(String projectName) {
         log.info("Переходим на страницу тест-кейсов проекта '{}'", projectName);
         return projectsPage.openTestCasesByProject(projectName);

@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,6 +13,7 @@ public class CreateProjectPage {
 
     private static final Logger log = LogManager.getLogger(CreateProjectPage.class);
 
+    @Step("Проверяем, что открыта форма создания проекта")
     public void isPageOpen() {
         log.info("Проверяем, что открыта форма создания проекта");
         $(byText(ADD_PROJECT_TITLE)).shouldBe(visible);

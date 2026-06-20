@@ -1,6 +1,7 @@
 package pages;
 
 import com.codeborne.selenide.Selenide;
+import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,18 +29,21 @@ public class ProjectsPage {
     public final String REPORTS_BUTTON = "//a[text()='%s']/ancestor::div[2]//a[text()='Reports']";
 
 
+    @Step("Проверяем, что открыта страница проектов")
     public ProjectsPage isPageOpen() {
         log.info("Проверяем, что открыта страница проектов");
         $(byText(PROJECTS_PAGE)).shouldBe(visible);
         return this;
     }
 
+    @Step("Открываем дашборд проектов")
     public ProjectsPage open() {
         log.info("Открываем дашборд проектов");
         Selenide.open("/index.php?/dashboard/");
         return this;
     }
 
+    @Step("Создаём проект '{0}'")
     public ProjectsPage createProject(String projectName, String projectDescription) {
         log.info("Создаём проект '{}'", projectName);
         $(ADD_PROJECT_BUTTON).click();
@@ -51,12 +55,14 @@ public class ProjectsPage {
         return this;
     }
 
+    @Step("Открываем Test Cases проекта '{0}'")
     public TestCasesPage openTestCasesByProject(String projectName) {
         log.info("Открываем Test Cases проекта '{}'", projectName);
         $x(String.format(TEST_CASES_PAGE_BUTTON, projectName)).click();
         return new TestCasesPage();
     }
 
+    @Step("Выходим из аккаунта")
     public LoginPage logOut() {
         log.info("Выходим из аккаунта");
         $(PROFILE_DROPDOWN).click();

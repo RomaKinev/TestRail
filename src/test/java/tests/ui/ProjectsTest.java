@@ -34,8 +34,8 @@ public class ProjectsTest extends BaseTest{
         projectsPage.isPageOpen()
                 .createProject(PROJECT_NAME, PROJECT_DESCRIPTION);
         adminPage.isProjectCreated(PROJECT_NAME)
-                .editProjectName(PROJECT_NAME, "NewProjectName")
-                .isProjectNameChanged(PROJECT_NAME, "NewProjectName")
-                .deleteProject("NewProjectName");
+                .editProjectName(PROJECT_NAME, "NewProjectName1")
+                .isProjectNameChanged(PROJECT_NAME, "NewProjectName1")
+                .deleteProject("NewProjectName1");
     }
 }
