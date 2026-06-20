@@ -10,21 +10,17 @@ import static dict.Elements.LOGIN_ERROR;
 
 public class LoginTest extends BaseTest {
 
-    private static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
+    public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
 
     @Test
     public void loginTest() {
-        loginPage.open()
-                .isPageOpen()
-                .login(CONFIG.email(), CONFIG.password());
+        loginStep.auth(CONFIG.email(), CONFIG.password());
         projectsPage.isPageOpen();
     }
 
     @Test
     public void logOutTest() {
-        loginPage.open()
-                .isPageOpen()
-                .login(CONFIG.email(), CONFIG.password());
+        loginStep.auth(CONFIG.email(), CONFIG.password());
         projectsPage.isPageOpen()
                 .logOut()
                 .isPageOpen();
@@ -48,9 +44,7 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void sessionExpiredAfterCookieClear() {
-        loginPage.open()
-                .isPageOpen()
-                .login(CONFIG.email(), CONFIG.password());
+        loginStep.auth(CONFIG.email(), CONFIG.password());
         projectsPage.isPageOpen();
         Selenide.clearBrowserCookies();
         projectsPage.open();

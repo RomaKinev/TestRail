@@ -20,7 +20,7 @@ public class SelenideConfig {
 
         Configuration.browser = "chrome";
         Configuration.baseUrl = CONFIG.baseUrl();
-        Configuration.timeout = 30000;
+        Configuration.timeout = 10000;
         Configuration.clickViaJs = true;
         Configuration.browserSize = "1920x1080";
         Configuration.headless = Boolean.parseBoolean(System.getProperty("headless", "false"));

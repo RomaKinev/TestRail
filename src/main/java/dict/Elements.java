@@ -10,4 +10,6 @@ public class Elements {
     public static final String LOGIN_ERROR = "Email/Login or Password is incorrect. Please try again.";
     public static final String SUCCESS_MESSAGE_AFTER_EDIT_PROJECT = "Successfully updated the project.";
     public static final String EDIT_PROJECT_TITLE = "Edit Project";
+    public static final String SUCCESS_MESSAGE_AFTER_ADD_TEST_CASE = "Successfully added the new test case. ";
+
 }
