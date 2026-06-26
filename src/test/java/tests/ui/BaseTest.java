@@ -4,6 +4,7 @@ import config.SelenideConfig;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import pages.*;
+import pages.ProjectsPage;
 import steps.LoginStep;
 import steps.ProjectStep;
 
