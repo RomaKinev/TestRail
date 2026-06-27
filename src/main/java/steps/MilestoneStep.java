@@ -38,4 +38,15 @@ public class MilestoneStep {
                 .deleteProject(project)
                 .isProjectDeleted(project);
     }
+
+    public void updateMilestone(Project project, Milestone milestone) {
+        milestonePage
+                .openDashboard()
+                .createProjectForMilestone(project)
+                .createMilestone(project, milestone)
+                .updateMilestone(project, milestone)
+                .isMileStoneUpdated(project, milestone)
+                .deleteProject(project)
+                .isProjectDeleted(project);
+    }
 }

@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Selenide.*;
 
@@ -36,6 +37,9 @@ public class MilestonePage {
     public static final String CREATE_MILESTONE_BUTTON = "[data-testid='milestoneButtonOk']";
     public static final String MILESTONE_TITLE_FIELD_ON_MILESTONES_PAGE = "//div[contains(@class, 'flex-milestones-row') and .//text()='%s']";
     public static final String DELETE_MILESTONE_BUTTON_OK = "[data-testid='caseFieldsTabDeleteDialogButtonOk']";
+    public static final String MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE = "//div['completed']//a[text()='%s']";
+    public static final String EDIT_MILESTONE_BUTTON = ".button-edit";
+    public static final String MILESTONE_PAGE_TITLE_HEADER = "[data-testid='testCaseContentHeaderTitle']";
 
 
     @Step("Открываем дашборд проектов")
@@ -112,6 +116,36 @@ public class MilestonePage {
         Selenide.open("/index.php?/dashboard");
         $(projectMilestonesButton(project)).click();
         $(By.xpath(String.format(MILESTONE_TITLE_FIELD_ON_MILESTONES_PAGE, milestone.getTitle()))).shouldNotBe(exist);
+
+        return this;
+    }
+
+    @Step("Обновляем майлстоун '{milestone.title}' в проекте '{project.name}'")
+    public MilestonePage updateMilestone(Project project, Milestone milestone) {
+        String updatedTitle = milestone.getTitle() + "_updated";
+
+        log.info("Обновляем майлстоун {} в проекте {}", project.getName(), milestone.getTitle());
+        Selenide.open("/index.php?/dashboard");
+        $(projectMilestonesButton(project)).click();
+        $x(String.format(MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE, milestone.getTitle())).click();
+        sleep(100);
+        $(EDIT_MILESTONE_BUTTON).click();
+        sleep(100);
+        $(MILESTONE_TITLE_INPUT).setValue(updatedTitle);
+        $(CREATE_MILESTONE_BUTTON).click();
+
+        return this;
+    }
+
+    @Step("Проверяем, что майлстоун '{0}' был обновлен")
+    public MilestonePage isMileStoneUpdated(Project project, Milestone milestone) {
+        String updatedTitle = milestone.getTitle() + "_updated";
+
+        log.info("Проверяем, что майлстоун '{}' был обновлен", milestone.getTitle());
+        Selenide.open("/index.php?/dashboard");
+        $(projectMilestonesButton(project)).click();
+        $x(String.format(MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE, updatedTitle)).click();
+        $(MILESTONE_PAGE_TITLE_HEADER).shouldHave(exactText(updatedTitle));
 
         return this;
     }
