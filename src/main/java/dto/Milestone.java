@@ -11,8 +11,8 @@ import lombok.Data;
 public class Milestone {
 
     @Builder.Default
-    private String name = "Test Milestone";
+    private String title = "Test Milestone";
     @Builder.Default
-    private String description = "";
+    private String description = "Test Milestone description";
 
 }

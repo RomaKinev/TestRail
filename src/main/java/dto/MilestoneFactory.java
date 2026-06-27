@@ -5,10 +5,10 @@ import com.github.javafaker.Faker;
 
 public class MilestoneFactory {
 
-    public static Project getMilestone() {
+    public static Milestone getMilestone() {
         Faker faker = new Faker();
-        return new Project(
-                faker.company().name(),
+        return new Milestone(
+                faker.lorem().word(),
                 faker.lorem().sentence()
         );
     }
