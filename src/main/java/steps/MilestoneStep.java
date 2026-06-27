@@ -49,4 +49,15 @@ public class MilestoneStep {
                 .deleteProject(project)
                 .isProjectDeleted(project);
     }
+
+    public void completeMilestone(Project project, Milestone milestone) {
+        milestonePage
+                .openDashboard()
+                .createProjectForMilestone(project)
+                .createMilestone(project, milestone)
+                .completeMilestone(project, milestone)
+                .isMilestoneCompleted(project, milestone)
+                .deleteProject(project)
+                .isProjectDeleted(project);
+    }
 }

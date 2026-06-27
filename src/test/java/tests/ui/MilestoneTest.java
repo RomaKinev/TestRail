@@ -48,4 +48,15 @@ public class MilestoneTest extends BaseTest {
         milestoneStep
                 .updateMilestone(project, milestone);
     }
+
+    @Test
+    public void completeMilestoneTest() {
+        Project project = getProject();
+        Milestone milestone = getMilestone();
+
+        loginStep
+                .auth(CONFIG.email(), CONFIG.password());
+        milestoneStep
+                .completeMilestone(project, milestone);
+    }
 }

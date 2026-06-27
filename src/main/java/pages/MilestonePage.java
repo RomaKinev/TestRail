@@ -40,6 +40,8 @@ public class MilestonePage {
     public static final String MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE = "//div['completed']//a[text()='%s']";
     public static final String EDIT_MILESTONE_BUTTON = ".button-edit";
     public static final String MILESTONE_PAGE_TITLE_HEADER = "[data-testid='testCaseContentHeaderTitle']";
+    public static final String COMPLETE_MILESTONE_BUTTON = "[data-testid='addEditMilestoneIsCompleted']";
+    public static final String MILESTONE_COMPLETED_MESSAGE = "[data-testid='messageHelp']";
 
 
     @Step("Открываем дашборд проектов")
@@ -146,6 +148,32 @@ public class MilestonePage {
         $(projectMilestonesButton(project)).click();
         $x(String.format(MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE, updatedTitle)).click();
         $(MILESTONE_PAGE_TITLE_HEADER).shouldHave(exactText(updatedTitle));
+
+        return this;
+    }
+
+    @Step("Завершаем майлстоун '{milestone.title}' в проекте '{project.name}'")
+    public MilestonePage completeMilestone(Project project, Milestone milestone) {
+        log.info("Завершаем майлстоун {} в проекте {}", project.getName(), milestone.getTitle());
+        Selenide.open("/index.php?/dashboard");
+        $(projectMilestonesButton(project)).click();
+        $x(String.format(MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE, milestone.getTitle())).click();
+        sleep(100);
+        $(EDIT_MILESTONE_BUTTON).click();
+        sleep(100);
+        $(COMPLETE_MILESTONE_BUTTON).click();
+        $(CREATE_MILESTONE_BUTTON).click();
+
+        return this;
+    }
+
+    @Step("Проверяем, что майлстоун '{0}' был завершен")
+    public MilestonePage isMilestoneCompleted(Project project, Milestone milestone) {
+        log.info("Проверяем, что майлстоун '{}' был обновлен", milestone.getTitle());
+        Selenide.open("/index.php?/dashboard");
+        $(projectMilestonesButton(project)).click();
+        $x(String.format(MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE, milestone.getTitle())).click();
+        $(MILESTONE_COMPLETED_MESSAGE).shouldHave(exactText("This milestone is completed. You can also close test runs & plans in this milestone to archive them permanently."));
 
         return this;
     }
