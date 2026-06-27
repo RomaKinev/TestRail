@@ -12,5 +12,6 @@ public class Elements {
     public static final String EDIT_PROJECT_TITLE = "Edit Project";
     public static final String SUCCESS_MESSAGE_AFTER_ADD_TEST_CASE = "Successfully added the new test case. ";
     public static final String SUCCESS_MESSAGE_AFTER_UPDATE_TEST_CASE = "Successfully updated the test case. ";
+    public static final String ADD_MILESTONE = "Add Milestone";
 
 }

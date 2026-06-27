@@ -5,6 +5,7 @@ import dto.Project;
 import lombok.extern.log4j.Log4j2;
 import pages.*;
 
+
 @Log4j2
 public class MilestoneStep {
 
@@ -33,6 +34,8 @@ public class MilestoneStep {
                 .createProjectForMilestone(project)
                 .createMilestone(project, milestone)
                 .deleteMilestone(project, milestone)
-                .isMilestoneDeleted(project, milestone);
+                .isMilestoneDeleted(project, milestone)
+                .deleteProject(project)
+                .isProjectDeleted(project);
     }
 }

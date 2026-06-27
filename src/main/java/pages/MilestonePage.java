@@ -10,12 +10,10 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.exist;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
 
 
 public class MilestonePage {
-
 
     private static final Logger log = LogManager.getLogger(MilestonePage.class);
 
@@ -32,8 +30,8 @@ public class MilestonePage {
                     "//div[@data-testid='projectDeleteButton']";
     public final String DELETE_PROJECT_BUTTON_OK = "[data-testid='caseFieldsTabDeleteDialogButtonOk']";
     public final String DELETE_CHECKBOX_CONFIRM = "[data-testid='caseFieldsTabDeleteDialogCheckbox'] label";
-    public static final String ADD_MILESTONE_BUTTON = "[data-testid='sidebarMilestonesAdd']";
-    public static final String MILESTONE_NAME_INPUT = "[data-testid='addEditMilestoneName']";
+    public static final String ADD_MILESTONE_BUTTON = "[data-testid='navigationMilestonesAdd']";
+    public static final String MILESTONE_TITLE_INPUT = "[data-testid='addEditMilestoneName']";
     public final String MILESTONE_DESCRIPTION_INPUT = "[data-testid='editSectionDescription'] .fr-element[contenteditable='true']";
     public static final String CREATE_MILESTONE_BUTTON = "[data-testid='milestoneButtonOk']";
     public static final String MILESTONE_TITLE_FIELD_ON_MILESTONES_PAGE = "//div[contains(@class, 'flex-milestones-row') and .//text()='%s']";
@@ -52,6 +50,7 @@ public class MilestonePage {
         log.info("Создаём проект '{}'", project.getName());
         $(ADD_PROJECT_BUTTON).click();
         createProjectPage.isPageOpen();
+        sleep(100);
         $(PROJECT_NAME_INPUT).setValue(project.getName());
         $(PROJECT_DESCRIPTION_INPUT).click();
         $(PROJECT_DESCRIPTION_INPUT).sendKeys(project.getDescription());
@@ -66,10 +65,10 @@ public class MilestonePage {
         Selenide.open("/index.php?/dashboard");
         $(projectMilestonesButton(project)).click();
         log.info("Создаём майлстон '{}'", milestone.getTitle());
-        createMilestonePage.isPageOpen();
         $(ADD_MILESTONE_BUTTON).click();
-        $(MILESTONE_NAME_INPUT).setValue(milestone.getTitle());
-        //        $(PROJECT_DESCRIPTION_INPUT).click();
+        createMilestonePage.isPageOpen();
+        sleep(100);
+        $(MILESTONE_TITLE_INPUT).setValue(milestone.getTitle());
         $(MILESTONE_DESCRIPTION_INPUT).sendKeys(milestone.getDescription());
         $(CREATE_MILESTONE_BUTTON).click();
 
