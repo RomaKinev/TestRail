@@ -8,7 +8,7 @@ import static tests.ui.LoginTest.CONFIG;
 
 public class TestCaseTest extends BaseTest {
 
-    @Test
+    @Test(groups = {"ui", "smoke"})
     public void testCaseCreationTest() {
         TestCase testCase = getTestCase();
         loginStep.auth(CONFIG.email(), CONFIG.password());
@@ -20,7 +20,7 @@ public class TestCaseTest extends BaseTest {
         testCasePage.isCaseCreated();
     }
 
-    @Test
+    @Test(groups = {"ui"})
     public void testCaseCreationAndDeletionTest() {
         TestCase testCase = getTestCase();
         loginStep.auth(CONFIG.email(), CONFIG.password());
@@ -32,7 +32,7 @@ public class TestCaseTest extends BaseTest {
                 .isTestCaseNotVisible(testCase.getTitle());
     }
 
-    @Test
+    @Test(groups = {"ui"})
     public void openTestCaseTest() {
         loginStep.auth(CONFIG.email(), CONFIG.password());
         projectsPage.isPageOpen()
@@ -43,7 +43,7 @@ public class TestCaseTest extends BaseTest {
                 .isCaseOpen("case");
     }
 
-    @Test
+    @Test(groups = {"ui"})
     public void editTestCaseTest() {
         loginStep.auth(CONFIG.email(), CONFIG.password());
         projectsPage.isPageOpen()
@@ -54,7 +54,7 @@ public class TestCaseTest extends BaseTest {
         testCasesPage.editTestCase(caseTitle, caseTitle + "_edited");
     }
 
-    @Test
+    @Test(groups = {"ui"})
     public void changePriorityInTestCaseTest() {
         loginStep.auth(CONFIG.email(), CONFIG.password());
         projectsPage.isPageOpen()
@@ -65,7 +65,7 @@ public class TestCaseTest extends BaseTest {
         testCasesPage.changePriorityToDifferent();
     }
 
-    @Test(description = "Move test case to another section via edit form")
+    @Test(description = "Move test case to another section via edit form", groups = {"ui"})
     public void moveTestCaseToSectionTest() {
         String targetSection = "section1";
 
@@ -80,7 +80,7 @@ public class TestCaseTest extends BaseTest {
                 .verifyCaseExistsInSection(caseTitle, targetSection);
     }
 
-    @Test(description = "Priority change is reflected in case history")
+    @Test(description = "Priority change is reflected in case history", groups = {"ui"})
     public void priorityChangeInHistoryTest() {
         String caseTitle = "case";
 

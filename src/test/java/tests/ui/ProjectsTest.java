@@ -8,14 +8,14 @@ import static tests.ui.LoginTest.CONFIG;
 
 public class ProjectsTest extends BaseTest {
 
-    @Test
+    @Test(groups = {"ui", "smoke"})
     public void createProjectTest() {
         Project project = getProject();
         loginStep.auth(CONFIG.email(), CONFIG.password());
         projectStep.createProject(project);
     }
 
-    @Test
+    @Test(groups = {"ui"})
     public void createAndDeleteProjectTest() {
         Project project = getProject();
         loginStep.auth(CONFIG.email(), CONFIG.password());
@@ -23,7 +23,7 @@ public class ProjectsTest extends BaseTest {
         projectStep.deleteProject(project.getName());
     }
 
-    @Test
+    @Test(groups = {"ui"})
     public void editProjectNameTest() {
         Project project = getProject();
         String newName = "Edited_" + project.getName();
