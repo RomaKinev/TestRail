@@ -49,7 +49,7 @@ src/
 | Аутентификация | 5/5 | ✅ |
 | Управление проектами | 3/5 | ✅ *(пагинация/фильтр — нет функционала)* |
 | Тест-кейсы | 7/8 | ✅ *(копирование исключено)* |
-| Test Suites | 0/4 | ⏳ |
+| Test Suites | 4/4 | ✅ |
 | Test Runs | 0/5 | ⏳ |
 | Отчёты | 0/3 | ⏳ |
 
@@ -91,12 +91,15 @@ mvn clean test
 # Только UI тесты
 mvn clean test -Dgroups=ui
 
-# Только API тесты
-mvn clean test -Dgroups=api
+# Только smoke (ключевой happy-path каждого раздела)
+mvn clean test -Dgroups=smoke
 
 # Headless режим (CI/CD)
 mvn clean test -Dheadless=true
 ```
+
+> Группы: `ui` — все UI-тесты, `smoke` — ключевые сценарии
+> (`loginTest`, `createProjectTest`, `testCaseCreationTest`, `createSuiteTest`).
 
 ### 3. Allure отчёт
 

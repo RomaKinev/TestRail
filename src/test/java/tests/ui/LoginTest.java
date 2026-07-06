@@ -12,13 +12,13 @@ public class LoginTest extends BaseTest {
 
     public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
 
-    @Test
+    @Test(groups = {"ui", "smoke"})
     public void loginTest() {
         loginStep.auth(CONFIG.email(), CONFIG.password());
         projectsPage.isPageOpen();
     }
 
-    @Test
+    @Test(groups = {"ui"})
     public void logOutTest() {
         loginStep.auth(CONFIG.email(), CONFIG.password());
         projectsPage.isPageOpen()
@@ -34,7 +34,7 @@ public class LoginTest extends BaseTest {
         };
     }
 
-    @Test(dataProvider = "Invalid Credentials")
+    @Test(dataProvider = "Invalid Credentials", groups = {"ui"})
     public void loginWithInvalidCredentialsTest(String email, String password) {
         loginPage.open()
                 .isPageOpen()
@@ -42,7 +42,7 @@ public class LoginTest extends BaseTest {
                 .shouldShowError(LOGIN_ERROR);
     }
 
-    @Test
+    @Test(groups = {"ui"})
     public void sessionExpiredAfterCookieClear() {
         loginStep.auth(CONFIG.email(), CONFIG.password());
         projectsPage.isPageOpen();

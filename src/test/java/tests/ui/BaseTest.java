@@ -1,5 +1,6 @@
 package tests.ui;
 
+import com.codeborne.selenide.Selenide;
 import config.SelenideConfig;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -7,9 +8,6 @@ import pages.*;
 import pages.ProjectsPage;
 import steps.LoginStep;
 import steps.ProjectStep;
-
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static com.codeborne.selenide.WebDriverRunner.hasWebDriverStarted;
 
 public class BaseTest {
 
@@ -22,8 +20,9 @@ public class BaseTest {
     TestCasesPage testCasesPage;
     TestCaseCreatePage testCaseCreatePage;
     TestCasePage testCasePage;
+    TestSuitesPage testSuitesPage;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setUp() {
         SelenideConfig.configure();
 
@@ -36,13 +35,12 @@ public class BaseTest {
         testCasesPage = new TestCasesPage();
         testCaseCreatePage = new TestCaseCreatePage();
         testCasePage = new TestCasePage();
+        testSuitesPage = new TestSuitesPage();
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
-        if (hasWebDriverStarted()) {
-            getWebDriver().quit();
-        }
+        Selenide.closeWebDriver();
     }
 
 }
