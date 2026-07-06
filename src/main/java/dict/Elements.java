@@ -13,4 +13,5 @@ public class Elements {
     public static final String SUCCESS_MESSAGE_AFTER_ADD_TEST_CASE = "Successfully added the new test case. ";
     public static final String SUCCESS_MESSAGE_AFTER_UPDATE_TEST_CASE = "Successfully updated the test case. ";
     public static final String ADD_MILESTONE = "Add Milestone";
+    public static final String ADD_SUITE_PAGE_TITLE = "Add Suite";
 }

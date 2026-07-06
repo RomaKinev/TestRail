@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import pages.*;
 import pages.ProjectsPage;
 import steps.LoginStep;
+import steps.MilestoneStep;
 import steps.ProjectStep;
 
 public class BaseTest {
@@ -21,6 +22,8 @@ public class BaseTest {
     TestCaseCreatePage testCaseCreatePage;
     TestCasePage testCasePage;
     TestSuitesPage testSuitesPage;
+    MilestonePage milestonePage;
+    MilestoneStep milestoneStep;
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
@@ -36,6 +39,8 @@ public class BaseTest {
         testCaseCreatePage = new TestCaseCreatePage();
         testCasePage = new TestCasePage();
         testSuitesPage = new TestSuitesPage();
+        milestonePage = new MilestonePage();
+        milestoneStep = new MilestoneStep(projectsPage, milestonePage, adminPage);
     }
 
     @AfterMethod(alwaysRun = true)
