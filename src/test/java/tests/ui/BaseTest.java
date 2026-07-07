@@ -9,6 +9,7 @@ import pages.ProjectsPage;
 import steps.LoginStep;
 import steps.MilestoneStep;
 import steps.ProjectStep;
+import steps.UsersNRolesStep;
 
 public class BaseTest {
 
@@ -24,6 +25,8 @@ public class BaseTest {
     TestSuitesPage testSuitesPage;
     MilestonePage milestonePage;
     MilestoneStep milestoneStep;
+    UsersNRolesPage usersNRolesPage;
+    UsersNRolesStep usersNRolesStep;
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
@@ -41,11 +44,12 @@ public class BaseTest {
         testSuitesPage = new TestSuitesPage();
         milestonePage = new MilestonePage();
         milestoneStep = new MilestoneStep(projectsPage, milestonePage, adminPage);
+        usersNRolesPage = new UsersNRolesPage();
+        usersNRolesStep = new UsersNRolesStep(usersNRolesPage);
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
         Selenide.closeWebDriver();
     }
-
 }

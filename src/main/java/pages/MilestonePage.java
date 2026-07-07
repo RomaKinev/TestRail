@@ -8,7 +8,6 @@ import dto.Project;
 import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exist;
@@ -69,8 +68,8 @@ public class MilestonePage {
         createProjectPage.isPageOpen();
         sleep(100);
         $(PROJECT_NAME_INPUT).setValue(project.getName());
-        $(PROJECT_DESCRIPTION_INPUT).click();
-        $(PROJECT_DESCRIPTION_INPUT).sendKeys(project.getDescription());
+        $x(PROJECT_DESCRIPTION_INPUT).click();
+        $x(PROJECT_DESCRIPTION_INPUT).sendKeys(project.getDescription());
         $(CREATE_PROJECT_BUTTON).click();
 
         return this;
@@ -96,7 +95,7 @@ public class MilestonePage {
     public MilestonePage deleteProject(Project project) {
         log.info("Удаляем проект '{}'", project.getName());
         Selenide.open("/index.php?/admin/projects/overview");
-        $(By.xpath(String.format(DELETE_PROJECT_BUTTON, project.getName()))).click();
+        $x((String.format(DELETE_PROJECT_BUTTON, project.getName()))).click();
         $(DELETE_CHECKBOX_CONFIRM).click();
         $(DELETE_PROJECT_BUTTON_OK).click();
 
@@ -118,7 +117,7 @@ public class MilestonePage {
     public MilestonePage isProjectDeleted(Project project) {
         log.info("Проверяем, что проект '{}' удалён", project.getName());
         Selenide.open("/index.php?/admin/projects/overview");
-        $(By.xpath(String.format(PROJECT_NAME_IN_TABLE, project.getName()))).shouldNot(exist);
+        $x((String.format(PROJECT_NAME_IN_TABLE, project.getName()))).shouldNot(exist);
 
         return this;
     }
@@ -128,7 +127,7 @@ public class MilestonePage {
         log.info("Проверяем, что майлстоун '{}' удалён", milestone.getTitle());
         Selenide.open("/index.php?/dashboard");
         $(projectMilestonesButton(project)).click();
-        $(By.xpath(String.format(MILESTONE_TITLE_FIELD_ON_MILESTONES_PAGE, milestone.getTitle()))).shouldNotBe(exist);
+        $x((String.format(MILESTONE_TITLE_FIELD_ON_MILESTONES_PAGE, milestone.getTitle()))).shouldNotBe(exist);
 
         return this;
     }
