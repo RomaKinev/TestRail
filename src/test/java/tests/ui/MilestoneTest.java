@@ -1,6 +1,5 @@
 package tests.ui;
 
-
 import config.TestConfig;
 import dto.Milestone;
 import dto.Project;
