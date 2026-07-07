@@ -60,4 +60,17 @@ public class MilestoneStep {
                 .deleteProject(project)
                 .isProjectDeleted(project);
     }
+
+    public void checkMilestoneData(Project project, Milestone milestone) {
+        milestonePage
+                .openDashboard()
+                .createProjectForMilestone(project)
+                .createMilestone(project, milestone)
+                .checkMilestoneStatsOnStatusPage(project, milestone)
+                .checkMilestoneStatsOnActivityPage(milestone)
+                .checkMilestoneStatsOnProgressPage(milestone)
+                .checkMilestoneStatsOnDefectsPage(milestone)
+                .deleteProject(project)
+                .isProjectDeleted(project);
+    }
 }

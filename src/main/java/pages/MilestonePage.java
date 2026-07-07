@@ -1,5 +1,6 @@
 package pages;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import dto.Milestone;
@@ -11,6 +12,9 @@ import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Selenide.*;
 
 
@@ -42,19 +46,26 @@ public class MilestonePage {
     public static final String MILESTONE_PAGE_TITLE_HEADER = "[data-testid='testCaseContentHeaderTitle']";
     public static final String COMPLETE_MILESTONE_BUTTON = "[data-testid='addEditMilestoneIsCompleted']";
     public static final String MILESTONE_COMPLETED_MESSAGE = "[data-testid='messageHelp']";
+    public static final String STATUS_AND_ACTIVITY_PAGE_STATS_TEXT = ".chart-legend-description";
+    public static final String STATUS_PAGE_CHART_PIE_STATS = ".chart-pie-column-percent";
+    public static final String ACTIVITY_SIDE_BAR_BUTTON = "[data-testid=navigateToMilestoneActivityButton]";
+    public static final String PROGRESS_SIDE_BAR_BUTTON = "[data-testid=navigateToMilestoneProgressButton]";
+    public static final String DEFECTS_SIDE_BAR_BUTTON = "[data-testid=navigateToMilestoneDefectsButton]";
+    public static final String ERROR_MESSAGE = "[data-testid=messageErrorTestid]";
 
 
     @Step("Открываем дашборд проектов")
     public MilestonePage openDashboard() {
         log.info("Открываем дашборд проектов");
         Selenide.open("/index.php?/dashboard/");
+
         return this;
     }
 
     @Step("Создаём проект '{project.name}'")
     public MilestonePage createProjectForMilestone(Project project) {
         log.info("Создаём проект '{}'", project.getName());
-        $(ADD_PROJECT_BUTTON).click();
+        $(ADD_PROJECT_BUTTON).shouldBe(visible).click();
         createProjectPage.isPageOpen();
         sleep(100);
         $(PROJECT_NAME_INPUT).setValue(project.getName());
@@ -125,14 +136,14 @@ public class MilestonePage {
     @Step("Обновляем майлстоун '{milestone.title}' в проекте '{project.name}'")
     public MilestonePage updateMilestone(Project project, Milestone milestone) {
         String updatedTitle = milestone.getTitle() + "_updated";
-
         log.info("Обновляем майлстоун {} в проекте {}", project.getName(), milestone.getTitle());
         Selenide.open("/index.php?/dashboard");
         $(projectMilestonesButton(project)).click();
         $x(String.format(MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE, milestone.getTitle())).click();
-        sleep(100);
+        $(MILESTONE_PAGE_TITLE_HEADER).shouldBe(visible).shouldHave(text(milestone.getTitle()));
+        $(EDIT_MILESTONE_BUTTON).shouldBe(visible);
         $(EDIT_MILESTONE_BUTTON).click();
-        sleep(100);
+        sleep(200);
         $(MILESTONE_TITLE_INPUT).setValue(updatedTitle);
         $(CREATE_MILESTONE_BUTTON).click();
 
@@ -142,7 +153,6 @@ public class MilestonePage {
     @Step("Проверяем, что майлстоун '{0}' был обновлен")
     public MilestonePage isMileStoneUpdated(Project project, Milestone milestone) {
         String updatedTitle = milestone.getTitle() + "_updated";
-
         log.info("Проверяем, что майлстоун '{}' был обновлен", milestone.getTitle());
         Selenide.open("/index.php?/dashboard");
         $(projectMilestonesButton(project)).click();
@@ -169,7 +179,7 @@ public class MilestonePage {
 
     @Step("Проверяем, что майлстоун '{0}' был завершен")
     public MilestonePage isMilestoneCompleted(Project project, Milestone milestone) {
-        log.info("Проверяем, что майлстоун '{}' был обновлен", milestone.getTitle());
+        log.info("Проверяем, что майлстоун '{}' был закончен", milestone.getTitle());
         Selenide.open("/index.php?/dashboard");
         $(projectMilestonesButton(project)).click();
         $x(String.format(MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE, milestone.getTitle())).click();
@@ -178,11 +188,60 @@ public class MilestonePage {
         return this;
     }
 
+    @Step("Проверяем данные майлстона '{0}' на странице Status")
+    public MilestonePage checkMilestoneStatsOnStatusPage(Project project, Milestone milestone) {
+        log.info("Проверяем статистику майлстона '{}' на странице Status ", milestone.getTitle());
+        Selenide.open("/index.php?/dashboard");
+        $(projectMilestonesButton(project)).click();
+        $x(String.format(MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE, milestone.getTitle())).click();
+        ElementsCollection statusPageStats = $$(STATUS_AND_ACTIVITY_PAGE_STATS_TEXT).shouldHave(sizeGreaterThan(0));
+        for (SelenideElement statusPageStat : statusPageStats) {
+            statusPageStat.shouldHave(text("0% set to"));
+        }
+        $(STATUS_PAGE_CHART_PIE_STATS).shouldHave(text("0% passed 0 / 0 untested (0%)."));
+
+        return this;
+    }
+
+    @Step("Проверяем данные майлстона '{0}' на странице Activity")
+    public MilestonePage checkMilestoneStatsOnActivityPage(Milestone milestone) {
+        log.info("Проверяем статистику майлстона '{}' на странице Activity ", milestone.getTitle());
+        $(ACTIVITY_SIDE_BAR_BUTTON).click();
+        ElementsCollection activityPageStats = $$(STATUS_AND_ACTIVITY_PAGE_STATS_TEXT).shouldHave(sizeGreaterThan(0));
+        for (SelenideElement activityPageStat : activityPageStats) {
+            activityPageStat.shouldHave(text("0% set to"));
+        }
+
+        return this;
+    }
+
+    @Step("Проверяем данные майлстона '{0}' на странице Progress")
+    public MilestonePage checkMilestoneStatsOnProgressPage(Milestone milestone) {
+        log.info("Проверяем статистику майлстона '{}' на странице Progress ", milestone.getTitle());
+        $(PROGRESS_SIDE_BAR_BUTTON).click();
+        $(ERROR_MESSAGE).shouldHave(text("No test runs available for displaying the progress of this milestone."));
+
+        return this;
+    }
+
+    @Step("Проверяем данные майлстона '{0}' на странице Progress")
+    public MilestonePage checkMilestoneStatsOnDefectsPage(Milestone milestone) {
+        log.info("Проверяем статистику майлстона '{}' на странице Defects ", milestone.getTitle());
+        $(DEFECTS_SIDE_BAR_BUTTON).click();
+        $(ERROR_MESSAGE).shouldHave(text("No test runs available for displaying the defects of this milestone."));
+
+        return this;
+    }
+
     public static SelenideElement projectMilestonesButton(Project project) {
-        return $x(String.format("//div[contains(@class, 'flex-projects-row') and .//a[text()='%s']]//a[text()='Milestones']", project.getName()));
+        return $x(String.format("//div[contains(@class, 'flex-projects-row') " +
+                        "and .//a[text()='%s']]//a[text()='Milestones']",
+                project.getName()));
     }
 
     public static SelenideElement deleteMilestoneButton(Milestone milestone) {
-        return $x(String.format("//div[contains(@class, 'flex-milestones-row') and .//text()='%s']//a[contains(@title, 'Delete this milestone')]", milestone.getTitle()));
+        return $x(String.format("//div[contains(@class, 'flex-milestones-row') " +
+                        "and .//text()='%s']//a[contains(@title, 'Delete this milestone')]",
+                milestone.getTitle()));
     }
 }

@@ -37,7 +37,7 @@ public class MilestoneTest extends BaseTest {
                 .deleteMilestone(project, milestone);
     }
 
-    @Test
+    @Test()
     public void updateMilestoneTest() {
         Project project = getProject();
         Milestone milestone = getMilestone();
@@ -57,5 +57,16 @@ public class MilestoneTest extends BaseTest {
                 .auth(CONFIG.email(), CONFIG.password());
         milestoneStep
                 .completeMilestone(project, milestone);
+    }
+
+    @Test
+    public void checkMilestoneDataTest() {
+        Project project = getProject();
+        Milestone milestone = getMilestone();
+
+        loginStep
+                .auth(CONFIG.email(), CONFIG.password());
+        milestoneStep
+                .checkMilestoneData(project, milestone);
     }
 }
