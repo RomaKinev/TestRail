@@ -1,0 +1,122 @@
+# TestRail Automation
+
+> Дипломная работа — автоматизация тестирования TestRail на Java
+
+Автоматизированные UI и API тесты для [TestRail](https://www.testrail.com),
+написанные на Java с использованием Selenide, REST Assured и TestNG.
+
+---
+
+## Стек технологий
+
+| Инструмент | Версия | Назначение |
+|---|---|---|
+| Java | 17 | Язык разработки |
+| Selenide | 7.16.2 | UI-тестирование |
+| TestNG | 7.12.0 | Тест-фреймворк |
+| Allure | 2.24.0 | Отчётность |
+| Log4j2 | 2.26.0 | Логирование |
+| Lombok | 1.18.46 | Кодогенерация |
+| Owner | 1.0.12 | Конфигурация |
+| JavaFaker | 1.0.2 | Генерация тестовых данных |
+| REST Assured | — | API-тестирование *(планируется)* |
+
+---
+
+## Структура проекта
+
+```
+src/
+├── main/java/
+│   ├── dict/          # Константы и тексты (Elements)
+│   ├── dto/           # Модели данных + фабрики (Project, TestCase)
+│   ├── pages/         # Page Object Model
+│   └── steps/         # Step-объекты для Allure (Login, Project)
+└── test/java/
+    ├── config/        # TestConfig, SelenideConfig
+    └── tests/
+        └── ui/        # UI-тесты
+```
+
+---
+
+## Покрытие тестами
+
+### UI-тесты
+
+| Раздел | Готово | Статус |
+|---|---|---|
+| Аутентификация | 5/5 | ✅ |
+| Управление проектами | 3/5 | ✅ *(пагинация/фильтр — нет функционала)* |
+| Тест-кейсы | 7/8 | ✅ *(копирование исключено)* |
+| Test Suites | 4/4 | ✅ |
+| Test Runs | 0/5 | ⏳ |
+| Отчёты | 0/3 | ⏳ |
+
+### API-тесты (запланированы)
+
+| Раздел | Тестов | Статус |
+|---|---|---|
+| Аутентификация | 2 | ⏳ |
+| Проекты | 2 | ⏳ |
+| Тест-кейсы | 3 | ⏳ |
+| Test Runs | 2 | ⏳ |
+| Результаты | 1 | ⏳ |
+
+---
+
+## Быстрый старт
+
+### 1. Настройка конфигурации
+
+Скопировать шаблон и заполнить данные:
+
+```bash
+cp src/test/resources/config.properties.example \
+   src/test/resources/config.properties
+```
+
+```properties
+baseUrl=https://tms34.testrail.io
+email=your@email.com
+password=yourpassword
+```
+
+### 2. Запуск тестов
+
+```bash
+# Все тесты
+mvn clean test
+
+# Только UI тесты
+mvn clean test -Dgroups=ui
+
+# Только smoke (ключевой happy-path каждого раздела)
+mvn clean test -Dgroups=smoke
+
+# Headless режим (CI/CD)
+mvn clean test -Dheadless=true
+```
+
+> Группы: `ui` — все UI-тесты, `smoke` — ключевые сценарии
+> (`loginTest`, `createProjectTest`, `testCaseCreationTest`, `createSuiteTest`).
+
+### 3. Allure отчёт
+
+```bash
+# Сгенерировать и открыть в браузере
+mvn allure:serve
+
+# Только сгенерировать
+mvn allure:report
+```
+
+---
+
+## Паттерны
+
+- **Page Object Model** — каждая страница в отдельном классе
+- **Fluent API** — цепочки вызовов методов
+- **Builder Pattern** — построение тестовых данных
+- **Step Pattern** — `@Step` аннотации для Allure-отчётов
+- **DataProvider** — параметризация негативных сценариев
