@@ -1,44 +1,42 @@
 package tests.ui;
 
 import config.TestConfig;
-import dto.Roles;
+import dto.User;
 import org.aeonbits.owner.ConfigFactory;
 import org.testng.annotations.Test;
 
-import static dto.RolesFactory.getRole;
+import static dto.UserFactory.getUser;
 
 
-public class RolesUITest extends BaseUITest {
+public class SettingsTest extends BaseTest {
 
     public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
 
     @Test(priority = 1)
-    public void createRole() {
-        Roles role = getRole();
+    public void updateUsersName() {
+        User user = getUser();
 
         loginStep
                 .auth(CONFIG.email(), CONFIG.password());
-        rolesSteps
-                .createRole(role);
+        settingsPage
+                .changeUsersName(user);
     }
 
     @Test(priority = 2)
-    public void updateRole() {
-        Roles role = getRole();
+    public void changeLanguage() {
 
         loginStep
                 .auth(CONFIG.email(), CONFIG.password());
-        rolesSteps
-                .updateRole(role);
+        settingsStep
+                .changeLanguage();
     }
 
     @Test(priority = 3)
-    public void deleteRole() {
-        Roles role = getRole();
+    public void changeColorScheme() {
 
         loginStep
                 .auth(CONFIG.email(), CONFIG.password());
-        rolesSteps
-                .deleteRole(role);
+        settingsStep
+                .changeColorTheme();
     }
 }

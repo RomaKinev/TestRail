@@ -4,9 +4,9 @@ import dto.Project;
 import org.testng.annotations.Test;
 
 import static dto.ProjectFactory.getProject;
-import static tests.ui.LoginUITest.CONFIG;
+import static tests.ui.LoginTest.CONFIG;
 
-public class ProjectsUITest extends BaseUITest {
+public class ProjectsTest extends BaseTest {
 
     @Test(description = "Create a new project", groups = {"ui", "smoke"})
     public void createProjectTest() {

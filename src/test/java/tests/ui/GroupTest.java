@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import static dto.GroupFactory.getGroup;
 
 
-public class GroupUITest extends BaseUITest {
+public class GroupTest extends BaseTest {
 
     public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
 

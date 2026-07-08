@@ -3,40 +3,43 @@ package tests.ui;
 import config.TestConfig;
 import dto.User;
 import org.aeonbits.owner.ConfigFactory;
+
 import org.testng.annotations.Test;
 
 import static dto.UserFactory.getUser;
 
 
-public class SettingsUITest extends BaseUITest {
+public class UserTest extends BaseTest {
 
     public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
 
-    @Test(priority = 1)
-    public void updateUsersName() {
+    @Test
+    public void createUserTest() {
         User user = getUser();
 
         loginStep
                 .auth(CONFIG.email(), CONFIG.password());
-        settingsPage
-                .changeUsersName(user);
+        usersNRolesStep
+                .createUser(user);
     }
 
-    @Test(priority = 2)
-    public void changeLanguage() {
+    @Test
+    public void updateUserDataTest() {
+        User user = getUser();
 
         loginStep
                 .auth(CONFIG.email(), CONFIG.password());
-        settingsStep
-                .changeLanguage();
+        usersNRolesStep
+                .updateUser(user);
     }
 
-    @Test(priority = 3)
-    public void changeColorScheme() {
+    @Test
+    public void deactivateUserTest() {
+        User user = getUser();
 
         loginStep
                 .auth(CONFIG.email(), CONFIG.password());
-        settingsStep
-                .changeColorTheme();
+        usersNRolesStep
+                .deactivateUser(user);
     }
 }

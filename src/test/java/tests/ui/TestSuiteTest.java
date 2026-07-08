@@ -8,9 +8,9 @@ import org.testng.annotations.Test;
 import static dto.ProjectFactory.getProject;
 import static dto.SuiteFactory.getSuite;
 import static dto.TestCaseFactory.getTestCase;
-import static tests.ui.LoginUITest.CONFIG;
+import static tests.ui.LoginTest.CONFIG;
 
-public class TestSuiteUITest extends BaseUITest {
+public class TestSuiteTest extends BaseTest{
 
     @Test(description = "Create test suite", groups = {"ui", "smoke"})
     public void createSuiteTest() {
