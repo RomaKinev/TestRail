@@ -5,8 +5,8 @@ import config.SelenideConfig;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import pages.*;
-import steps.LoginStep;
-import steps.ProjectStep;
+import pages.ProjectsPage;
+import steps.*;
 
 public class BaseTest {
 
@@ -20,6 +20,16 @@ public class BaseTest {
     TestCaseCreatePage testCaseCreatePage;
     TestCasePage testCasePage;
     TestSuitesPage testSuitesPage;
+    MilestonePage milestonePage;
+    MilestoneStep milestoneStep;
+    UsersNRolesPage usersNRolesPage;
+    UsersNRolesStep usersNRolesStep;
+    GroupsPage groupsPage;
+    GroupsStep groupStep;
+    RolesPage rolesPage;
+    RolesSteps rolesSteps;
+    SettingsPage settingsPage;
+    SettingsStep settingsStep;
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
@@ -35,11 +45,20 @@ public class BaseTest {
         testCaseCreatePage = new TestCaseCreatePage();
         testCasePage = new TestCasePage();
         testSuitesPage = new TestSuitesPage();
+        milestonePage = new MilestonePage();
+        milestoneStep = new MilestoneStep(projectsPage, milestonePage, adminPage);
+        usersNRolesPage = new UsersNRolesPage();
+        usersNRolesStep = new UsersNRolesStep(usersNRolesPage);
+        groupsPage = new GroupsPage();
+        groupStep = new GroupsStep(groupsPage);
+        rolesPage = new RolesPage();
+        rolesSteps = new RolesSteps(rolesPage);
+        settingsPage = new SettingsPage();
+        settingsStep = new SettingsStep(settingsPage);
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
         Selenide.closeWebDriver();
     }
-
 }
