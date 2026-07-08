@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import static dict.Elements.LOGIN_ERROR;
 
-public class LoginTest extends BaseTest {
+public class LoginTest extends BaseUITest {
 
     public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
 

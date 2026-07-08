@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import static dto.ProjectFactory.getProject;
 import static tests.ui.LoginTest.CONFIG;
 
-public class ProjectsTest extends BaseTest {
+public class ProjectsTest extends BaseUITest {
 
     @Test(description = "Create a new project", groups = {"ui", "smoke"})
     public void createProjectTest() {

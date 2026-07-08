@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import static dto.TestCaseFactory.getTestCase;
 import static tests.ui.LoginTest.CONFIG;
 
-public class TestCaseTest extends BaseTest {
+public class TestCaseTest extends BaseUITest {
 
     @Test(description = "Create a new test case", groups = {"ui", "smoke"})
     public void testCaseCreationTest() {

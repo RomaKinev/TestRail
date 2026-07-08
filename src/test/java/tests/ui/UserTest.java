@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import static dto.UserFactory.getUser;
 
 
-public class UserTest extends BaseTest {
+public class UserTest extends BaseUITest {
 
     public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
 
