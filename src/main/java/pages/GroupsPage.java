@@ -45,13 +45,13 @@ public class GroupsPage {
     public GroupsPage updateGroup(Group group) {
         String updatedGroupTitle = group.getTitle() + "_updated";
         log.info("Обновляем группу пользователей '{}'", group.getTitle());
-        sleep(300);
+        sleep(200);
         $x(String.format(COLUMN_GROUP_TEXT_VALUE, group.getTitle())).shouldBe(visible).click();
         $(GROUP_TITLE_INPUT_FIELD).shouldBe(visible).clear();
-        sleep(300);
+        sleep(200);
         $(GROUP_TITLE_INPUT_FIELD).shouldBe(visible).setValue(updatedGroupTitle);
         $(CREATE_GROUP_BUTTON).shouldBe(visible).click();
-        sleep(300);
+        sleep(200);
         $(byText(SUCCESSFULLY_UPDATED_THE_USER_GROUP)).shouldBe(visible);
         $x(String.format(COLUMN_GROUP_TEXT_VALUE, updatedGroupTitle)).shouldBe(visible);
 
@@ -62,13 +62,13 @@ public class GroupsPage {
     @Step("Удаляем группу пользователей")
     public GroupsPage deleteGroup(Group group) {
         log.info("Удаляем группу пользователей '{}'", group.getTitle());
-        sleep(300);
+        sleep(200);
         $x(String.format(DELETE_GROUP_BUTTON, group.getTitle())).shouldBe(visible).click();
-        sleep(300);
+        sleep(200);
         $x(DELETE_GROUP_CHECKBOX).shouldBe(visible).click();
-        sleep(300);
+        sleep(200);
         $(DELETE_GROUP_OK_BUTTON).shouldBe(visible).click();
-        sleep(300);
+        sleep(200);
         $(byText(SUCCESSFULLY_DELETED_THE_USER_GROUP)).shouldBe(visible);
         $x(String.format(COLUMN_GROUP_TEXT_VALUE, group.getTitle())).shouldNotBe(visible);
 

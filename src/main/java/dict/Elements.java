@@ -18,4 +18,7 @@ public class Elements {
     public static final String SUCCESSFULLY_ADDED_THE_NEW_USER_GROUP = "Successfully added the new user group.";
     public static final String SUCCESSFULLY_DELETED_THE_USER_GROUP = "Successfully deleted the user group.";
     public static final String SUCCESSFULLY_UPDATED_THE_USER_GROUP = "Successfully updated the user group.";
+    public static final String SUCCESSFULLY_ADDED_THE_NEW_ROLE = "Successfully added the new role.";
+    public static final String SUCCESSFULLY_UPDATED_THE_ROLE = "Successfully updated the role.";
+    public static final String SUCCESSFULLY_DELETED_THE_ROLE = "Successfully deleted the role.";
 }
