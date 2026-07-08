@@ -11,7 +11,7 @@ import static dto.MilestoneFactory.getMilestone;
 import static dto.ProjectFactory.getProject;
 
 
-public class MilestoneTest extends BaseTest {
+public class MilestoneUITest extends BaseUITest {
 
     public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
 

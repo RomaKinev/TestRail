@@ -8,7 +8,7 @@ import pages.*;
 import pages.ProjectsPage;
 import steps.*;
 
-public class BaseTest {
+public class BaseUITest {
 
     LoginPage loginPage;
     ProjectsPage projectsPage;
