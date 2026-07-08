@@ -21,4 +21,6 @@ public class Elements {
     public static final String SUCCESSFULLY_ADDED_THE_NEW_ROLE = "Successfully added the new role.";
     public static final String SUCCESSFULLY_UPDATED_THE_ROLE = "Successfully updated the role.";
     public static final String SUCCESSFULLY_DELETED_THE_ROLE = "Successfully deleted the role.";
+    public static final String SUCCESSFULLY_SAVED_YOUR_SETTINGS = "Successfully saved your settings.";
+    public static final String SUCCESSFULLY_SAVED_YOUR_SETTINGS_GERMAN = "Ihre Einstellungen wurden erfolgreich gespeichert.";
 }

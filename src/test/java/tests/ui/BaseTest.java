@@ -28,6 +28,8 @@ public class BaseTest {
     GroupsStep groupStep;
     RolesPage rolesPage;
     RolesSteps rolesSteps;
+    SettingsPage settingsPage;
+    SettingsStep settingsStep;
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
@@ -51,6 +53,8 @@ public class BaseTest {
         groupStep = new GroupsStep(groupsPage);
         rolesPage = new RolesPage();
         rolesSteps = new RolesSteps(rolesPage);
+        settingsPage = new SettingsPage();
+        settingsStep = new SettingsStep(settingsPage);
     }
 
     @AfterMethod(alwaysRun = true)
