@@ -8,7 +8,7 @@ import static tests.ui.LoginTest.CONFIG;
 
 public class TestCaseTest extends BaseTest {
 
-    @Test(groups = {"ui", "smoke"})
+    @Test(description = "Create a new test case", groups = {"ui", "smoke"})
     public void testCaseCreationTest() {
         TestCase testCase = getTestCase();
         loginStep.auth(CONFIG.email(), CONFIG.password());
@@ -20,7 +20,7 @@ public class TestCaseTest extends BaseTest {
         testCasePage.isCaseCreated();
     }
 
-    @Test(groups = {"ui"})
+    @Test(description = "Create and then delete a test case", groups = {"ui"})
     public void testCaseCreationAndDeletionTest() {
         TestCase testCase = getTestCase();
         loginStep.auth(CONFIG.email(), CONFIG.password());
@@ -32,7 +32,7 @@ public class TestCaseTest extends BaseTest {
                 .isTestCaseNotVisible(testCase.getTitle());
     }
 
-    @Test(groups = {"ui"})
+    @Test(description = "Open an existing test case", groups = {"ui"})
     public void openTestCaseTest() {
         loginStep.auth(CONFIG.email(), CONFIG.password());
         projectsPage.isPageOpen()
@@ -43,7 +43,7 @@ public class TestCaseTest extends BaseTest {
                 .isCaseOpen("case");
     }
 
-    @Test(groups = {"ui"})
+    @Test(description = "Edit test case title via edit form", groups = {"ui"})
     public void editTestCaseTest() {
         loginStep.auth(CONFIG.email(), CONFIG.password());
         projectsPage.isPageOpen()
@@ -54,7 +54,7 @@ public class TestCaseTest extends BaseTest {
         testCasesPage.editTestCase(caseTitle, caseTitle + "_edited");
     }
 
-    @Test(groups = {"ui"})
+    @Test(description = "Change test case priority", groups = {"ui"})
     public void changePriorityInTestCaseTest() {
         loginStep.auth(CONFIG.email(), CONFIG.password());
         projectsPage.isPageOpen()
