@@ -16,16 +16,19 @@ public class UsersNRolesStep {
 
     public void createUser(User user) {
         usersNRolesPage
-                .addUser(user);
+                .addUser(user)
+                .deactivateUser(user);
     }
 
     public void updateUser(User user) {
         usersNRolesPage
+                .addUser(user)
                 .updateUserInformation(user);
     }
 
     public void deactivateUser(User user) {
         usersNRolesPage
+                .addUser(user)
                 .deactivateUser(user);
     }
 }

@@ -15,4 +15,7 @@ public class Elements {
     public static final String ADD_MILESTONE = "Add Milestone";
     public static final String ADD_SUITE_PAGE_TITLE = "Add Suite";
     public static final String FORGET_THIS_USER = "Forget this user";
+    public static final String SUCCESSFULLY_ADDED_THE_NEW_USER_GROUP = "Successfully added the new user group.";
+    public static final String SUCCESSFULLY_DELETED_THE_USER_GROUP = "Successfully deleted the user group.";
+    public static final String SUCCESSFULLY_UPDATED_THE_USER_GROUP = "Successfully updated the user group.";
 }

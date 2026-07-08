@@ -44,7 +44,6 @@ public class UsersNRolesPage {
     @Step("Обновляем данные пользователя")
     public UsersNRolesPage updateUserInformation(User user) {
         String updatedUserFullName = user.getFullName() + "_updated";
-        addUser(user);
         log.info("Обновляем пользователя '{}'", user.getFullName());
         $(String.format(COLUMN_USER_TEXT_VALUE, user.getFullName())).shouldBe(visible).click();
         sleep(200);
@@ -58,7 +57,6 @@ public class UsersNRolesPage {
 
     @Step("Деактивируем пользователя")
     public UsersNRolesPage deactivateUser(User user) {
-        addUser(user);
         log.info("Деактивируем пользователя '{}'", user.getFullName());
         $(String.format(COLUMN_USER_TEXT_VALUE, user.getFullName())).shouldBe(visible).click();
         sleep(200);

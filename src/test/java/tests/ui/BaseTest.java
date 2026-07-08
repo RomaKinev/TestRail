@@ -6,10 +6,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import pages.*;
 import pages.ProjectsPage;
-import steps.LoginStep;
-import steps.MilestoneStep;
-import steps.ProjectStep;
-import steps.UsersNRolesStep;
+import steps.*;
 
 public class BaseTest {
 
@@ -27,6 +24,8 @@ public class BaseTest {
     MilestoneStep milestoneStep;
     UsersNRolesPage usersNRolesPage;
     UsersNRolesStep usersNRolesStep;
+    GroupsPage groupsPage;
+    GroupsStep groupStep;
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
@@ -46,6 +45,8 @@ public class BaseTest {
         milestoneStep = new MilestoneStep(projectsPage, milestonePage, adminPage);
         usersNRolesPage = new UsersNRolesPage();
         usersNRolesStep = new UsersNRolesStep(usersNRolesPage);
+        groupsPage = new GroupsPage();
+        groupStep = new GroupsStep(groupsPage);
     }
 
     @AfterMethod(alwaysRun = true)
