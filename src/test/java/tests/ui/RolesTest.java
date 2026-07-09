@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import static dto.RolesFactory.getRole;
 
 
-public class RolesTest extends BaseTest {
+public class RolesTest extends BaseUITest {
 
     public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
 
