@@ -1,19 +1,13 @@
 package api.models.sections;
 
-import com.google.gson.annotations.*;
 import lombok.*;
-
 
 @Data
 @Builder
 public class MoveSectionRq {
 
-    @Expose
-    @SerializedName("parent_id")
-    private Integer parentId;
+    private Integer parent_id;
 
-    @Expose
-    @SerializedName("after_id")
-    private Integer afterId;
+    private Integer after_id;
 
 }
