@@ -1,6 +1,5 @@
 package api.adapters;
 
-import com.google.gson.Gson;
 import api.models.sections.MoveSectionRq;
 import api.models.sections.SectionRq;
 import api.models.sections.SectionRs;
@@ -13,14 +12,12 @@ import static io.restassured.RestAssured.given;
 
 public class SectionAdapter {
 
-    private static final Gson GSON = new Gson();
-
     public static SectionRs createSection(SectionRq rq, String projectId) {
         return given()
                 .spec(spec)
                 .urlEncodingEnabled(false)
                 .pathParam("projectId", projectId)
-                .body(GSON.toJson(rq))
+                .body(rq)
                 .log().all()
                 .when()
                 .post("/index.php?/api/v2/add_section/{projectId}")
@@ -36,7 +33,7 @@ public class SectionAdapter {
                 .spec(spec)
                 .urlEncodingEnabled(false)
                 .pathParam("sectionId", sectionId)
-                .body(GSON.toJson(rq))
+                .body(rq)
                 .log().all()
                 .when()
                 .post("/index.php?/api/v2/update_section/{sectionId}")
@@ -47,12 +44,12 @@ public class SectionAdapter {
                 .as(SectionRs.class, ObjectMapperType.GSON);
     }
 
-    public static SectionRs moveSection(Integer sectionId, MoveSectionRq moveSectionRq) {
+    public static SectionRs moveSection(Integer sectionId, MoveSectionRq rq) {
         return given()
                 .spec(spec)
                 .urlEncodingEnabled(false)
                 .pathParam("sectionId", sectionId)
-                .body(GSON.toJson(moveSectionRq))
+                .body(rq)
                 .log().all()
                 .when()
                 .post("/index.php?/api/v2/move_section/{sectionId}")

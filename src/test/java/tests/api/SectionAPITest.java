@@ -26,14 +26,14 @@ public class SectionAPITest {
     public void checkCreateSection() {
         SectionRq sectionRq = SectionRq
                 .builder()
-                .parentId(null)
+                .parent_id(null)
                 .name(SECTION_NAME)
                 .description(SECTION_DESCRIPTION)
                 .build();
         SectionRs sectionRs = SectionAdapter.createSection(sectionRq, PROJECT_CODE);
         createdSectionId = sectionRs.getId();
 
-        assertEquals(sectionRs.getName(), SECTION_NAME, "Created section name doesn't match.");
+        assertEquals(sectionRs.getName(), SECTION_NAME, "Созданная секция не сходится в названии.");
     }
 
     @Test(priority = 2)
@@ -46,20 +46,20 @@ public class SectionAPITest {
         SectionRs updatedSectionRs = SectionAdapter.updateSection(createdSectionId, updatedSectionRq);
         updatedSectionId = updatedSectionRs.getId();
 
-        assertEquals(updatedSectionRs.getName(), UPDATED_SECTION_NAME, "Section name was not updated.");
+        assertEquals(updatedSectionRs.getName(), UPDATED_SECTION_NAME, "Название секции не было обновлено.");
     }
 
     @Test(priority = 3)
     public void moveSection() {
         SectionRq parentSectionRq = SectionRq
                 .builder()
-                .parentId(null)
+                .parent_id(null)
                 .name(PARENT_SECTION_NAME)
                 .description(SECTION_DESCRIPTION)
                 .build();
         SectionRq childSectionRq = SectionRq
                 .builder()
-                .parentId(null)
+                .parent_id(null)
                 .name(CHILD_SECTION_NAME)
                 .description(SECTION_DESCRIPTION)
                 .build();
@@ -68,13 +68,13 @@ public class SectionAPITest {
         SectionRs childSectionRs = SectionAdapter.createSection(childSectionRq, PROJECT_CODE);
         childSectionId = childSectionRs.getId();
         MoveSectionRq moveSectionRq = MoveSectionRq.builder()
-                .parentId(parentSectionId)
-                .afterId(null)
+                .parent_id(parentSectionId)
+                .after_id(null)
                 .build();
         SectionRs movedSectionRs = SectionAdapter.moveSection(childSectionId, moveSectionRq);
 
         assertEquals(movedSectionRs.getParentId(), parentSectionId,
-                "Section 2 was not moved into Section 1.");
+                "Секция 2 не была добавлена в Секцию 1.");
     }
 
     @Test(priority = 4)
