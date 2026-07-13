@@ -21,6 +21,7 @@ public class BaseUITest {
     TestCasePage testCasePage;
     TestSuitesPage testSuitesPage;
     TestRunPage testRunPage;
+    ReportsPage reportsPage;
     RunStep runStep;
     MilestonePage milestonePage;
     MilestoneStep milestoneStep;
@@ -48,7 +49,8 @@ public class BaseUITest {
         testCasePage = new TestCasePage();
         testSuitesPage = new TestSuitesPage();
         testRunPage = new TestRunPage();
-        runStep = new RunStep(projectsPage, testSuitesPage, testRunPage);
+        reportsPage = new ReportsPage();
+        runStep = new RunStep(projectsPage, testSuitesPage, testRunPage, reportsPage);
         milestonePage = new MilestonePage();
         milestoneStep = new MilestoneStep(projectsPage, milestonePage, adminPage);
         usersNRolesPage = new UsersNRolesPage();

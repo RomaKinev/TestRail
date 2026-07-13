@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import static com.codeborne.selenide.ClickOptions.usingDefaultMethod;
 import static com.codeborne.selenide.Condition.exist;
@@ -34,6 +35,16 @@ public class TestRunPage {
     public static final String STATUS_FILTER_EXPAND = "[id='filter-tests:status_id'] a.link-noline";
     public static final String STATUS_FILTER_SELECT = "[id='filter-tests:status_id'] select";
     public static final String FILTER_APPLY = "[data-testid='filterTestsApply']";
+
+    // --- Статистика ---
+    public static final String BACK_TO_RUN = "#navigation-runs-testsresults";
+    public static final String STAT_LEGEND = ".chart-legend-name";
+
+    // --- Экспорт ---
+    public static final String EXPORT_DROPDOWN = ".exportDropdownLink";
+    public static final String EXPORT_MENU_LINK = "#exportDropdown a";
+    public static final String EXPORT_EXCEL_TEXT = "Export to Excel";
+    public static final String EXPORT_SUBMIT = "#exportSubmit";
 
     // --- Закрытие рана ---
     public static final String TOOLBAR_BUTTON = "a.toolbar-button";
@@ -85,6 +96,29 @@ public class TestRunPage {
         log.info("Проверяем, что результат '{}' сохранён", status);
         $(RESULT_STATUS_LABEL).shouldBe(visible).shouldHave(text(status));
         return this;
+    }
+
+    @Step("Возвращаемся к странице рана")
+    public TestRunPage backToRun() {
+        log.info("Возвращаемся к странице рана");
+        $(BACK_TO_RUN).click();
+        return this;
+    }
+
+    @Step("Проверяем статистику рана: {1} '{0}'")
+    public TestRunPage hasStatistic(String status, int count) {
+        log.info("Проверяем статистику рана: {} '{}'", count, status);
+        $$(STAT_LEGEND).findBy(text(count + " " + status)).shouldBe(visible);
+        return this;
+    }
+
+    @Step("Экспортируем результаты рана в Excel")
+    public File exportResultsToExcel() throws FileNotFoundException {
+        log.info("Экспортируем результаты рана в Excel");
+        $(EXPORT_DROPDOWN).click();
+        $$(EXPORT_MENU_LINK).findBy(text(EXPORT_EXCEL_TEXT)).click();
+        $(EXPORT_SUBMIT).shouldBe(visible);
+        return $(EXPORT_SUBMIT).download();
     }
 
     @Step("Фильтруем тесты по статусу '{0}'")
