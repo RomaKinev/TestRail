@@ -9,7 +9,6 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
 import static com.codeborne.selenide.Selenide.sleep;
 import static dict.Elements.SUCCESS_MESSAGE_AFTER_ADD_TEST_RUN;
 
@@ -24,7 +23,6 @@ public class TestRunsPage {
     public static final String INCLUDE_ALL_RADIO = "#includeAll";
     public static final String ADD_RUN_OK_BUTTON = "[data-testid='addRunFormOkButton']";
     public static final String SUCCESS_MESSAGE = "[data-testid='messageSuccessDivBox']";
-    public static final String RUN_LINK = "//a[contains(@href,'runs/view') and normalize-space(text())='%s']";
 
     @Step("Открываем форму создания тест-рана")
     public TestRunsPage openAddRunForm() {
@@ -52,13 +50,6 @@ public class TestRunsPage {
         log.info("Проверяем, что тест-ран успешно создан");
         $(SUCCESS_MESSAGE).shouldBe(visible)
                 .shouldHave(text(SUCCESS_MESSAGE_AFTER_ADD_TEST_RUN));
-        return this;
-    }
-
-    @Step("Проверяем, что тест-ран '{0}' есть в списке")
-    public TestRunsPage isRunVisible(String runName) {
-        log.info("Проверяем, что тест-ран '{}' есть в списке", runName);
-        $x(String.format(RUN_LINK, runName)).shouldBe(visible);
         return this;
     }
 }

@@ -20,10 +20,8 @@ public class TestCasesPage {
 
     public static final String TEST_CASES_TITLE = "//span[@id='sectionName-42']";
     public static final String ADD_TEST_CASE = "[data-testid='sidebarCasesAdd']";
-    public static final String ADD_SECTION = "[data-testid='addSectionInline']";
     public static final String TEST_CASE_NAME = "//span[text()='%s']";
     public static final String TEST_CASE_CHECKBOX = "//span[text()='%s']/ancestor::tr//input[@type='checkbox']";
-    public static final String EDIT_TEST_CASE_BUTTON = "//span[text()='%s']/ancestor::tr//a[@class='editLink']";
     public static final String EDIT_TEST_CASE_BUTTON1 = "[data-testid='testCaseEditButton']";
     public static final String DELETE_TEST_CASE_BUTTON = "//span[text()='%s']/ancestor::tr//a[@class='deleteLink']";
     public static final String DELETE_FIRST_WINDOW = "[data-testid='casesDeletionDialog']";
@@ -36,14 +34,7 @@ public class TestCasesPage {
             "//div[contains(@class,'grid-container')]" +
                     "[.//span[contains(@class,'group-toggle-title') and normalize-space(text())='%s']]" +
                     "//span[@data-testid='sectionCaseTitle' and normalize-space(text())='%s']";
-    public static final String CASE_IN_DEFAULT_SECTION =
-            "//span[@data-testid='sectionCaseTitle' and normalize-space(text())='%s']";
     public static final String ANY_CASE_TITLE = "[data-testid='sectionCaseTitle']";
-
-
-//    public TestCasesPage open() {
-
-//    }
 
     @Step("Проверяем, что открыта страница тест-кейсов")
     public TestCasesPage isPageOpen() {
@@ -135,13 +126,6 @@ public class TestCasesPage {
     public TestCasesPage verifyCaseExistsInSection(String caseTitle, String sectionName) {
         log.info("Проверяем, что кейс '{}' есть в секции '{}'", caseTitle, sectionName);
         $x(String.format(CASE_IN_SECTION, sectionName, caseTitle)).shouldBe(visible);
-        return this;
-    }
-
-    @Step("Проверяем, что кейс '{0}' есть в дефолтной секции")
-    public TestCasesPage verifyCaseExistsInDefaultSection(String caseTitle) {
-        log.info("Проверяем, что кейс '{}' есть в дефолтной секции", caseTitle);
-        $x(String.format(CASE_IN_DEFAULT_SECTION, caseTitle)).shouldBe(visible);
         return this;
     }
 

@@ -20,7 +20,6 @@ public class ProjectsPage {
 
     CreateProjectPage createProjectPage = new CreateProjectPage();
 
-    public final String ADMIN_BUTTON = "[data-testid='navigationUser']";
     public final String PROFILE_DROPDOWN = "[data-testid='userDropdown']";
     public final String LOGOUT_BUTTON = "[data-testid='logoutButton']";
     public final String ADD_PROJECT_BUTTON = "[data-testid='sidebarProjectsAddButton']";
@@ -29,8 +28,6 @@ public class ProjectsPage {
     public static final String SUITE_MODE_MULTIPLE = "[data-testid='addEditProjectSuiteModeMulti']";
     public static final String CREATE_PROJECT_BUTTON = "[data-testid='addEditProjectAddButton']";
     public final String TEST_CASES_PAGE_BUTTON = "//a[text()='%s']/ancestor::div[2]//a[text()='Test Cases']";
-    public final String TEST_RUNS_BUTTON = "//a[text()='%s']/ancestor::div[2]//a[text()='Test Runs']";
-    public final String REPORTS_BUTTON = "//a[text()='%s']/ancestor::div[2]//a[text()='Reports']";
     public static final String PROJECT_LINK = "//a[normalize-space(text())='%s']";
     public static final String NAVIGATE_TO_SUITES = "[data-testid='navigateToSuitesButton']";
     public static final String NAVIGATE_TO_RUNS = "#navigation-runs-dropdown";

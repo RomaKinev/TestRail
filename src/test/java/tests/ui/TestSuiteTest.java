@@ -3,6 +3,11 @@ package tests.ui;
 import dto.Project;
 import dto.Suite;
 import dto.TestCase;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 
 import static dto.ProjectFactory.getProject;
@@ -12,6 +17,10 @@ import static tests.ui.LoginTest.CONFIG;
 
 public class TestSuiteTest extends BaseUITest {
 
+    @Owner("Roma")
+    @Feature("Test Suites")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Create test suite")
     @Test(description = "Create test suite", groups = {"ui", "smoke"})
     public void createSuiteTest() {
         Project project = getProject();
@@ -27,6 +36,10 @@ public class TestSuiteTest extends BaseUITest {
                 .isSuiteCreated();
     }
 
+    @Owner("Roma")
+    @Feature("Test Suites")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Suite shows test cases count")
     @Test(description = "Suite shows test cases count", groups = {"ui"})
     public void suiteShowsCasesCountTest() {
         Project project = getProject();
@@ -43,6 +56,10 @@ public class TestSuiteTest extends BaseUITest {
                 .hasCasesCount(suite.getName(), 0);
     }
 
+    @Owner("Roma")
+    @Feature("Test Suites")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Add test case to suite")
     @Test(description = "Add test case to suite", groups = {"ui"})
     public void addCaseToSuiteTest() {
         Project project = getProject();
@@ -63,6 +80,10 @@ public class TestSuiteTest extends BaseUITest {
                 .hasCasesCount(suite.getName(), 1);
     }
 
+    @Owner("Roma")
+    @Feature("Test Suites")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Delete test suite")
     @Test(description = "Delete test suite", groups = {"ui"})
     public void deleteSuiteTest() {
         Project project = getProject();

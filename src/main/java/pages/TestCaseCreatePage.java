@@ -17,8 +17,6 @@ public class TestCaseCreatePage {
     public final String ADD_TEST_CASE_PAGE_TITLE = "[data-testid='testCaseContentHeaderTitle']";
     public final String TEST_CASE_INPUT_TITLE = "[data-testid='addEditCaseTitle']";
     public final String TEST_CASE_DROP_DOWN_SECTION = "[data-testid='editCaseSectionId']";
-    public final String TEST_CASE_DROP_DOWN_TEMPLATE = "[data-testid='editCaseTemplateId']";
-    public final String TEST_CASE_DROP_DOWN_TYPE = "[data-testid='editCaseTypeId']";
     public final String TEST_CASE_DROP_DOWN_PRIORITY = "[data-testid='editCasePriorityId']";
     public final String TEST_CASE_ADD_BUTTON = "[id='accept']";
 
