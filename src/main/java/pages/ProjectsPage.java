@@ -33,6 +33,7 @@ public class ProjectsPage {
     public final String REPORTS_BUTTON = "//a[text()='%s']/ancestor::div[2]//a[text()='Reports']";
     public static final String PROJECT_LINK = "//a[normalize-space(text())='%s']";
     public static final String NAVIGATE_TO_SUITES = "[data-testid='navigateToSuitesButton']";
+    public static final String NAVIGATE_TO_RUNS = "#navigation-runs-dropdown";
 
 
     @Step("Проверяем, что открыта страница проектов")
@@ -54,6 +55,7 @@ public class ProjectsPage {
         log.info("Создаём проект '{}'", project.getName());
         $(ADD_PROJECT_BUTTON).click();
         createProjectPage.isPageOpen();
+        Selenide.sleep(2000);
         $(PROJECT_NAME_INPUT).setValue(project.getName());
         $(PROJECT_DESCRIPTION_INPUT).click();
         $(PROJECT_DESCRIPTION_INPUT).sendKeys(project.getDescription());
@@ -66,6 +68,7 @@ public class ProjectsPage {
         log.info("Создаём проект '{}' с режимом multiple suites", project.getName());
         $(ADD_PROJECT_BUTTON).click();
         createProjectPage.isPageOpen();
+        Selenide.sleep(2000);
         $(PROJECT_NAME_INPUT).setValue(project.getName());
         $(PROJECT_DESCRIPTION_INPUT).click();
         $(PROJECT_DESCRIPTION_INPUT).sendKeys(project.getDescription());
@@ -94,6 +97,13 @@ public class ProjectsPage {
         log.info("Переходим в раздел Test Suites & Cases");
         $(NAVIGATE_TO_SUITES).click();
         return new TestSuitesPage();
+    }
+
+    @Step("Переходим в раздел Test Runs & Results")
+    public TestRunsPage goToTestRuns() {
+        log.info("Переходим в раздел Test Runs & Results");
+        $(NAVIGATE_TO_RUNS).click();
+        return new TestRunsPage();
     }
 
     @Step("Выходим из аккаунта")

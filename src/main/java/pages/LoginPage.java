@@ -39,6 +39,7 @@ public class LoginPage {
     @Step("Логинимся под пользователем '{0}'")
     public ProjectsPage login(String login, String password) {
         log.info("Логинимся под пользователем '{}'", login);
+        Selenide.sleep(2000);
         $(LOGIN).setValue(login);
         $(PASSWORD).setValue(password);
         $(LOG_IN_BUTTON).click();

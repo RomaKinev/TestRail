@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.executeJavaScript;
+import static com.codeborne.selenide.Selenide.sleep;
 
 public class TestCaseCreatePage {
 
@@ -30,6 +31,7 @@ public class TestCaseCreatePage {
     @Step("Создаём тест-кейс '{testCase.title}'")
     public TestCasePage createTestCase(TestCase testCase) {
         log.info("Создаём тест-кейс '{}'", testCase.getTitle());
+        sleep(2000);
         $(TEST_CASE_INPUT_TITLE).setValue(testCase.getTitle());
         $(TEST_CASE_ADD_BUTTON).click();
         return new TestCasePage();
