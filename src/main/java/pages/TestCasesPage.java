@@ -29,33 +29,33 @@ public class TestCasesPage {
     public static final String DELETE_SECOND_WINDOW = "[data-testid='casesDeletionConfirmationDialog']";
     public static final String DELETE_CONFIRM_BUTTON = "[data-testid='casesDeletionConfirmationDialog'] [data-testid='deleteCaseDialogActionDefault']";
 
-    // --- Проверка нахождения кейса в секции ---
+    // --- Case presence in a section ---
     public static final String CASE_IN_SECTION =
             "//div[contains(@class,'grid-container')]" +
                     "[.//span[contains(@class,'group-toggle-title') and normalize-space(text())='%s']]" +
                     "//span[@data-testid='sectionCaseTitle' and normalize-space(text())='%s']";
     public static final String ANY_CASE_TITLE = "[data-testid='sectionCaseTitle']";
 
-    @Step("Проверяем, что открыта страница тест-кейсов")
+    @Step("Verify the test cases page is open")
     public TestCasesPage isPageOpen() {
-        log.info("Проверяем, что открыта страница тест-кейсов");
+        log.info("Verify the test cases page is open");
         $x(TEST_CASES_TITLE).shouldBe(visible);
         return this;
     }
 
-    @Step("Добавляем тест-кейс '{0.title}'")
+    @Step("Add test case '{0.title}'")
     public TestCasePage addTestCase(TestCase testCase) {
-        log.info("Добавляем тест-кейс '{}'", testCase.getTitle());
+        log.info("Add test case '{}'", testCase.getTitle());
         $(ADD_TEST_CASE).click();
         testCaseCreatePage.isPageOpen()
                 .createTestCase(testCase);
         return new TestCasePage();
     }
 
-    @Step("Создаём и удаляем тест-кейс '{1.title}' в проекте '{0}'")
+    @Step("Create and delete test case '{1.title}' in project '{0}'")
     public TestCasesPage addAndDeleteTestCase(String projectName, TestCase testCase) {
         String testCaseName = testCase.getTitle();
-        log.info("Создаём и удаляем тест-кейс '{}' в проекте '{}'", testCaseName, projectName);
+        log.info("Create and delete test case '{}' in project '{}'", testCaseName, projectName);
         $(ADD_TEST_CASE).click();
         testCaseCreatePage.isPageOpen()
                 .createTestCase(testCase)
@@ -71,30 +71,30 @@ public class TestCasesPage {
         return this;
     }
 
-    @Step("Проверяем, что тест-кейс '{0}' не отображается")
+    @Step("Verify test case '{0}' is not displayed")
     public TestCasesPage isTestCaseNotVisible(String testCaseName) {
-        log.info("Проверяем, что тест-кейс '{}' не отображается", testCaseName);
+        log.info("Verify test case '{}' is not displayed", testCaseName);
         $x(String.format(TEST_CASE_NAME, testCaseName)).shouldNot(visible);
         return this;
     }
 
-    @Step("Берём название первого тест-кейса из списка")
+    @Step("Get the title of the first test case in the list")
     public String getFirstCaseTitle() {
         String title = $$(ANY_CASE_TITLE).first().shouldBe(visible).getText().trim();
-        log.info("Первый тест-кейс в списке: '{}'", title);
+        log.info("First test case in the list: '{}'", title);
         return title;
     }
 
-    @Step("Открываем тест-кейс '{0}'")
+    @Step("Open test case '{0}'")
     public TestCasePage openTestCase(String testCaseName) {
-        log.info("Открываем тест-кейс '{}'", testCaseName);
+        log.info("Open test case '{}'", testCaseName);
         $x(String.format(TEST_CASE_NAME, testCaseName)).click();
         return new TestCasePage();
     }
 
-    @Step("Редактируем тест-кейс")
+    @Step("Edit test case")
     public TestCasePage editTestCase(String testCaseName, String newTestCaseTitle) {
-        log.info("Редактируем тест-кейс '{}'", testCaseName);
+        log.info("Edit test case '{}'", testCaseName);
         $(EDIT_TEST_CASE_BUTTON1).click();
         testCaseCreatePage.isPageOpen()
                 .editTestCase(newTestCaseTitle)
@@ -102,9 +102,9 @@ public class TestCasesPage {
         return new TestCasePage();
     }
 
-    @Step("Смена приоритета тест-кейс")
+    @Step("Change test case priority")
     public TestCasePage changePriorityTestCase(String newPriority) {
-        log.info("Смена приоритета тест-кейс на '{}'", newPriority);
+        log.info("Change test case priority to '{}'", newPriority);
         $(EDIT_TEST_CASE_BUTTON1).click();
         testCaseCreatePage.isPageOpen()
                 .changePriority(newPriority)
@@ -112,9 +112,9 @@ public class TestCasesPage {
         return new TestCasePage();
     }
 
-    @Step("Перемещаем тест-кейс в секцию '{0}'")
+    @Step("Move test case to section '{0}'")
     public TestCasePage changeSectionTestCase(String newSection) {
-        log.info("Перемещаем тест-кейс в секцию '{}'", newSection);
+        log.info("Move test case to section '{}'", newSection);
         $(EDIT_TEST_CASE_BUTTON1).click();
         testCaseCreatePage.isPageOpen()
                 .changeSection(newSection)
@@ -122,14 +122,14 @@ public class TestCasesPage {
         return new TestCasePage();
     }
 
-    @Step("Проверяем, что кейс '{0}' есть в секции '{1}'")
+    @Step("Verify case '{0}' is in section '{1}'")
     public TestCasesPage verifyCaseExistsInSection(String caseTitle, String sectionName) {
-        log.info("Проверяем, что кейс '{}' есть в секции '{}'", caseTitle, sectionName);
+        log.info("Verify case '{}' is in section '{}'", caseTitle, sectionName);
         $x(String.format(CASE_IN_SECTION, sectionName, caseTitle)).shouldBe(visible);
         return this;
     }
 
-    @Step("Меняем приоритет на отличный от текущего")
+    @Step("Change priority to a different one")
     public String changePriorityToDifferent() {
         $(EDIT_TEST_CASE_BUTTON1).click();
         testCaseCreatePage.isPageOpen();

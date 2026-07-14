@@ -1,6 +1,6 @@
 package pages;
 
-import dto.Run;
+import dto.TestRun;
 import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,20 +24,20 @@ public class TestRunsPage {
     public static final String ADD_RUN_OK_BUTTON = "[data-testid='addRunFormOkButton']";
     public static final String SUCCESS_MESSAGE = "[data-testid='messageSuccessDivBox']";
 
-    @Step("Открываем форму создания тест-рана")
+    @Step("Open the test run creation form")
     public TestRunsPage openAddRunForm() {
-        log.info("Открываем форму создания тест-рана");
+        log.info("Open the test run creation form");
         $(ADD_TEST_RUN_BUTTON).click();
-        // проект в режиме multiple suites — сначала диалог выбора сьюта
+        // multiple-suites project — the suite selection dialog appears first
         $(CHOOSE_SUITE_DIALOG).shouldBe(visible);
         $(CHOOSE_SUITE_OK).click();
         $(RUN_NAME_INPUT).shouldBe(visible);
         return this;
     }
 
-    @Step("Создаём тест-ран '{run.name}'")
-    public TestRunsPage createRun(Run run) {
-        log.info("Создаём тест-ран '{}'", run.getName());
+    @Step("Create test run '{run.name}'")
+    public TestRunsPage createRun(TestRun run) {
+        log.info("Create test run '{}'", run.getName());
         sleep(2000);
         $(RUN_NAME_INPUT).setValue(run.getName()).shouldHave(value(run.getName()));
         $(INCLUDE_ALL_RADIO).click();
@@ -45,9 +45,9 @@ public class TestRunsPage {
         return this;
     }
 
-    @Step("Проверяем, что тест-ран успешно создан")
+    @Step("Verify the test run is created successfully")
     public TestRunsPage isRunCreated() {
-        log.info("Проверяем, что тест-ран успешно создан");
+        log.info("Verify the test run is created successfully");
         $(SUCCESS_MESSAGE).shouldBe(visible)
                 .shouldHave(text(SUCCESS_MESSAGE_AFTER_ADD_TEST_RUN));
         return this;

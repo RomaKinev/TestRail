@@ -21,53 +21,53 @@ public class TestCasePage {
 
     public static final String GO_TO_THE_PROJECT_TEST_CASES_BUTTON = "//a[@data-testid='navigateToCasesButton']";
 
-    @Step("Проверяем, что тест-кейс успешно создан")
+    @Step("Verify the test case is created successfully")
     public TestCasePage isCaseCreated() {
-        log.info("Проверяем, что тест-кейс успешно создан");
+        log.info("Verify the test case is created successfully");
         $(withText(SUCCESS_MESSAGE_AFTER_ADD_TEST_CASE.trim())).shouldBe(visible);
         return this;
     }
 
-    @Step("Проверяем, что тест-кейс успешно обновлен")
+    @Step("Verify the test case is updated successfully")
     public TestCasePage isCaseUpdated() {
-        log.info("Проверяем, что тест-кейс успешно обновлен");
+        log.info("Verify the test case is updated successfully");
         $(withText(SUCCESS_MESSAGE_AFTER_UPDATE_TEST_CASE.trim())).shouldBe(visible);
         return this;
     }
 
-    @Step("Проверяем, что открыт тест-кейс '{0}'")
+    @Step("Verify test case '{0}' is open")
     public TestCasePage isCaseOpen(String testCaseTitle) {
-        log.info("Проверяем, что открыт тест-кейс '{}'", testCaseTitle);
+        log.info("Verify test case '{}' is open", testCaseTitle);
         $(TEST_CASE_NAME)
                 .shouldBe(visible)
                 .shouldHave(exactText(testCaseTitle));
         return this;
     }
 
-    @Step("Переходим на страницу тест-кейсов проекта '{0}'")
+    @Step("Go to the test cases page of project '{0}'")
     public TestCasesPage goToTestCasesPage(String projectName) {
-        log.info("Переходим на страницу тест-кейсов проекта '{}'", projectName);
+        log.info("Go to the test cases page of project '{}'", projectName);
         return projectsPage.openTestCasesByProject(projectName);
     }
 
-    @Step("Возвращаемся к списку тест-кейсов")
+    @Step("Go back to the test cases list")
     public TestCasesPage backToCases() {
-        log.info("Возвращаемся к списку тест-кейсов");
+        log.info("Go back to the test cases list");
         $x(GO_TO_THE_PROJECT_TEST_CASES_BUTTON).click();
         return new TestCasesPage();
     }
 
-    @Step("Открываем историю изменений")
+    @Step("Open the change history")
     public TestCasePage openHistory() {
-        log.info("Открываем историю изменений");
+        log.info("Open the change history");
         $(HISTORY_BUTTON).click();
         $("#history").shouldBe(visible);
         return this;
     }
 
-    @Step("Проверяем, что в истории есть изменение '{0}' со значением '{1}'")
+    @Step("Verify the history contains change '{0}' with value '{1}'")
     public TestCasePage historyLatestContains(String field, String newValue) {
-        log.info("Проверяем, что в истории есть изменение '{}' -> '{}'", field, newValue);
+        log.info("Verify the history contains change '{}' -> '{}'", field, newValue);
         $$(HISTORY_ITEM).first()
                 .shouldHave(text(field))
                 .shouldHave(text(newValue));

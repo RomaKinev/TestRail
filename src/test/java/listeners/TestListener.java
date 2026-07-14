@@ -18,7 +18,7 @@ import static com.codeborne.selenide.WebDriverRunner.hasWebDriverStarted;
 @Log4j2
 public class TestListener implements ITestListener, IAnnotationTransformer {
 
-    // вешает RetryAnalyzer на все @Test автоматически
+    // attaches RetryAnalyzer to all @Test automatically
     @Override
     public void transform(ITestAnnotation annotation, Class testClass,
                           Constructor testConstructor, Method testMethod) {
@@ -27,25 +27,25 @@ public class TestListener implements ITestListener, IAnnotationTransformer {
 
     @Override
     public void onTestStart(ITestResult result) {
-        log.info("▶ Старт теста: {}", result.getName());
+        log.info("▶ Test started: {}", result.getName());
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        log.info("✅ Пройден: {}", result.getName());
+        log.info("✅ Passed: {}", result.getName());
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        log.error("❌ Упал: {}", result.getName(), result.getThrowable());
+        log.error("❌ Failed: {}", result.getName(), result.getThrowable());
         if (hasWebDriverStarted()) {
-            attachScreenshot(); // дублирует AllureSelenide — можно убрать
+            attachScreenshot(); // duplicates AllureSelenide — can be removed
         }
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        log.warn("⏭ Пропущен: {}", result.getName());
+        log.warn("⏭ Skipped: {}", result.getName());
     }
 
     @Attachment(value = "Screenshot on failure", type = "image/png")

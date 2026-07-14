@@ -4,6 +4,11 @@ import config.TestConfig;
 import dto.User;
 import org.aeonbits.owner.ConfigFactory;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 
 import static dto.UserFactory.getUser;
@@ -13,6 +18,10 @@ public class UserTest extends BaseUITest {
 
     public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
 
+    @Owner("Pavel")
+    @Feature("User Management")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Create user")
     @Test
     public void createUserTest() {
         User user = getUser();
@@ -23,6 +32,10 @@ public class UserTest extends BaseUITest {
                 .createUser(user);
     }
 
+    @Owner("Pavel")
+    @Feature("User Management")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Update user data")
     @Test
     public void updateUserDataTest() {
         User user = getUser();
@@ -33,6 +46,10 @@ public class UserTest extends BaseUITest {
                 .updateUser(user);
     }
 
+    @Owner("Pavel")
+    @Feature("User Management")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Deactivate user")
     @Test
     public void deactivateUserTest() {
         User user = getUser();

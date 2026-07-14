@@ -27,22 +27,22 @@ public class ReportsPage {
     public static final String ADD_RUNS_SUBMIT = "#addRunsSubmit";
     public static final String REPORT_SUBMIT = "#submit";
 
-    @Step("Открываем шаблон отчёта 'Comparison for Cases'")
+    @Step("Open the 'Comparison for Cases' report template")
     public ReportsPage openComparisonForCasesReport() {
-        log.info("Открываем шаблон отчёта 'Comparison for Cases'");
+        log.info("Open the 'Comparison for Cases' report template");
         $(REPORTS_NAV).click();
         $(byText(COMPARISON_FOR_CASES)).click();
         $(REPORT_NAME).shouldBe(visible);
         return this;
     }
 
-    @Step("Выбираем сьют '{0}' и все раны проекта для сравнения")
+    @Step("Select suite '{0}' and all project runs for comparison")
     public ReportsPage selectSuiteAndAllRuns(String suiteName) {
-        log.info("Выбираем сьют '{}' и все раны проекта для сравнения", suiteName);
+        log.info("Select suite '{}' and all project runs for comparison", suiteName);
         $(SUITE_SELECT).selectOption(suiteName);
         executeJavaScript("if(window.jQuery){jQuery(arguments[0]).trigger('change');}",
                 $(SUITE_SELECT).toWebElement());
-        sleep(2000); // ждём AJAX-перезагрузку секции ранов под выбранный сьют
+        sleep(2000); // wait for the AJAX reload of the runs section for the selected suite
         $(ONLY_SELECTED_RUNS).click(usingDefaultMethod());
         $(byText(ADD_TEST_RUNS_LINK)).click(usingDefaultMethod());
         $$(RUN_CHECKBOX).shouldHave(com.codeborne.selenide.CollectionCondition.sizeGreaterThan(0));
@@ -52,17 +52,17 @@ public class ReportsPage {
         return this;
     }
 
-    @Step("Генерируем отчёт сравнения")
+    @Step("Generate comparison report")
     public ReportsPage generateReport() {
-        log.info("Генерируем отчёт сравнения");
+        log.info("Generate comparison report");
         $(REPORT_SUBMIT).click();
         return this;
     }
 
-    @Step("Проверяем, что отчёт сравнения создан")
+    @Step("Verify the comparison report is created")
     public ReportsPage isReportCreated() {
-        log.info("Проверяем, что отчёт сравнения создан");
-        // успешная генерация уводит с формы создания отчёта
+        log.info("Verify the comparison report is created");
+        // a successful generation navigates away from the report creation form
         $(REPORT_SUBMIT).shouldNot(exist);
         return this;
     }

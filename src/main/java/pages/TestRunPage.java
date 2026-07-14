@@ -30,38 +30,38 @@ public class TestRunPage {
     public static final String ATTACH_ZONE = ".attachment-list-empty-add";
     public static final String FILE_INPUT = "input.dz-hidden-input";
 
-    // --- Фильтр по статусу ---
+    // --- Filter by status ---
     public static final String FILTER_TRIGGER = "#filterByChange";
     public static final String STATUS_FILTER_EXPAND = "[id='filter-tests:status_id'] a.link-noline";
     public static final String STATUS_FILTER_SELECT = "[id='filter-tests:status_id'] select";
     public static final String FILTER_APPLY = "[data-testid='filterTestsApply']";
 
-    // --- Статистика ---
+    // --- Statistics ---
     public static final String BACK_TO_RUN = "#navigation-runs-testsresults";
     public static final String STAT_LEGEND = ".chart-legend-name";
 
-    // --- Экспорт ---
+    // --- Export ---
     public static final String EXPORT_DROPDOWN = ".exportDropdownLink";
     public static final String EXPORT_MENU_LINK = "#exportDropdown a";
     public static final String EXPORT_EXCEL_TEXT = "Export to Excel";
     public static final String EXPORT_SUBMIT = "#exportSubmit";
 
-    // --- Закрытие рана ---
+    // --- Close run ---
     public static final String TOOLBAR_BUTTON = "a.toolbar-button";
     public static final String CLOSE_RUN_TEXT = "Close";
     public static final String CONFIRM_DIALOG = "#dialog-ident-confirmDialog";
     public static final String CONFIRM_YES = "#dialog-ident-confirmDialog a.button-ok";
 
-    @Step("Открываем первый тест в ране")
+    @Step("Open the first test in the run")
     public TestRunPage openFirstTest() {
-        log.info("Открываем первый тест в ране");
+        log.info("Open the first test in the run");
         $(TEST_TITLE_LINK).click();
         return this;
     }
 
-    @Step("Добавляем результат '{0}' с комментарием '{1}'")
+    @Step("Add result '{0}' with comment '{1}'")
     public TestRunPage addResult(String status, String comment) {
-        log.info("Добавляем результат '{}' с комментарием '{}'", status, comment);
+        log.info("Add result '{}' with comment '{}'", status, comment);
         $(ADD_RESULT_BUTTON).click();
         sleep(1000);
         $(RESULT_STATUS_SELECT).selectOption(status);
@@ -73,9 +73,9 @@ public class TestRunPage {
         return this;
     }
 
-    @Step("Добавляем результат '{0}' с комментарием и вложением")
+    @Step("Add result '{0}' with comment and attachment")
     public TestRunPage addResultWithAttachment(String status, String comment, File file) {
-        log.info("Добавляем результат '{}' с вложением '{}'", status, file.getName());
+        log.info("Add result '{}' with attachment '{}'", status, file.getName());
         $(ADD_RESULT_BUTTON).click();
         sleep(1000);
         $(RESULT_STATUS_SELECT).selectOption(status);
@@ -83,7 +83,7 @@ public class TestRunPage {
                 $(RESULT_STATUS_SELECT).toWebElement());
         $(RESULT_COMMENT).click();
         $(RESULT_COMMENT).sendKeys(comment);
-        // «+» перекрыт текстом зоны — кликаем напрямую через JS, чтобы Dropzone создал input
+        // the '+' is covered by the zone text — click directly via JS so Dropzone creates the input
         executeJavaScript("arguments[0].click();", $(ATTACH_ZONE).toWebElement());
         $(FILE_INPUT).uploadFile(file);
         sleep(1000);
@@ -91,39 +91,39 @@ public class TestRunPage {
         return this;
     }
 
-    @Step("Проверяем, что результат '{0}' сохранён")
+    @Step("Verify result '{0}' is saved")
     public TestRunPage isResultAdded(String status) {
-        log.info("Проверяем, что результат '{}' сохранён", status);
+        log.info("Verify result '{}' is saved", status);
         $(RESULT_STATUS_LABEL).shouldBe(visible).shouldHave(text(status));
         return this;
     }
 
-    @Step("Возвращаемся к странице рана")
+    @Step("Go back to the run page")
     public TestRunPage backToRun() {
-        log.info("Возвращаемся к странице рана");
+        log.info("Go back to the run page");
         $(BACK_TO_RUN).click();
         return this;
     }
 
-    @Step("Проверяем статистику рана: {1} '{0}'")
+    @Step("Verify run statistics: {1} '{0}'")
     public TestRunPage hasStatistic(String status, int count) {
-        log.info("Проверяем статистику рана: {} '{}'", count, status);
+        log.info("Verify run statistics: {} '{}'", count, status);
         $$(STAT_LEGEND).findBy(text(count + " " + status)).shouldBe(visible);
         return this;
     }
 
-    @Step("Экспортируем результаты рана в Excel")
+    @Step("Export run results to Excel")
     public File exportResultsToExcel() throws FileNotFoundException {
-        log.info("Экспортируем результаты рана в Excel");
+        log.info("Export run results to Excel");
         $(EXPORT_DROPDOWN).click();
         $$(EXPORT_MENU_LINK).findBy(text(EXPORT_EXCEL_TEXT)).click();
         $(EXPORT_SUBMIT).shouldBe(visible);
         return $(EXPORT_SUBMIT).download();
     }
 
-    @Step("Фильтруем тесты по статусу '{0}'")
+    @Step("Filter tests by status '{0}'")
     public TestRunPage filterByStatus(String status) {
-        log.info("Фильтруем тесты по статусу '{}'", status);
+        log.info("Filter tests by status '{}'", status);
         $(FILTER_TRIGGER).click(usingDefaultMethod());
         $(STATUS_FILTER_EXPAND).click(usingDefaultMethod());
         $(STATUS_FILTER_SELECT).selectOption(status);
@@ -131,32 +131,32 @@ public class TestRunPage {
         return this;
     }
 
-    @Step("Проверяем, что тест '{0}' виден в списке")
+    @Step("Verify test '{0}' is visible in the list")
     public TestRunPage isTestVisible(String title) {
-        log.info("Проверяем, что тест '{}' виден", title);
+        log.info("Verify test '{}' is visible", title);
         $(byText(title)).shouldBe(visible);
         return this;
     }
 
-    @Step("Проверяем, что тест '{0}' скрыт фильтром")
+    @Step("Verify test '{0}' is hidden by the filter")
     public TestRunPage isTestHidden(String title) {
-        log.info("Проверяем, что тест '{}' скрыт фильтром", title);
+        log.info("Verify test '{}' is hidden by the filter", title);
         $(byText(title)).shouldNot(exist);
         return this;
     }
 
-    @Step("Закрываем тест-ран")
+    @Step("Close test run")
     public TestRunPage closeRun() {
-        log.info("Закрываем тест-ран");
+        log.info("Close test run");
         $$(TOOLBAR_BUTTON).findBy(text(CLOSE_RUN_TEXT)).click();
         $(CONFIRM_DIALOG).shouldBe(visible);
         $(CONFIRM_YES).click();
         return this;
     }
 
-    @Step("Проверяем, что ран закрыт (недоступен для редактирования)")
+    @Step("Verify the run is closed (not editable)")
     public TestRunPage isRunClosed() {
-        log.info("Проверяем, что ран закрыт");
+        log.info("Verify the run is closed");
         $$(TOOLBAR_BUTTON).findBy(text(CLOSE_RUN_TEXT)).shouldNot(exist);
         return this;
     }

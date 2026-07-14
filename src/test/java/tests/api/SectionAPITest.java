@@ -33,7 +33,7 @@ public class SectionAPITest {
         SectionRs sectionRs = SectionAdapter.createSection(sectionRq, PROJECT_CODE);
         createdSectionId = sectionRs.getId();
 
-        assertEquals(sectionRs.getName(), SECTION_NAME, "Созданная секция не сходится в названии.");
+        assertEquals(sectionRs.getName(), SECTION_NAME, "The created section name does not match.");
     }
 
     @Test(priority = 2)
@@ -46,7 +46,7 @@ public class SectionAPITest {
         SectionRs updatedSectionRs = SectionAdapter.updateSection(createdSectionId, updatedSectionRq);
         updatedSectionId = updatedSectionRs.getId();
 
-        assertEquals(updatedSectionRs.getName(), UPDATED_SECTION_NAME, "Название секции не было обновлено.");
+        assertEquals(updatedSectionRs.getName(), UPDATED_SECTION_NAME, "The section name was not updated.");
     }
 
     @Test(priority = 3)
@@ -74,7 +74,7 @@ public class SectionAPITest {
         SectionRs movedSectionRs = SectionAdapter.moveSection(childSectionId, moveSectionRq);
 
         assertEquals(movedSectionRs.getParentId(), parentSectionId,
-                "Секция 2 не была добавлена в Секцию 1.");
+                "Section 2 was not added to Section 1.");
     }
 
     @Test(priority = 4)

@@ -20,33 +20,33 @@ public class TestCaseCreatePage {
     public final String TEST_CASE_DROP_DOWN_PRIORITY = "[data-testid='editCasePriorityId']";
     public final String TEST_CASE_ADD_BUTTON = "[id='accept']";
 
-    @Step("Проверяем, что открыта форма создания тест-кейса")
+    @Step("Verify the test case creation form is open")
     public TestCaseCreatePage isPageOpen() {
-        log.info("Проверяем, что открыта форма создания тест-кейса");
+        log.info("Verify the test case creation form is open");
         $(ADD_TEST_CASE_PAGE_TITLE).shouldBe(visible);
         return this;
     }
-    @Step("Создаём тест-кейс '{testCase.title}'")
+    @Step("Create test case '{testCase.title}'")
     public TestCasePage createTestCase(TestCase testCase) {
-        log.info("Создаём тест-кейс '{}'", testCase.getTitle());
+        log.info("Create test case '{}'", testCase.getTitle());
         sleep(2000);
         $(TEST_CASE_INPUT_TITLE).setValue(testCase.getTitle());
         $(TEST_CASE_ADD_BUTTON).click();
         return new TestCasePage();
     }
 
-    @Step("Редактируем тест-кейс '{0}'")
+    @Step("Edit test case '{0}'")
     public TestCasePage editTestCase(String newTestCaseTitle) {
-        log.info("Редактируем тест-кейс '{}'", newTestCaseTitle);
+        log.info("Edit test case '{}'", newTestCaseTitle);
         $(TEST_CASE_INPUT_TITLE).clear();
         $(TEST_CASE_INPUT_TITLE).setValue(newTestCaseTitle);
         $(TEST_CASE_ADD_BUTTON).click();
         return new TestCasePage();
     }
 
-    @Step("Смена приоритета тест-кейса на '{0}'")
+    @Step("Change test case priority to '{0}'")
     public TestCasePage changePriority(String newPriority) {
-        log.info("Смена приоритета тест кейса на '{}'", newPriority);
+        log.info("Change test case priority to '{}'", newPriority);
         $(TEST_CASE_DROP_DOWN_PRIORITY).selectOption(newPriority);
         executeJavaScript("if(window.jQuery){jQuery(arguments[0]).trigger('change');}",
                 $(TEST_CASE_DROP_DOWN_PRIORITY).toWebElement());
@@ -54,9 +54,9 @@ public class TestCaseCreatePage {
         return new TestCasePage();
     }
 
-    @Step("Смена секции тест-кейса на '{0}'")
+    @Step("Change test case section to '{0}'")
     public TestCasePage changeSection(String newSection) {
-        log.info("Смена секции тест-кейса на '{}'", newSection);
+        log.info("Change test case section to '{}'", newSection);
         $(TEST_CASE_DROP_DOWN_SECTION).selectOption(newSection);
         executeJavaScript("if(window.jQuery){jQuery(arguments[0]).trigger('change');}",
                 $(TEST_CASE_DROP_DOWN_SECTION).toWebElement());
@@ -64,7 +64,7 @@ public class TestCaseCreatePage {
         return new TestCasePage();
     }
 
-    @Step("Считываем текущий приоритет")
+    @Step("Read the current priority")
     public String getCurrentPriority(){
         return $(TEST_CASE_DROP_DOWN_PRIORITY).getSelectedOptionText();
     }

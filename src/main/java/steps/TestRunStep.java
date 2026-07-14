@@ -1,7 +1,7 @@
 package steps;
 
 import dto.Project;
-import dto.Run;
+import dto.TestRun;
 import dto.Suite;
 import dto.TestCase;
 import lombok.extern.log4j.Log4j2;
@@ -14,14 +14,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 @Log4j2
-public class RunStep {
+public class TestRunStep {
 
     ProjectsPage projectsPage;
     TestSuitesPage testSuitesPage;
     TestRunPage testRunPage;
     ReportsPage reportsPage;
 
-    public RunStep(ProjectsPage projectsPage, TestSuitesPage testSuitesPage,
+    public TestRunStep(ProjectsPage projectsPage, TestSuitesPage testSuitesPage,
                    TestRunPage testRunPage, ReportsPage reportsPage) {
         this.projectsPage = projectsPage;
         this.testSuitesPage = testSuitesPage;
@@ -29,8 +29,8 @@ public class RunStep {
         this.reportsPage = reportsPage;
     }
 
-    private void createProjectWithRun(Project project, Suite suite, TestCase testCase, Run run) {
-        log.info("Готовим проект '{}' со сьютом, кейсом и раном '{}'", project.getName(), run.getName());
+    private void createProjectWithRun(Project project, Suite suite, TestCase testCase, TestRun run) {
+        log.info("Prepare project '{}' with a suite, a case and run '{}'", project.getName(), run.getName());
         projectsPage.isPageOpen().createProjectWithSuites(project);
         projectsPage.open()
                 .isPageOpen()
@@ -49,11 +49,11 @@ public class RunStep {
                 .isRunCreated();
     }
 
-    public void createRun(Project project, Suite suite, TestCase testCase, Run run) {
+    public void createRun(Project project, Suite suite, TestCase testCase, TestRun run) {
         createProjectWithRun(project, suite, testCase, run);
     }
 
-    public void addResult(Project project, Suite suite, TestCase testCase, Run run,
+    public void addResult(Project project, Suite suite, TestCase testCase, TestRun run,
                           String status, String comment) {
         createProjectWithRun(project, suite, testCase, run);
         testRunPage.openFirstTest()
@@ -61,7 +61,7 @@ public class RunStep {
                 .isResultAdded(status);
     }
 
-    public void addResultWithAttachment(Project project, Suite suite, TestCase testCase, Run run,
+    public void addResultWithAttachment(Project project, Suite suite, TestCase testCase, TestRun run,
                                         String status, String comment, File file) {
         createProjectWithRun(project, suite, testCase, run);
         testRunPage.openFirstTest()
@@ -69,17 +69,17 @@ public class RunStep {
                 .isResultAdded(status);
     }
 
-    public void exportRunResults(Project project, Suite suite, TestCase testCase, Run run)
+    public void exportRunResults(Project project, Suite suite, TestCase testCase, TestRun run)
             throws FileNotFoundException {
         createProjectWithRun(project, suite, testCase, run);
         File file = testRunPage.exportResultsToExcel();
         if (file == null || !file.exists() || file.length() == 0) {
-            throw new AssertionError("Экспортированный файл не скачан или пуст: " + file);
+            throw new AssertionError("Exported file was not downloaded or is empty: " + file);
         }
-        log.info("Экспортированный файл: {} ({} байт)", file.getName(), file.length());
+        log.info("Exported file: {} ({} bytes)", file.getName(), file.length());
     }
 
-    public void viewRunStatistics(Project project, Suite suite, TestCase testCase, Run run) {
+    public void viewRunStatistics(Project project, Suite suite, TestCase testCase, TestRun run) {
         createProjectWithRun(project, suite, testCase, run);
         testRunPage.openFirstTest()
                 .addResult("Passed", "Result added by autotest")
@@ -88,24 +88,24 @@ public class RunStep {
                 .hasStatistic("Passed", 1);
     }
 
-    public void filterRunByStatus(Project project, Suite suite, TestCase testCase, Run run) {
+    public void filterRunByStatus(Project project, Suite suite, TestCase testCase, TestRun run) {
         createProjectWithRun(project, suite, testCase, run);
-        // свежий тест имеет статус Untested: фильтр Failed скрывает его, Untested — показывает
+        // a fresh test is Untested: the Failed filter hides it, Untested shows it
         testRunPage.filterByStatus("Failed")
                 .isTestHidden(testCase.getTitle());
         testRunPage.filterByStatus("Untested")
                 .isTestVisible(testCase.getTitle());
     }
 
-    public void closeRun(Project project, Suite suite, TestCase testCase, Run run) {
+    public void closeRun(Project project, Suite suite, TestCase testCase, TestRun run) {
         createProjectWithRun(project, suite, testCase, run);
         testRunPage.closeRun()
                 .isRunClosed();
     }
 
-    public void compareRuns(Project project, Suite suite, TestCase testCase, Run run1, Run run2) {
+    public void compareRuns(Project project, Suite suite, TestCase testCase, TestRun run1, TestRun run2) {
         createProjectWithRun(project, suite, testCase, run1);
-        // второй ран в том же проекте
+        // second run in the same project
         projectsPage.goToTestRuns()
                 .openAddRunForm()
                 .createRun(run2)

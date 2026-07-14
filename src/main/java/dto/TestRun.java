@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 @Builder
-public class Run {
+public class TestRun {
 
     @Builder.Default
     private String name = "Test Run";

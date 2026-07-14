@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.sleep;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 import static dict.Elements.PROJECTS_PAGE;
@@ -33,26 +34,26 @@ public class ProjectsPage {
     public static final String NAVIGATE_TO_RUNS = "#navigation-runs-dropdown";
 
 
-    @Step("Проверяем, что открыта страница проектов")
+    @Step("Verify the projects page is open")
     public ProjectsPage isPageOpen() {
-        log.info("Проверяем, что открыта страница проектов");
+        log.info("Verify the projects page is open");
         $(byText(PROJECTS_PAGE)).shouldBe(visible);
         return this;
     }
 
-    @Step("Открываем дашборд проектов")
+    @Step("Open the projects dashboard")
     public ProjectsPage open() {
-        log.info("Открываем дашборд проектов");
+        log.info("Open the projects dashboard");
         Selenide.open("/index.php?/dashboard/");
         return this;
     }
 
-    @Step("Создаём проект '{project.name}'")
+    @Step("Create project '{project.name}'")
     public ProjectsPage createProject(Project project) {
-        log.info("Создаём проект '{}'", project.getName());
+        log.info("Create project '{}'", project.getName());
         $(ADD_PROJECT_BUTTON).click();
         createProjectPage.isPageOpen();
-        Selenide.sleep(2000);
+        sleep(2000);
         $(PROJECT_NAME_INPUT).setValue(project.getName());
         $(PROJECT_DESCRIPTION_INPUT).click();
         $(PROJECT_DESCRIPTION_INPUT).sendKeys(project.getDescription());
@@ -60,12 +61,12 @@ public class ProjectsPage {
         return this;
     }
 
-    @Step("Создаём проект '{project.name}' с поддержкой нескольких сьютов")
+    @Step("Create project '{project.name}' with multiple suites support")
     public ProjectsPage createProjectWithSuites(Project project) {
-        log.info("Создаём проект '{}' с режимом multiple suites", project.getName());
+        log.info("Create project '{}' in multiple suites mode", project.getName());
         $(ADD_PROJECT_BUTTON).click();
         createProjectPage.isPageOpen();
-        Selenide.sleep(2000);
+        sleep(2000);
         $(PROJECT_NAME_INPUT).setValue(project.getName());
         $(PROJECT_DESCRIPTION_INPUT).click();
         $(PROJECT_DESCRIPTION_INPUT).sendKeys(project.getDescription());
@@ -75,37 +76,37 @@ public class ProjectsPage {
         return this;
     }
 
-    @Step("Открываем Test Cases проекта '{0}'")
+    @Step("Open Test Cases of project '{0}'")
     public TestCasesPage openTestCasesByProject(String projectName) {
-        log.info("Открываем Test Cases проекта '{}'", projectName);
+        log.info("Open Test Cases of project '{}'", projectName);
         $x(String.format(TEST_CASES_PAGE_BUTTON, projectName)).click();
         return new TestCasesPage();
     }
 
-    @Step("Открываем проект '{0}'")
+    @Step("Open project '{0}'")
     public ProjectsPage openProject(String projectName) {
-        log.info("Открываем проект '{}'", projectName);
+        log.info("Open project '{}'", projectName);
         $$x(String.format(PROJECT_LINK, projectName)).findBy(visible).click();
         return this;
     }
 
-    @Step("Переходим в раздел Test Suites & Cases")
+    @Step("Go to Test Suites & Cases section")
     public TestSuitesPage goToTestSuites() {
-        log.info("Переходим в раздел Test Suites & Cases");
+        log.info("Go to Test Suites & Cases section");
         $(NAVIGATE_TO_SUITES).click();
         return new TestSuitesPage();
     }
 
-    @Step("Переходим в раздел Test Runs & Results")
+    @Step("Go to Test Runs & Results section")
     public TestRunsPage goToTestRuns() {
-        log.info("Переходим в раздел Test Runs & Results");
+        log.info("Go to Test Runs & Results section");
         $(NAVIGATE_TO_RUNS).click();
         return new TestRunsPage();
     }
 
-    @Step("Выходим из аккаунта")
+    @Step("Log out of the account")
     public LoginPage logOut() {
-        log.info("Выходим из аккаунта");
+        log.info("Log out of the account");
         $(PROFILE_DROPDOWN).click();
         $(LOGOUT_BUTTON).click();
         return new LoginPage();

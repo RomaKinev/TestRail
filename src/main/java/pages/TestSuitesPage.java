@@ -36,9 +36,9 @@ public class TestSuitesPage {
     public static final String DELETE_CONFIRM_OK = "[data-testid='caseFieldsTabDeleteDialogButtonOk']";
     public static final String ADD_TEST_CASE_IN_SUITE = "a.button-add[href*='cases/add']";
 
-    @Step("Открываем форму создания сьюта")
+    @Step("Open the suite creation form")
     public TestSuitesPage openAddSuiteForm() {
-        log.info("Открываем форму создания сьюта");
+        log.info("Open the suite creation form");
         $(ADD_SUITE_SIDEBAR).click();
         $(byText(ADD_SUITE_PAGE_TITLE)).shouldBe(visible);
         $(SUITE_NAME_INPUT).shouldBe(visible);
@@ -46,9 +46,9 @@ public class TestSuitesPage {
         return this;
     }
 
-    @Step("Создаём сьют '{suite.name}'")
+    @Step("Create suite '{suite.name}'")
     public TestSuitesPage createSuite(Suite suite) {
-        log.info("Создаём сьют '{}'", suite.getName());
+        log.info("Create suite '{}'", suite.getName());
         $(SUITE_DESCRIPTION_INPUT).click();
         $(SUITE_DESCRIPTION_INPUT).sendKeys(suite.getDescription());
         $(SUITE_NAME_INPUT).setValue(suite.getName()).shouldHave(value(suite.getName()));
@@ -56,55 +56,55 @@ public class TestSuitesPage {
         return this;
     }
 
-    @Step("Проверяем, что сьют успешно создан")
+    @Step("Verify the suite is created successfully")
     public TestSuitesPage isSuiteCreated() {
-        log.info("Проверяем, что сьют успешно создан");
+        log.info("Verify the suite is created successfully");
         $(SUCCESS_MESSAGE).shouldBe(visible)
                 .shouldHave(text("Successfully added the new test suite"));
         return this;
     }
 
-    @Step("Проверяем, что сьют '{0}' есть в списке")
+    @Step("Verify suite '{0}' is in the list")
     public TestSuitesPage isSuiteVisible(String suiteName) {
-        log.info("Проверяем, что сьют '{}' есть в списке", suiteName);
+        log.info("Verify suite '{}' is in the list", suiteName);
         $(By.xpath(String.format(SUITE_ROW, suiteName))).shouldBe(visible);
         return this;
     }
 
-    @Step("Добавляем тест-кейс '{testCase.title}' в сьют")
+    @Step("Add test case '{testCase.title}' to suite")
     public TestCasePage addTestCaseToSuite(TestCase testCase) {
-        log.info("Добавляем тест-кейс '{}' в сьют", testCase.getTitle());
+        log.info("Add test case '{}' to suite", testCase.getTitle());
         $(ADD_TEST_CASE_IN_SUITE).click();
         return testCaseCreatePage.isPageOpen().createTestCase(testCase);
     }
 
-    @Step("Проверяем, что в сьюте '{0}' указано кейсов: {1}")
+    @Step("Verify suite '{0}' shows cases count: {1}")
     public TestSuitesPage hasCasesCount(String suiteName, int count) {
-        log.info("Проверяем счётчик кейсов сьюта '{}': {}", suiteName, count);
+        log.info("Verify suite case count '{}': {}", suiteName, count);
         $(By.xpath(String.format(SUITE_DESCRIPTION, suiteName)))
                 .shouldHave(text(count + " test case"));
         return this;
     }
 
-    @Step("Открываем редактирование сьюта '{0}'")
+    @Step("Open editing of suite '{0}'")
     public TestSuitesPage openSuiteEdit(String suiteName) {
-        log.info("Открываем редактирование сьюта '{}'", suiteName);
+        log.info("Open editing of suite '{}'", suiteName);
         $x(String.format(SUITE_EDIT_LINK, suiteName)).click();
         return this;
     }
 
-    @Step("Удаляем сьют")
+    @Step("Delete suite")
     public TestSuitesPage deleteSuite() {
-        log.info("Удаляем сьют");
+        log.info("Delete suite");
         $(byText(DELETE_SUITE_BUTTON)).click();
         $(DELETE_CONFIRM_CHECKBOX).click();
         $(DELETE_CONFIRM_OK).click();
         return this;
     }
 
-    @Step("Проверяем, что сьют '{0}' удалён")
+    @Step("Verify suite '{0}' is deleted")
     public TestSuitesPage isSuiteDeleted(String suiteName) {
-        log.info("Проверяем, что сьют '{}' удалён", suiteName);
+        log.info("Verify suite '{}' is deleted", suiteName);
         $(SUCCESS_MESSAGE).shouldBe(visible).shouldHave(text("Successfully deleted the test suite"));
         return this;
     }
