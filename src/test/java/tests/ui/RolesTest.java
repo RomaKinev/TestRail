@@ -1,7 +1,7 @@
 package tests.ui;
 
 import config.TestConfig;
-import dto.Roles;
+import ui.dto.Roles;
 import org.aeonbits.owner.ConfigFactory;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
@@ -10,7 +10,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 
-import static dto.RolesFactory.getRole;
+import static ui.dto.RolesFactory.getRole;
 
 
 public class RolesTest extends BaseUITest {

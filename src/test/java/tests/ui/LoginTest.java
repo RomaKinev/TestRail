@@ -11,7 +11,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 
-import static dict.Elements.LOGIN_ERROR;
+import static ui.dict.Elements.LOGIN_ERROR;
 
 public class LoginTest extends BaseUITest {
 

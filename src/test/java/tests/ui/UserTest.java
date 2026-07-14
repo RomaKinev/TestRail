@@ -1,7 +1,7 @@
 package tests.ui;
 
 import config.TestConfig;
-import dto.User;
+import ui.dto.User;
 import org.aeonbits.owner.ConfigFactory;
 
 import io.qameta.allure.Description;
@@ -11,7 +11,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 
-import static dto.UserFactory.getUser;
+import static ui.dto.UserFactory.getUser;
 
 
 public class UserTest extends BaseUITest {

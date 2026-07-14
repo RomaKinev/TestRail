@@ -9,10 +9,10 @@ import org.testng.annotations.Test;
 
 import java.io.FileNotFoundException;
 
-import static dto.ProjectFactory.getProject;
-import static dto.TestRunFactory.getRun;
-import static dto.SuiteFactory.getSuite;
-import static dto.TestCaseFactory.getTestCase;
+import static ui.dto.ProjectFactory.getProject;
+import static ui.dto.TestRunFactory.getRun;
+import static ui.dto.SuiteFactory.getSuite;
+import static ui.dto.TestCaseFactory.getTestCase;
 import static tests.ui.LoginTest.CONFIG;
 
 public class ReportTest extends BaseUITest {

@@ -1,9 +1,10 @@
 package tests.api;
 
-import api.adapters.SectionAdapter;
+import api_adapters.SectionAdapter;
 import api.models.sections.MoveSectionRq;
 import api.models.sections.SectionRq;
 import api.models.sections.SectionRs;
+import io.qameta.allure.Owner;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -22,6 +23,8 @@ public class SectionAPITest {
     private Integer parentSectionId;
     private Integer childSectionId;
 
+
+    @Owner("Pavel")
     @Test(priority = 1)
     public void checkCreateSection() {
         SectionRq sectionRq = SectionRq
@@ -36,6 +39,7 @@ public class SectionAPITest {
         assertEquals(sectionRs.getName(), SECTION_NAME, "The created section name does not match.");
     }
 
+    @Owner("Pavel")
     @Test(priority = 2)
     public void updateSection() {
         SectionRq updatedSectionRq = SectionRq
@@ -49,6 +53,7 @@ public class SectionAPITest {
         assertEquals(updatedSectionRs.getName(), UPDATED_SECTION_NAME, "The section name was not updated.");
     }
 
+    @Owner("Pavel")
     @Test(priority = 3)
     public void moveSection() {
         SectionRq parentSectionRq = SectionRq
@@ -77,6 +82,7 @@ public class SectionAPITest {
                 "Section 2 was not added to Section 1.");
     }
 
+    @Owner("Pavel")
     @Test(priority = 4)
     public void deleteSections() {
         SectionAdapter.deleteSectionIfCreated(childSectionId);

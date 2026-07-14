@@ -1,8 +1,8 @@
 package tests.ui;
 
 import config.TestConfig;
-import dto.Milestone;
-import dto.Project;
+import ui.dto.Milestone;
+import ui.dto.Project;
 import org.aeonbits.owner.ConfigFactory;
 
 import io.qameta.allure.Description;
@@ -12,8 +12,8 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 
-import static dto.MilestoneFactory.getMilestone;
-import static dto.ProjectFactory.getProject;
+import static ui.dto.MilestoneFactory.getMilestone;
+import static ui.dto.ProjectFactory.getProject;
 
 
 public class MilestoneTest extends BaseUITest {

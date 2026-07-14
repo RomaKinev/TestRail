@@ -1,6 +1,6 @@
 package tests.ui;
 
-import dto.Project;
+import ui.dto.Project;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
@@ -8,7 +8,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 
-import static dto.ProjectFactory.getProject;
+import static ui.dto.ProjectFactory.getProject;
 import static tests.ui.LoginTest.CONFIG;
 
 public class ProjectsTest extends BaseUITest {
