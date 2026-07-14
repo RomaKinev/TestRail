@@ -94,7 +94,7 @@ src/
 | Раздел | Тесты | Статус |
 |---|-------|--|
 | Section Management | 4     | ✅ |
-| Attachments | 5     | ⏳ |
+| Attachments | 6     | ✅ |
 
 ---
 

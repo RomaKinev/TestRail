@@ -7,19 +7,16 @@ import lombok.Data;
 @Data
 public class SectionRs {
 
-    @SerializedName("id")
-    public Integer id;
+    private Integer id;
 
     @SerializedName("suite_id")
-    public Integer suiteId;
+    private Integer suitId;
 
-    @SerializedName("name")
-    public String name;
+    private String name;
 
-    @SerializedName("description")
-    public String description;
+    private String description;
 
     @SerializedName("parent_id")
-    public Integer parentId;
+    private Integer parentId;
 
 }
