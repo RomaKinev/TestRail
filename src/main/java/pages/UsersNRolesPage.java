@@ -27,9 +27,9 @@ public class UsersNRolesPage {
     private static final String SUCCESS_USER_DELETION_MESSAGE = "//div[@data-testid='messageSuccessDivBox' and contains(text(), 'Successfully forgot the user')]";
 
 
-    @Step("Добавляем пользователя")
+    @Step("Add a user")
     public UsersNRolesPage addUser(User user) {
-        log.info("Создаём пользователя '{}'", user.getFullName());
+        log.info("Create user '{}'", user.getFullName());
         Selenide.open("/index.php?/admin/users/overview");
         $(ADD_USER_BUTTON).shouldBe(visible).click();
         sleep(200);
@@ -41,10 +41,10 @@ public class UsersNRolesPage {
         return this;
     }
 
-    @Step("Обновляем данные пользователя")
+    @Step("Update user data")
     public UsersNRolesPage updateUserInformation(User user) {
         String updatedUserFullName = user.getFullName() + "_updated";
-        log.info("Обновляем пользователя '{}'", user.getFullName());
+        log.info("Update user '{}'", user.getFullName());
         $(String.format(COLUMN_USER_TEXT_VALUE, user.getFullName())).shouldBe(visible).click();
         sleep(200);
         $(USER_FULL_NAME_INPUT).shouldBe(visible).clear();
@@ -55,9 +55,9 @@ public class UsersNRolesPage {
         return this;
     }
 
-    @Step("Деактивируем пользователя")
+    @Step("Deactivate user")
     public UsersNRolesPage deactivateUser(User user) {
-        log.info("Деактивируем пользователя '{}'", user.getFullName());
+        log.info("Deactivate user '{}'", user.getFullName());
         $(String.format(COLUMN_USER_TEXT_VALUE, user.getFullName())).shouldBe(visible).click();
         sleep(200);
         $(byText(FORGET_THIS_USER)).shouldBe(visible).shouldBe(enabled).click();

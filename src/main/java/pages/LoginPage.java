@@ -11,6 +11,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.sleep;
 import static dict.Elements.LOGIN_PAGE;
 
 public class LoginPage {
@@ -22,41 +23,42 @@ public class LoginPage {
     public final String LOG_IN_BUTTON = "[data-testid='loginButtonPrimary']";
     public final String ERROR_MESSAGE = "[data-testid='loginErrorText']";
 
-    @Step("Проверяем, что открыта страница логина")
+    @Step("Verify the login page is open")
     public LoginPage isPageOpen() {
-        log.info("Проверяем, что открыта страница логина");
+        log.info("Verify the login page is open");
         $(byText(LOGIN_PAGE)).shouldBe(visible);
         return this;
     }
 
-    @Step("Открываем страницу логина")
+    @Step("Open the login page")
     public LoginPage open() {
-        log.info("Открываем страницу логина");
+        log.info("Open the login page");
         Selenide.open("/index.php?/auth/login/");
         return this;
     }
 
-    @Step("Логинимся под пользователем '{0}'")
+    @Step("Log in as user '{0}'")
     public ProjectsPage login(String login, String password) {
-        log.info("Логинимся под пользователем '{}'", login);
+        log.info("Log in as user '{}'", login);
+        sleep(2000);
         $(LOGIN).setValue(login);
         $(PASSWORD).setValue(password);
         $(LOG_IN_BUTTON).click();
         return new ProjectsPage();
     }
 
-    @Step("Логинимся с невалидными данными под '{0}'")
+    @Step("Log in with invalid credentials as '{0}'")
     public LoginPage loginWithError(String login, String password) {
-        log.info("Логинимся с невалидными данными под '{}'", login);
+        log.info("Log in with invalid credentials as '{}'", login);
         $(LOGIN).setValue(login);
         $(PASSWORD).setValue(password);
         $(LOG_IN_BUTTON).click();
         return this;
     }
 
-    @Step("Проверяем сообщение об ошибке: '{0}'")
+    @Step("Verify error message: '{0}'")
     public LoginPage shouldShowError(String expectedText) {
-        log.info("Проверяем сообщение об ошибке: '{}'", expectedText);
+        log.info("Verify error message: '{}'", expectedText);
         $(ERROR_MESSAGE).shouldBe(visible).shouldHave(text(expectedText));
         return this;
     }

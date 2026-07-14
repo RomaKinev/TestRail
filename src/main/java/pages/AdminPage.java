@@ -27,54 +27,54 @@ public class AdminPage {
     public final String EDIT_PROJECT_BUTTON = "//tr[.//a[normalize-space(text())='%s']]" +
             "//div[@data-testid='projectEditButton']";
 
-    @Step("Открываем админ-страницу проектов")
+    @Step("Open the admin projects page")
     public AdminPage openAdminPage() {
-        log.info("Открываем админ-страницу проектов");
+        log.info("Open the admin projects page");
         Selenide.open("/index.php?/admin/projects/overview");
         return this;
     }
 
-    @Step("Проверяем, что открыта админ-страница")
+    @Step("Verify the admin page is open")
     public AdminPage isPageOpen() {
-        log.info("Проверяем, что открыта админ-страница");
+        log.info("Verify the admin page is open");
         $(byText(ADMIN_PAGE)).shouldBe(visible);
         return this;
     }
 
-    @Step("Проверяем, что проект '{0}' создан")
+    @Step("Verify project '{0}' is created")
     public AdminPage isProjectCreated(String projectName) {
-        log.info("Проверяем, что проект '{}' создан", projectName);
+        log.info("Verify project '{}' is created", projectName);
         $(byText(SUCCESS_MESSAGE_AFTER_CREATE_PROJECT)).shouldBe(visible);
         $(By.xpath(String.format(PROJECT_NAME_IN_TABLE, projectName))).shouldBe(visible);
         return this;
     }
 
-    @Step("Проверяем, что проект '{0}' отображается")
+    @Step("Verify project '{0}' is displayed")
     public AdminPage isProjectVisible(String projectName) {
-        log.info("Проверяем, что проект '{}' отображается", projectName);
+        log.info("Verify project '{}' is displayed", projectName);
         $(By.xpath(String.format(PROJECT_NAME_IN_TABLE, projectName))).shouldBe(visible);
         return this;
     }
 
-    @Step("Удаляем проект '{0}'")
+    @Step("Delete project '{0}'")
     public AdminPage deleteProject(String projectName) {
-        log.info("Удаляем проект '{}'", projectName);
+        log.info("Delete project '{}'", projectName);
         $(By.xpath(String.format(DELETE_PROJECT_BUTTON, projectName))).click();
         $(DELETE_CHECKBOX_CONFIRM).click();
         $(DELETE_PROJECT_BUTTON_OK).click();
         return this;
     }
 
-    @Step("Проверяем, что проект '{0}' удалён")
+    @Step("Verify project '{0}' is deleted")
     public AdminPage isProjectDeleted(String projectName) {
-        log.info("Проверяем, что проект '{}' удалён", projectName);
+        log.info("Verify project '{}' is deleted", projectName);
         $(By.xpath(String.format(PROJECT_NAME_IN_TABLE, projectName))).shouldNot(exist);
         return this;
     }
 
-    @Step("Переименовываем проект '{0}' в '{1}'")
+    @Step("Rename project '{0}' to '{1}'")
     public AdminPage editProjectName(String projectName, String newName) {
-        log.info("Переименовываем проект '{}' в '{}'", projectName, newName);
+        log.info("Rename project '{}' to '{}'", projectName, newName);
         $(By.xpath(String.format(EDIT_PROJECT_BUTTON, projectName))).click();
         $(PROJECT_NAME_INPUT).shouldBe(visible);
         $(PROJECT_NAME_INPUT).clear();
@@ -83,9 +83,9 @@ public class AdminPage {
         return this;
     }
 
-    @Step("Проверяем, что проект '{0}' переименован в '{1}'")
+    @Step("Verify project '{0}' is renamed to '{1}'")
     public AdminPage isProjectNameChanged(String projectName, String newName) {
-        log.info("Проверяем, что проект '{}' переименован в '{}'", projectName, newName);
+        log.info("Verify project '{}' is renamed to '{}'", projectName, newName);
         $(byText(SUCCESS_MESSAGE_AFTER_EDIT_PROJECT)).shouldBe(visible);
         return this;
     }

@@ -14,9 +14,9 @@ public class CreateMilestonePage {
 
     private static final Logger log = LogManager.getLogger(CreateMilestonePage.class);
 
-    @Step("Проверяем, что открыта форма создания майлстона")
+    @Step("Verify the milestone creation form is open")
     public void isPageOpen() {
-        log.info("Проверяем, что открыта форма создания майлстона");
+        log.info("Verify the milestone creation form is open");
         $(byText(ADD_MILESTONE)).shouldBe(visible);
     }
 }

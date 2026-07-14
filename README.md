@@ -40,10 +40,14 @@ src/
 │   └── steps/           # Step-объекты для Allure (Login, Project)
 └── test/java/
     ├── config/          # TestConfig, SelenideConfig
+    ├── listeners/       # TestListener (логи + retry), RetryAnalyzer
     └── tests/
         ├── ui/          # UI-тесты
         └── api/         # API-тесты
 ```
+
+> TestNG-listener подключён через ServiceLoader:
+> `src/test/resources/META-INF/services/org.testng.ITestNGListener`.
 
 ---
 
@@ -59,8 +63,8 @@ src/
 | Управление проектами | 3/5   | ✅ *(пагинация/фильтр — нет функционала)* |
 | Тест-кейсы | 7/8   | ✅ *(копирование исключено)* |
 | Test Suites | 4/4   | ✅ |
-| Test Runs | 0/5   | ⏳ |
-| Отчёты | 0/3   | ⏳ |
+| Test Runs | 5/5   | ✅ |
+| Отчёты | 3/3   | ✅ *(экспорт — Excel; сравнение ранов — отчёт Comparison for Cases)* |
 
 #### API-тесты (запланированы)
 
@@ -129,7 +133,7 @@ mvn clean test -Dheadless=true
 ```
 
 > Группы: `ui` — все UI-тесты, `smoke` — ключевые сценарии
-> (`loginTest`, `createProjectTest`, `testCaseCreationTest`, `createSuiteTest`).
+> (`loginTest`, `createProjectTest`, `testCaseCreationTest`, `createSuiteTest`, `createRunTest`).
 
 ### 3. Allure отчёт
 
@@ -151,3 +155,6 @@ mvn allure:report
 - **Step Pattern** — `@Step` аннотации для Allure-отчётов
 - **DataProvider** — параметризация негативных сценариев
 - **JSON serialization and deserialization** - обработка Json-объектов для автоматизации API
+- **TestNG Listener** — `TestListener` (`ITestListener`): логирование жизненного цикла тестов + скриншот при падении
+- **Retry** — `RetryAnalyzer` (`IRetryAnalyzer`) + `IAnnotationTransformer`: авто-перезапуск упавших тестов (до 2 повторов), навешивается на все `@Test` без правки тестов
+- **Allure-метаданные** — `@Owner`, `@Feature`, `@Severity`, `@Description` на UI-тестах
