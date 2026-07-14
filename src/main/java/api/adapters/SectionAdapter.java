@@ -1,8 +1,7 @@
 package api.adapters;
 
-import api.models.sections.MoveSectionRq;
-import api.models.sections.SectionRq;
-import api.models.sections.SectionRs;
+import api.models.sections.*;
+import io.qameta.allure.Step;
 import io.restassured.mapper.ObjectMapperType;
 
 import static api.adapters.BaseAdapter.ok200;
@@ -12,18 +11,22 @@ import static io.restassured.RestAssured.given;
 
 public class SectionAdapter {
 
+    private static final String PATH = "/index.php?/api/v2/";
+
+
+    @Step("Создаем секцию")
     public static SectionRs createSection(SectionRq rq, String projectId) {
         return given()
                 .spec(spec)
                 .urlEncodingEnabled(false)
                 .pathParam("projectId", projectId)
                 .body(rq)
-                .log().all()
+                .log().all() //поудалять по проекту
                 .when()
-                .post("/index.php?/api/v2/add_section/{projectId}")
+                .post(PATH + "add_section/{projectId}")
                 .then()
                 .spec(ok200)
-                .log().all()
+                .log().all() //поудалять по проекту
                 .extract()
                 .as(SectionRs.class, ObjectMapperType.GSON);
     }
@@ -34,12 +37,12 @@ public class SectionAdapter {
                 .urlEncodingEnabled(false)
                 .pathParam("sectionId", sectionId)
                 .body(rq)
-                .log().all()
+                .log().all()//поудалять по проекту
                 .when()
-                .post("/index.php?/api/v2/update_section/{sectionId}")
+                .post(PATH + "update_section/{sectionId}")
                 .then()
                 .spec(ok200)
-                .log().all()
+                .log().all()//поудалять по проекту
                 .extract()
                 .as(SectionRs.class, ObjectMapperType.GSON);
     }
@@ -50,12 +53,12 @@ public class SectionAdapter {
                 .urlEncodingEnabled(false)
                 .pathParam("sectionId", sectionId)
                 .body(rq)
-                .log().all()
+                .log().all()//поудалять по проекту
                 .when()
-                .post("/index.php?/api/v2/move_section/{sectionId}")
+                .post(PATH + "move_section/{sectionId}")
                 .then()
                 .spec(ok200)
-                .log().all()
+                .log().all()//поудалять по проекту
                 .extract()
                 .as(SectionRs.class, ObjectMapperType.GSON);
     }
@@ -65,11 +68,11 @@ public class SectionAdapter {
                 .spec(spec)
                 .urlEncodingEnabled(false)
                 .pathParam("sectionId", sectionId)
-                .log().all()
+                .log().all()//поудалять по проекту
                 .when()
-                .post("/index.php?/api/v2/delete_section/{sectionId}")
+                .post(PATH + "delete_section/{sectionId}")
                 .then()
-                .spec(ok200)
+                .spec(ok200) //поудалять по проекту
                 .log().all();
     }
 
