@@ -28,9 +28,9 @@ public class RolesPage {
     private static final String DELETE_ROLE_OK_BUTTON = "[data-testid=caseFieldsTabDeleteDialogButtonOk]";
 
 
-    @Step("Добавляем новую роль")
+    @Step("Add a new role")
     public RolesPage addRole(Roles role) {
-        log.info("Добавляем новую роль'{}'", role.getTitle());
+        log.info("Add a new role '{}'", role.getTitle());
         Selenide.open("/index.php?/admin/users/overview");
         $(ROLES_HEADER_BUTTON).shouldBe(visible).click();
         $(ADD_ROLE_BUTTON).shouldBe(visible).click();
@@ -44,10 +44,10 @@ public class RolesPage {
         return this;
     }
 
-    @Step("Обновляем роль")
+    @Step("Update role")
     public RolesPage updateRole(Roles role) {
         String updatedRoleTitle = role.getTitle() + "_updated";
-        log.info("Обновляем роль'{}'", role.getTitle());
+        log.info("Update role '{}'", role.getTitle());
         sleep(200);
         $x(String.format(COLUMN_ROLE_TEXT_VALUE, role.getTitle())).shouldBe(visible).click();
         $(ROLE_TITLE_INPUT_FIELD).shouldBe(visible).clear();
@@ -62,9 +62,9 @@ public class RolesPage {
     }
 
 
-    @Step("Удаляем роль")
+    @Step("Delete role")
     public RolesPage deleteRole(Roles role) {
-        log.info("Удаляем роль'{}'", role.getTitle());
+        log.info("Delete role '{}'", role.getTitle());
         sleep(200);
         $x(String.format(DELETE_ROLE_BUTTON, role.getTitle())).shouldBe(visible).click();
         sleep(200);

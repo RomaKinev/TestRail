@@ -5,6 +5,11 @@ import dto.Milestone;
 import dto.Project;
 import org.aeonbits.owner.ConfigFactory;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 
 import static dto.MilestoneFactory.getMilestone;
@@ -15,6 +20,10 @@ public class MilestoneTest extends BaseUITest {
 
     public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
 
+    @Owner("Pavel")
+    @Feature("Milestones")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Create milestone")
     @Test
     public void createMilestoneTest() {
         Project project = getProject();
@@ -26,6 +35,10 @@ public class MilestoneTest extends BaseUITest {
                 .createMilestone(project, milestone);
     }
 
+    @Owner("Pavel")
+    @Feature("Milestones")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Delete milestone")
     @Test
     public void deleteMilestoneTest() {
         Project project = getProject();
@@ -37,6 +50,10 @@ public class MilestoneTest extends BaseUITest {
                 .deleteMilestone(project, milestone);
     }
 
+    @Owner("Pavel")
+    @Feature("Milestones")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Update milestone")
     @Test()
     public void updateMilestoneTest() {
         Project project = getProject();
@@ -48,6 +65,10 @@ public class MilestoneTest extends BaseUITest {
                 .updateMilestone(project, milestone);
     }
 
+    @Owner("Pavel")
+    @Feature("Milestones")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Complete milestone")
     @Test
     public void completeMilestoneTest() {
         Project project = getProject();
@@ -59,6 +80,10 @@ public class MilestoneTest extends BaseUITest {
                 .completeMilestone(project, milestone);
     }
 
+    @Owner("Pavel")
+    @Feature("Milestones")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Check milestone data")
     @Test
     public void checkMilestoneDataTest() {
         Project project = getProject();

@@ -23,9 +23,9 @@ public class SettingsPage {
     private static final String COLOR_SCHEME_SELECT = "[data-testid=addEditUserTheme]";
 
 
-    @Step("Меняем имя пользователя")
+    @Step("Change user name")
     public SettingsPage changeUsersName(User user) {
-        log.info("Меняем имя пользовател на '{}'", user.getFullName());
+        log.info("Change user name to '{}'", user.getFullName());
         Selenide.open("/index.php?/mysettings");
         $(FULL_NAME_INPUT_FIELD).clear();
         sleep(200);
@@ -38,9 +38,9 @@ public class SettingsPage {
         return this;
     }
 
-    @Step("Меняем язык Testrail c английского на немецкий")
+    @Step("Change TestRail language from English to German")
     public SettingsPage changeTestrailUILanguage() {
-        log.info("Меняем язык с английского на немецкий");
+        log.info("Change language from English to German");
         Selenide.open("/index.php?/mysettings");
         sleep(200);
         $(LANGUAGE_SELECT).selectOption("German");
@@ -52,9 +52,9 @@ public class SettingsPage {
         return this;
     }
 
-    @Step("Меняем язык Testrail c немецкого на английский")
+    @Step("Change TestRail language from German to English")
     public SettingsPage revertTestrailUILanguage() {
-        log.info("Меняем язык с немецкий на английский");
+        log.info("Change language from German to English");
         Selenide.open("/index.php?/mysettings");
         sleep(200);
         $(LANGUAGE_SELECT).selectOption("Englisch");
@@ -66,9 +66,9 @@ public class SettingsPage {
         return this;
     }
 
-    @Step("Тему Testrail")
+    @Step("TestRail theme")
     public SettingsPage changeTestrailColorScheme() {
-        log.info("Меняем тему Testrail с светлой на темную");
+        log.info("Change TestRail theme from light to dark");
         Selenide.open("/index.php?/mysettings");
         sleep(200);
         $(COLOR_SCHEME_SELECT).selectOption("Dark");
@@ -80,9 +80,9 @@ public class SettingsPage {
         return this;
     }
 
-    @Step("Тему Testrail")
+    @Step("TestRail theme")
     public SettingsPage revertTestrailColorScheme() {
-        log.info("Меняем тему Testrail с темной на светлую");
+        log.info("Change TestRail theme from dark to light");
         Selenide.open("/index.php?/mysettings");
         sleep(200);
         $(COLOR_SCHEME_SELECT).selectOption("Light");

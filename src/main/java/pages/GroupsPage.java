@@ -25,9 +25,9 @@ public class GroupsPage {
     private static final String DELETE_GROUP_OK_BUTTON = "[data-testid=caseFieldsTabDeleteDialogButtonOk]";
 
 
-    @Step("Добавляем новую группу пользователей")
+    @Step("Add a new user group")
     public GroupsPage addGroup(Group group) {
-        log.info("Создаём новую группу пользователей '{}'", group.getTitle());
+        log.info("Create a new user group '{}'", group.getTitle());
         Selenide.open("/index.php?/admin/users/overview");
         $(GROUPS_HEADER_BUTTON).shouldBe(visible).click();
         $(ADD_GROUP_BUTTON).shouldBe(visible).click();
@@ -41,10 +41,10 @@ public class GroupsPage {
         return this;
     }
 
-    @Step("Обновляем группу пользователей")
+    @Step("Update user group")
     public GroupsPage updateGroup(Group group) {
         String updatedGroupTitle = group.getTitle() + "_updated";
-        log.info("Обновляем группу пользователей '{}'", group.getTitle());
+        log.info("Update user group '{}'", group.getTitle());
         sleep(200);
         $x(String.format(COLUMN_GROUP_TEXT_VALUE, group.getTitle())).shouldBe(visible).click();
         $(GROUP_TITLE_INPUT_FIELD).shouldBe(visible).clear();
@@ -59,9 +59,9 @@ public class GroupsPage {
     }
 
 
-    @Step("Удаляем группу пользователей")
+    @Step("Delete user group")
     public GroupsPage deleteGroup(Group group) {
-        log.info("Удаляем группу пользователей '{}'", group.getTitle());
+        log.info("Delete user group '{}'", group.getTitle());
         sleep(200);
         $x(String.format(DELETE_GROUP_BUTTON, group.getTitle())).shouldBe(visible).click();
         sleep(200);

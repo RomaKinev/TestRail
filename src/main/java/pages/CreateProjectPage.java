@@ -13,9 +13,9 @@ public class CreateProjectPage {
 
     private static final Logger log = LogManager.getLogger(CreateProjectPage.class);
 
-    @Step("Проверяем, что открыта форма создания проекта")
+    @Step("Verify the project creation form is open")
     public void isPageOpen() {
-        log.info("Проверяем, что открыта форма создания проекта");
+        log.info("Verify the project creation form is open");
         $(byText(ADD_PROJECT_TITLE)).shouldBe(visible);
     }
 }

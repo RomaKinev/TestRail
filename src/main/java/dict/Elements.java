@@ -12,8 +12,9 @@ public class Elements {
     public static final String EDIT_PROJECT_TITLE = "Edit Project";
     public static final String SUCCESS_MESSAGE_AFTER_ADD_TEST_CASE = "Successfully added the new test case. ";
     public static final String SUCCESS_MESSAGE_AFTER_UPDATE_TEST_CASE = "Successfully updated the test case. ";
+    public static final String SUCCESS_MESSAGE_AFTER_ADD_TEST_RUN = "Successfully added the new test run";
     public static final String ADD_MILESTONE = "Add Milestone";
-    public static final String ADD_SUITE_PAGE_TITLE = "Add Suite";
+    public static final String ADD_SUITE_PAGE_TITLE = "Add Test Suite";
     public static final String FORGET_THIS_USER = "Forget this user";
     public static final String SUCCESSFULLY_ADDED_THE_NEW_USER_GROUP = "Successfully added the new user group.";
     public static final String SUCCESSFULLY_DELETED_THE_USER_GROUP = "Successfully deleted the user group.";
