@@ -1,6 +1,6 @@
 package tests.api;
 
-import api.adapters.SectionAdapter;
+import api_adapters.SectionAdapter;
 import api.models.sections.MoveSectionRq;
 import api.models.sections.SectionRq;
 import api.models.sections.SectionRs;

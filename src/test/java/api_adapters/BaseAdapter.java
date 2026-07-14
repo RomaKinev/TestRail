@@ -1,6 +1,6 @@
-package api.adapters;
+package api_adapters;
 
-import api.config.TestConfig;
+import config.TestConfig;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.*;
 import io.restassured.http.ContentType;

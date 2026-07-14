@@ -3,7 +3,6 @@ package ui.steps;
 import ui.dto.Milestone;
 import ui.dto.Project;
 import lombok.extern.log4j.Log4j2;
-import pages.*;
 import ui.pages.AdminPage;
 import ui.pages.MilestonePage;
 import ui.pages.ProjectsPage;
