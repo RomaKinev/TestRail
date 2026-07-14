@@ -1,7 +1,7 @@
 package tests.ui;
 
 import config.TestConfig;
-import dto.Group;
+import ui.dto.Group;
 import org.aeonbits.owner.ConfigFactory;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
@@ -10,7 +10,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 
-import static dto.GroupFactory.getGroup;
+import static ui.dto.GroupFactory.getGroup;
 
 
 public class GroupTest extends BaseUITest {

@@ -4,9 +4,8 @@ import com.codeborne.selenide.Selenide;
 import config.SelenideConfig;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import pages.*;
-import pages.ProjectsPage;
-import steps.*;
+import ui.pages.*;
+import ui.steps.*;
 
 public class BaseUITest {
 

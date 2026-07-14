@@ -36,14 +36,6 @@ public class TestListener implements ITestListener, IAnnotationTransformer {
     }
 
     @Override
-    public void onTestFailure(ITestResult result) {
-        log.error("❌ Failed: {}", result.getName(), result.getThrowable());
-        if (hasWebDriverStarted()) {
-            attachScreenshot(); // duplicates AllureSelenide — can be removed
-        }
-    }
-
-    @Override
     public void onTestSkipped(ITestResult result) {
         log.warn("⏭ Skipped: {}", result.getName());
     }
