@@ -2,11 +2,16 @@ package tests.ui;
 
 import com.codeborne.selenide.Selenide;
 import config.SelenideConfig;
+import io.qameta.allure.testng.AllureTestNg;
+import listeners.TestListener;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import ui.pages.*;
 import ui.steps.*;
 
+
+@Listeners({AllureTestNg.class, TestListener.class})
 public class BaseUITest {
 
     LoginPage loginPage;
