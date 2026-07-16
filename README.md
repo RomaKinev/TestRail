@@ -32,7 +32,6 @@ src/
 ├── main/java/
 │   ├── api/             # Архитектура для API тестов
 │        ├── adapters/   # Адаптеры с созданием запросов
-│        ├── config/     # TestConfig для API-тестов
 │        └── models/     # Модели с соответствующими модулями для API-тестов каждого типа
 │   ├── dict/            # Константы и тексты (Elements)
 │   ├── dto/             # Модели данных + фабрики (Project, TestCase)
@@ -94,7 +93,7 @@ src/
 | Раздел | Тесты | Статус |
 |---|-------|--|
 | Section Management | 4     | ✅ |
-| Attachments | 5     | ⏳ |
+| Attachments | 6     | ✅ |
 
 ---
 
@@ -113,7 +112,6 @@ cp src/test/resources/config.properties.example \
 baseUrl=https://tms34.testrail.io
 email=your@email.com
 password=yourpassword
-apiKey=yourapikey
 ```
 
 ### 2. Запуск тестов

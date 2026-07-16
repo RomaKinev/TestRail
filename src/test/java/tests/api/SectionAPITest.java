@@ -1,16 +1,15 @@
 package tests.api;
 
 import api_adapters.SectionAdapter;
-import api.models.sections.MoveSectionRq;
-import api.models.sections.SectionRq;
-import api.models.sections.SectionRs;
-import io.qameta.allure.Owner;
+import api.models.sections.*;
+import io.qameta.allure.*;
+import listeners.RetryAnalyzer;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
 
-public class SectionAPITest {
+public class SectionAPITest extends BaseAPITest {
 
     private static final String PROJECT_CODE = "2";
     private static final String SECTION_NAME = "Section name";
@@ -23,9 +22,17 @@ public class SectionAPITest {
     private Integer parentSectionId;
     private Integer childSectionId;
 
-
     @Owner("Pavel")
-    @Test(priority = 1)
+    @Feature("Sections")
+    @Description("Verify selection can be created")
+    @Severity(SeverityLevel.NORMAL)
+    @Test(
+            testName = "Verify selection can be created",
+            description = "Verify selection can be created",
+            groups = "api",
+            priority = 1,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void checkCreateSection() {
         SectionRq sectionRq = SectionRq
                 .builder()
@@ -40,7 +47,16 @@ public class SectionAPITest {
     }
 
     @Owner("Pavel")
-    @Test(priority = 2)
+    @Feature("Sections")
+    @Description("Verify a section can be updated")
+    @Severity(SeverityLevel.NORMAL)
+    @Test(
+            testName = "Verify a section can be updated",
+            description = "Verify a section can be updated",
+            groups = "api",
+            priority = 2,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void updateSection() {
         SectionRq updatedSectionRq = SectionRq
                 .builder()
@@ -54,7 +70,16 @@ public class SectionAPITest {
     }
 
     @Owner("Pavel")
-    @Test(priority = 3)
+    @Feature("Sections")
+    @Description("Verify a section can be moved into another section")
+    @Severity(SeverityLevel.NORMAL)
+    @Test(
+            testName = "Verify a section can be moved into another section",
+            description = "Verify a section can be moved into another section",
+            groups = "api",
+            priority = 3,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void moveSection() {
         SectionRq parentSectionRq = SectionRq
                 .builder()
@@ -83,7 +108,16 @@ public class SectionAPITest {
     }
 
     @Owner("Pavel")
-    @Test(priority = 4)
+    @Feature("Sections")
+    @Description("Verify created sections can be deleted")
+    @Severity(SeverityLevel.NORMAL)
+    @Test(
+            testName = "Verify created sections can be deleted",
+            description = "Verify created sections can be deleted",
+            groups = "api",
+            priority = 4,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void deleteSections() {
         SectionAdapter.deleteSectionIfCreated(childSectionId);
         SectionAdapter.deleteSectionIfCreated(parentSectionId);
