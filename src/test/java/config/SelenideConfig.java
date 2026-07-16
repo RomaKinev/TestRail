@@ -34,6 +34,7 @@ public class SelenideConfig {
         chromePrefs.put("profile.password_manager_enabled", false);
         options.setExperimentalOption("prefs", chromePrefs);
         options.addArguments("--incognito");
+        options.addArguments("--headless");
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--disable-infobars");

@@ -1,28 +1,26 @@
 package tests.ui;
 
-import config.TestConfig;
+import listeners.RetryAnalyzer;
 import ui.dto.User;
-import org.aeonbits.owner.ConfigFactory;
-
-import io.qameta.allure.Description;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Owner;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
 import static ui.dto.UserFactory.getUser;
 
 
-public class UserTest extends BaseUITest {
-
-    public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
+public class UserNRolesTest extends BaseUITest {
 
     @Owner("Pavel")
     @Feature("User Management")
     @Severity(SeverityLevel.NORMAL)
     @Description("Create user")
-    @Test
+    @Test(
+            testName = "Verify user can be created",
+            description = "Verify user can be created",
+            groups = "ui",
+            priority = 1,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void createUserTest() {
         User user = getUser();
 
@@ -36,7 +34,13 @@ public class UserTest extends BaseUITest {
     @Feature("User Management")
     @Severity(SeverityLevel.NORMAL)
     @Description("Update user data")
-    @Test
+    @Test(
+            testName = "Verify user data can be updated",
+            description = "Verify user data can be updated",
+            groups = "ui",
+            priority = 2,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void updateUserDataTest() {
         User user = getUser();
 
@@ -50,7 +54,13 @@ public class UserTest extends BaseUITest {
     @Feature("User Management")
     @Severity(SeverityLevel.NORMAL)
     @Description("Deactivate user")
-    @Test
+    @Test(
+            testName = "Verify user can be deactivated",
+            description = "Verify user can be deactivated",
+            groups = "ui",
+            priority = 3,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void deactivateUserTest() {
         User user = getUser();
 

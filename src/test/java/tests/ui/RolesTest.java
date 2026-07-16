@@ -1,13 +1,8 @@
 package tests.ui;
 
-import config.TestConfig;
+import listeners.RetryAnalyzer;
 import ui.dto.Roles;
-import org.aeonbits.owner.ConfigFactory;
-import io.qameta.allure.Description;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Owner;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
 import static ui.dto.RolesFactory.getRole;
@@ -15,13 +10,17 @@ import static ui.dto.RolesFactory.getRole;
 
 public class RolesTest extends BaseUITest {
 
-    public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
-
     @Owner("Pavel")
     @Feature("Role Management")
     @Severity(SeverityLevel.NORMAL)
     @Description("Create role")
-    @Test(priority = 1)
+    @Test(
+            testName = "Verify role can be created",
+            description = "Verify role can be created",
+            groups = "ui",
+            priority = 1,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void createRole() {
         Roles role = getRole();
 
@@ -35,7 +34,13 @@ public class RolesTest extends BaseUITest {
     @Feature("Role Management")
     @Severity(SeverityLevel.NORMAL)
     @Description("Update role")
-    @Test(priority = 2)
+    @Test(
+            testName = "Verify role can be updated",
+            description = "Verify role can be updated",
+            groups = "ui",
+            priority = 2,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void updateRole() {
         Roles role = getRole();
 
@@ -49,7 +54,13 @@ public class RolesTest extends BaseUITest {
     @Feature("Role Management")
     @Severity(SeverityLevel.NORMAL)
     @Description("Delete role")
-    @Test(priority = 3)
+    @Test(
+            testName = "Verify role can be deleted",
+            description = "Verify role can be deleted",
+            groups = "ui",
+            priority = 3,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void deleteRole() {
         Roles role = getRole();
 

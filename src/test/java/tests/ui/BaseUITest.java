@@ -1,13 +1,19 @@
 package tests.ui;
 
 import com.codeborne.selenide.Selenide;
-import config.SelenideConfig;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import config.*;
+import io.qameta.allure.testng.AllureTestNg;
+import listeners.TestListener;
+import org.aeonbits.owner.ConfigFactory;
+import org.testng.annotations.*;
 import ui.pages.*;
 import ui.steps.*;
 
+
+@Listeners({AllureTestNg.class, TestListener.class})
 public class BaseUITest {
+
+    public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
 
     LoginPage loginPage;
     ProjectsPage projectsPage;

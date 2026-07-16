@@ -1,13 +1,8 @@
 package tests.ui;
 
-import config.TestConfig;
+import listeners.RetryAnalyzer;
 import ui.dto.User;
-import org.aeonbits.owner.ConfigFactory;
-import io.qameta.allure.Description;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Owner;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
 import static ui.dto.UserFactory.getUser;
@@ -15,13 +10,17 @@ import static ui.dto.UserFactory.getUser;
 
 public class SettingsTest extends BaseUITest {
 
-    public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
-
     @Owner("Pavel")
     @Feature("Settings")
     @Severity(SeverityLevel.NORMAL)
     @Description("Update user's name")
-    @Test(priority = 1)
+    @Test(
+            testName = "Verify user's name can be updated",
+            description = "Verify user's name can be updated",
+            groups = "ui",
+            priority = 1,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void updateUsersName() {
         User user = getUser();
 
@@ -35,7 +34,13 @@ public class SettingsTest extends BaseUITest {
     @Feature("Settings")
     @Severity(SeverityLevel.NORMAL)
     @Description("Change language")
-    @Test(priority = 2)
+    @Test(
+            testName = "Verify language can be changed",
+            description = "Verify language can be changed",
+            groups = "ui",
+            priority = 2,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void changeLanguage() {
 
         loginStep
@@ -48,7 +53,13 @@ public class SettingsTest extends BaseUITest {
     @Feature("Settings")
     @Severity(SeverityLevel.NORMAL)
     @Description("Change color scheme")
-    @Test(priority = 3)
+    @Test(
+            testName = "Verify color scheme can be changed",
+            description = "Verify color scheme can be changed",
+            groups = "ui",
+            priority = 3,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void changeColorScheme() {
 
         loginStep

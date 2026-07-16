@@ -1,21 +1,14 @@
 package tests.ui;
 
 import com.codeborne.selenide.Selenide;
-import config.TestConfig;
-import org.aeonbits.owner.ConfigFactory;
 import org.testng.annotations.DataProvider;
-import io.qameta.allure.Description;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Owner;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
 import static ui.dict.Elements.LOGIN_ERROR;
 
-public class LoginTest extends BaseUITest {
 
-    public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
+public class LoginTest extends BaseUITest {
 
     @Owner("Roma")
     @Feature("Authentication")
