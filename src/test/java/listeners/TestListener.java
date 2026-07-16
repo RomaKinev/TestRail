@@ -13,7 +13,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static com.codeborne.selenide.WebDriverRunner.hasWebDriverStarted;
+
 
 @Log4j2
 public class TestListener implements ITestListener, IAnnotationTransformer {

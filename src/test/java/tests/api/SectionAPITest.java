@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 
-public class SectionAPITest {
+public class SectionAPITest extends BaseAPITest {
 
     private static final String PROJECT_CODE = "2";
     private static final String SECTION_NAME = "Section name";

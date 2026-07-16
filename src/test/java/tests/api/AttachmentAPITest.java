@@ -16,7 +16,7 @@ import java.nio.file.Path;
 import static org.testng.Assert.*;
 
 
-public class AttachmentAPITest {
+public class AttachmentAPITest extends BaseAPITest {
 
     private static final String PROJECT_CODE = "2";
     private static final String SECTION_DESCRIPTION = "API attachment tests section";
