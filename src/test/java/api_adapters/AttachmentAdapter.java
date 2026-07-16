@@ -93,13 +93,6 @@ public class AttachmentAdapter {
                 .log().ifValidationFails();
     }
 
-    @Step("Delete attachment {attachmentId} if it was created")
-    public static void deleteAttachmentIfCreated(String attachmentId) {
-        if (attachmentId != null) {
-            deleteAttachment(attachmentId);
-        }
-    }
-
     private static RequestSpecification multipartSpec() {
         return given()
                 .baseUri(BaseAdapter.CONFIG.baseUrl())

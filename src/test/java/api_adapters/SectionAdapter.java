@@ -4,8 +4,7 @@ import api.models.sections.*;
 import io.qameta.allure.Step;
 import io.restassured.mapper.ObjectMapperType;
 
-import static api_adapters.BaseAdapter.ok200;
-import static api_adapters.BaseAdapter.spec;
+import static api_adapters.BaseAdapter.*;
 import static io.restassured.RestAssured.given;
 
 

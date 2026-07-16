@@ -1,13 +1,11 @@
 package api_adapters;
 
-import api.models.attachments.TestCaseRq;
-import api.models.attachments.TestCaseRs;
+import api.models.attachments.*;
 import api.models.sections.*;
 import io.qameta.allure.Step;
 import io.restassured.mapper.ObjectMapperType;
 
-import static api_adapters.BaseAdapter.ok200;
-import static api_adapters.BaseAdapter.spec;
+import static api_adapters.BaseAdapter.*;
 import static io.restassured.RestAssured.given;
 
 
@@ -23,11 +21,9 @@ public class TestCaseAdapter {
                 .description(sectionDescription)
                 .build(), projectId);
 
-        TestCaseRs testCaseRs = createTestCase(TestCaseRq.builder()
+        return createTestCase(TestCaseRq.builder()
                 .title(caseTitle)
                 .build(), sectionRs.getId());
-        testCaseRs.setCreatedSectionId(sectionRs.getId());
-        return testCaseRs;
     }
 
     @Step("Create a test case in section {sectionId}")
@@ -45,26 +41,5 @@ public class TestCaseAdapter {
                 .log().ifValidationFails()
                 .extract()
                 .as(TestCaseRs.class, ObjectMapperType.GSON);
-    }
-
-    @Step("Delete test case {caseId}")
-    public static void deleteTestCase(Integer caseId) {
-        given()
-                .spec(spec)
-                .urlEncodingEnabled(false)
-                .pathParam("caseId", caseId)
-                .log().ifValidationFails()
-                .when()
-                .post(PATH + "delete_case/{caseId}")
-                .then()
-                .spec(ok200)
-                .log().ifValidationFails();
-    }
-
-    @Step("Delete test case {caseId} if it was created")
-    public static void deleteTestCaseIfCreated(Integer caseId) {
-        if (caseId != null) {
-            deleteTestCase(caseId);
-        }
     }
 }

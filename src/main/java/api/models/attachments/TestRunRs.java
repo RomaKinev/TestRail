@@ -25,7 +25,4 @@ public class TestRunRs {
     @SerializedName("is_completed")
     private Boolean completed;
 
-    private transient Integer createdCaseId;
-
-    private transient Integer createdSectionId;
 }

@@ -24,4 +24,5 @@ public class TestRunRq {
     private List<Integer> case_ids;
 
     private String refs;
+
 }

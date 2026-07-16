@@ -26,5 +26,4 @@ public class TestCaseRs {
     @SerializedName("priority_id")
     private Integer priorityId;
 
-    private transient Integer createdSectionId;
 }

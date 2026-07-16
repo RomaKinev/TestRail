@@ -4,7 +4,6 @@ import api_adapters.SectionAdapter;
 import api.models.sections.*;
 import io.qameta.allure.*;
 import listeners.RetryAnalyzer;
-import org.apache.logging.log4j.core.config.Order;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;

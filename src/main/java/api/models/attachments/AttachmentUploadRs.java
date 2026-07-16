@@ -9,4 +9,5 @@ public class AttachmentUploadRs {
 
     @SerializedName("attachment_id")
     private String attachmentId;
+
 }

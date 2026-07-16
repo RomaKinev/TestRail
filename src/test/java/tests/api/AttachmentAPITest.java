@@ -4,15 +4,10 @@ import api.models.attachments.*;
 import api_adapters.*;
 import io.qameta.allure.*;
 import listeners.RetryAnalyzer;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 import static org.testng.Assert.*;
 
@@ -23,28 +18,11 @@ public class AttachmentAPITest extends BaseAPITest {
     private static final String SECTION_DESCRIPTION = "API attachment tests section";
     private static final String CASE_TITLE = "API attachment test case";
     private static final String RUN_NAME = "API attachment test run";
-    private static final String ATTACHMENT_CONTENT = "TestRail API attachment test file";
+    private static final File ATTACHMENT_FILE = new File("src/test/resources/attachment.png");
 
-    private File attachment;
-    private Integer sectionId;
-    private Integer caseId;
-    private Integer runId;
-    private String attachmentId;
-
-    @BeforeClass(alwaysRun = true)
-    public void setUp() throws IOException {
-        Path attachmentPath = Files.createTempFile("testrail-api-attachment-", ".txt");
-        Files.writeString(attachmentPath, ATTACHMENT_CONTENT);
-        attachment = attachmentPath.toFile();
-
-        TestCaseRs testCase = TestCaseAdapter.createTestCaseWithSection(PROJECT_CODE, "API attachment section",
-                SECTION_DESCRIPTION, CASE_TITLE);
-        TestRunRs testRun = TestRunAdapter.createTestRunForCase(PROJECT_CODE, RUN_NAME, "API attachment test run",
-                testCase);
-        sectionId = testCase.getCreatedSectionId();
-        caseId = testCase.getId();
-        runId = testRun.getId();
-    }
+    private TestCaseRs testCase;
+    private String caseAttachmentId;
+    private String runAttachmentId;
 
     @Owner("Pavel")
     @Feature("Attachments")
@@ -54,13 +32,18 @@ public class AttachmentAPITest extends BaseAPITest {
             testName = "Verify an attachment can be added to a test case",
             description = "Verify an attachment can be added to a test case",
             groups = "api",
+            priority = 1,
             retryAnalyzer = RetryAnalyzer.class
     )
     public void addAttachmentToTestCase() {
-        AttachmentUploadRs attachmentRs = AttachmentAdapter.addAttachmentToCase(caseId, attachment);
-        attachmentId = attachmentRs.getAttachmentId();
+        assertTrue(ATTACHMENT_FILE.isFile(), "Attachment fixture was not found: " + ATTACHMENT_FILE.getPath());
+        testCase = TestCaseAdapter.createTestCaseWithSection(PROJECT_CODE, "API attachment section",
+                SECTION_DESCRIPTION, CASE_TITLE);
+        Integer caseId = testCase.getId();
+        AttachmentUploadRs attachmentRs = AttachmentAdapter.addAttachmentToCase(caseId, ATTACHMENT_FILE);
+        caseAttachmentId = attachmentRs.getAttachmentId();
 
-        assertNotNull(attachmentId, "Attachment ID was not returned after upload to test case.");
+        assertNotNull(caseAttachmentId, "Attachment ID was not returned after upload to test case.");
     }
 
     @Owner("Pavel")
@@ -71,13 +54,18 @@ public class AttachmentAPITest extends BaseAPITest {
             testName = "Verify an attachment can be added to a test run",
             description = "Verify an attachment can be added to a test run",
             groups = "api",
+            priority = 2,
             retryAnalyzer = RetryAnalyzer.class
     )
     public void addAttachmentToTestRun() {
-        AttachmentUploadRs attachmentRs = AttachmentAdapter.addAttachmentToRun(runId, attachment);
-        attachmentId = attachmentRs.getAttachmentId();
+        assertNotNull(testCase, "Test case must be created before creating a test run.");
+        TestRunRs testRun = TestRunAdapter.createTestRunForCase(PROJECT_CODE, RUN_NAME, "API attachment test run",
+                testCase);
+        Integer runId = testRun.getId();
+        AttachmentUploadRs attachmentRs = AttachmentAdapter.addAttachmentToRun(runId, ATTACHMENT_FILE);
+        runAttachmentId = attachmentRs.getAttachmentId();
 
-        assertNotNull(attachmentId, "Attachment ID was not returned after upload to test run.");
+        assertNotNull(runAttachmentId, "Attachment ID was not returned after upload to test run.");
     }
 
     @Owner("Pavel")
@@ -88,14 +76,14 @@ public class AttachmentAPITest extends BaseAPITest {
             testName = "Verify a test case attachment can be retrieved",
             description = "Verify a test case attachment can be retrieved",
             groups = "api",
+            priority = 3,
             retryAnalyzer = RetryAnalyzer.class
     )
     public void retrieveAttachmentFromTestCase() throws IOException {
-        attachmentId = AttachmentAdapter.addAttachmentToCase(caseId, attachment).getAttachmentId();
+        assertNotNull(caseAttachmentId, "Test case attachment must be created before retrieval.");
+        byte[] downloadedAttachment = AttachmentAdapter.getAttachment(caseAttachmentId);
 
-        byte[] downloadedAttachment = AttachmentAdapter.getAttachment(attachmentId);
-
-        assertEquals(downloadedAttachment, Files.readAllBytes(attachment.toPath()),
+        assertEquals(downloadedAttachment, Files.readAllBytes(ATTACHMENT_FILE.toPath()),
                 "Downloaded test case attachment content does not match the uploaded file.");
     }
 
@@ -108,14 +96,14 @@ public class AttachmentAPITest extends BaseAPITest {
             testName = "Verify a test run attachment can be retrieved",
             description = "Verify a test run attachment can be retrieved",
             groups = "api",
+            priority = 4,
             retryAnalyzer = RetryAnalyzer.class
     )
     public void retrieveAttachmentFromTestRun() throws IOException {
-        attachmentId = AttachmentAdapter.addAttachmentToRun(runId, attachment).getAttachmentId();
+        assertNotNull(runAttachmentId, "Test run attachment must be created before retrieval.");
+        byte[] downloadedAttachment = AttachmentAdapter.getAttachment(runAttachmentId);
 
-        byte[] downloadedAttachment = AttachmentAdapter.getAttachment(attachmentId);
-
-        assertEquals(downloadedAttachment, Files.readAllBytes(attachment.toPath()),
+        assertEquals(downloadedAttachment, Files.readAllBytes(ATTACHMENT_FILE.toPath()),
                 "Downloaded test run attachment content does not match the uploaded file.");
     }
 
@@ -127,18 +115,16 @@ public class AttachmentAPITest extends BaseAPITest {
             testName = "Verify a test run attachment can be deleted",
             description = "Verify a test run attachment can be deleted",
             groups = "api",
+            priority = 5,
             retryAnalyzer = RetryAnalyzer.class
     )
     public void deleteAttachmentFromTestRun() {
-        attachmentId = AttachmentAdapter.addAttachmentToRun(runId, attachment).getAttachmentId();
-        String deletedAttachmentId = attachmentId;
-
+        assertNotNull(runAttachmentId, "Test run attachment must be created before deletion.");
+        String deletedAttachmentId = runAttachmentId;
         AttachmentAdapter.deleteAttachment(deletedAttachmentId);
-        attachmentId = null;
         int statusCode = AttachmentAdapter.getAttachmentStatusCode(deletedAttachmentId);
 
-        assertTrue(statusCode == 400 || statusCode == 404,
-                "Deleted test run attachment is still retrievable. Status code: " + statusCode);
+        assertEquals(statusCode, 400, "Deleted test run attachment is still retrievable. Status code: " + statusCode);
     }
 
     @Owner("Pavel")
@@ -149,38 +135,15 @@ public class AttachmentAPITest extends BaseAPITest {
             testName = "Verify a test case attachment can be deleted",
             description = "Verify a test case attachment can be deleted",
             groups = "api",
+            priority = 6,
             retryAnalyzer = RetryAnalyzer.class
     )
     public void deleteAttachmentFromTestCase() {
-        attachmentId = AttachmentAdapter.addAttachmentToCase(caseId, attachment).getAttachmentId();
-        String deletedAttachmentId = attachmentId;
-
+        assertNotNull(caseAttachmentId, "Test case attachment must be created before deletion.");
+        String deletedAttachmentId = caseAttachmentId;
         AttachmentAdapter.deleteAttachment(deletedAttachmentId);
-        attachmentId = null;
         int statusCode = AttachmentAdapter.getAttachmentStatusCode(deletedAttachmentId);
 
-        assertTrue(statusCode == 400 || statusCode == 404,
-                "Deleted test case attachment is still retrievable. Status code: " + statusCode);
-    }
-
-    @AfterMethod(alwaysRun = true)
-    public void cleanUp() {
-        AttachmentAdapter.deleteAttachmentIfCreated(attachmentId);
-        attachmentId = null;
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void tearDown() throws IOException {
-        AttachmentAdapter.deleteAttachmentIfCreated(attachmentId);
-        attachmentId = null;
-        TestRunAdapter.deleteTestRunIfCreated(runId);
-        runId = null;
-        TestCaseAdapter.deleteTestCaseIfCreated(caseId);
-        caseId = null;
-        SectionAdapter.deleteSectionIfCreated(sectionId);
-        sectionId = null;
-        if (attachment != null) {
-            Files.deleteIfExists(attachment.toPath());
-        }
+        assertEquals(statusCode, 400, "Deleted test case attachment is still retrievable. Status code: " + statusCode);
     }
 }
