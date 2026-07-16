@@ -12,70 +12,73 @@ import static io.restassured.RestAssured.given;
 public class SectionAdapter {
 
     private static final String PATH = "/index.php?/api/v2/";
-
-
-    @Step("Создаем секцию")
+    
+    @Step("Create a section in project {projectId}")
     public static SectionRs createSection(SectionRq rq, String projectId) {
         return given()
                 .spec(spec)
                 .urlEncodingEnabled(false)
                 .pathParam("projectId", projectId)
                 .body(rq)
-                .log().all() //поудалять по проекту
+                .log().ifValidationFails()
                 .when()
                 .post(PATH + "add_section/{projectId}")
                 .then()
                 .spec(ok200)
-                .log().all() //поудалять по проекту
+                .log().ifValidationFails()
                 .extract()
                 .as(SectionRs.class, ObjectMapperType.GSON);
     }
 
+    @Step("Update section {sectionId}")
     public static SectionRs updateSection(Integer sectionId, SectionRq rq) {
         return given()
                 .spec(spec)
                 .urlEncodingEnabled(false)
                 .pathParam("sectionId", sectionId)
                 .body(rq)
-                .log().all()//поудалять по проекту
+                .log().ifValidationFails()
                 .when()
                 .post(PATH + "update_section/{sectionId}")
                 .then()
                 .spec(ok200)
-                .log().all()//поудалять по проекту
+                .log().ifValidationFails()
                 .extract()
                 .as(SectionRs.class, ObjectMapperType.GSON);
     }
 
+    @Step("Move section {sectionId}")
     public static SectionRs moveSection(Integer sectionId, MoveSectionRq rq) {
         return given()
                 .spec(spec)
                 .urlEncodingEnabled(false)
                 .pathParam("sectionId", sectionId)
                 .body(rq)
-                .log().all()//поудалять по проекту
+                .log().ifValidationFails()
                 .when()
                 .post(PATH + "move_section/{sectionId}")
                 .then()
                 .spec(ok200)
-                .log().all()//поудалять по проекту
+                .log().ifValidationFails()
                 .extract()
                 .as(SectionRs.class, ObjectMapperType.GSON);
     }
 
+    @Step("Delete section {sectionId}")
     public static void deleteSection(Integer sectionId) {
         given()
                 .spec(spec)
                 .urlEncodingEnabled(false)
                 .pathParam("sectionId", sectionId)
-                .log().all()//поудалять по проекту
+                .log().ifValidationFails()
                 .when()
                 .post(PATH + "delete_section/{sectionId}")
                 .then()
-                .spec(ok200) //поудалять по проекту
-                .log().all();
+                .spec(ok200) 
+                .log().ifValidationFails();
     }
 
+    @Step("Delete section {sectionId} if it was created")
     public static void deleteSectionIfCreated(Integer sectionId) {
         if (sectionId != null) {
             deleteSection(sectionId);

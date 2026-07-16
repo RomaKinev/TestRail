@@ -2,7 +2,8 @@ package tests.api;
 
 import api.models.attachments.*;
 import api_adapters.*;
-import io.qameta.allure.Owner;
+import io.qameta.allure.*;
+import listeners.RetryAnalyzer;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -30,7 +31,6 @@ public class AttachmentAPITest extends BaseAPITest {
     private Integer runId;
     private String attachmentId;
 
-
     @BeforeClass(alwaysRun = true)
     public void setUp() throws IOException {
         Path attachmentPath = Files.createTempFile("testrail-api-attachment-", ".txt");
@@ -47,7 +47,15 @@ public class AttachmentAPITest extends BaseAPITest {
     }
 
     @Owner("Pavel")
-    @Test(groups = {"api"})
+    @Feature("Attachments")
+    @Description("Verify an attachment can be added to a test case")
+    @Severity(SeverityLevel.NORMAL)
+    @Test(
+            testName = "Verify an attachment can be added to a test case",
+            description = "Verify an attachment can be added to a test case",
+            groups = "api",
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void addAttachmentToTestCase() {
         AttachmentUploadRs attachmentRs = AttachmentAdapter.addAttachmentToCase(caseId, attachment);
         attachmentId = attachmentRs.getAttachmentId();
@@ -56,7 +64,15 @@ public class AttachmentAPITest extends BaseAPITest {
     }
 
     @Owner("Pavel")
-    @Test(groups = {"api"})
+    @Feature("Attachments")
+    @Description("Verify an attachment can be added to a test run")
+    @Severity(SeverityLevel.NORMAL)
+    @Test(
+            testName = "Verify an attachment can be added to a test run",
+            description = "Verify an attachment can be added to a test run",
+            groups = "api",
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void addAttachmentToTestRun() {
         AttachmentUploadRs attachmentRs = AttachmentAdapter.addAttachmentToRun(runId, attachment);
         attachmentId = attachmentRs.getAttachmentId();
@@ -65,7 +81,15 @@ public class AttachmentAPITest extends BaseAPITest {
     }
 
     @Owner("Pavel")
-    @Test(groups = {"api"})
+    @Feature("Attachments")
+    @Description("Verify a test case attachment can be retrieved")
+    @Severity(SeverityLevel.NORMAL)
+    @Test(
+            testName = "Verify a test case attachment can be retrieved",
+            description = "Verify a test case attachment can be retrieved",
+            groups = "api",
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void retrieveAttachmentFromTestCase() throws IOException {
         attachmentId = AttachmentAdapter.addAttachmentToCase(caseId, attachment).getAttachmentId();
 
@@ -75,8 +99,17 @@ public class AttachmentAPITest extends BaseAPITest {
                 "Downloaded test case attachment content does not match the uploaded file.");
     }
 
+
     @Owner("Pavel")
-    @Test(groups = {"api"})
+    @Feature("Attachments")
+    @Description("Verify a test run attachment can be retrieved")
+    @Severity(SeverityLevel.NORMAL)
+    @Test(
+            testName = "Verify a test run attachment can be retrieved",
+            description = "Verify a test run attachment can be retrieved",
+            groups = "api",
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void retrieveAttachmentFromTestRun() throws IOException {
         attachmentId = AttachmentAdapter.addAttachmentToRun(runId, attachment).getAttachmentId();
 
@@ -87,7 +120,15 @@ public class AttachmentAPITest extends BaseAPITest {
     }
 
     @Owner("Pavel")
-    @Test(groups = {"api"})
+    @Feature("Attachments")
+    @Description("Verify a test run attachment can be deleted")
+    @Severity(SeverityLevel.NORMAL)
+    @Test(
+            testName = "Verify a test run attachment can be deleted",
+            description = "Verify a test run attachment can be deleted",
+            groups = "api",
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void deleteAttachmentFromTestRun() {
         attachmentId = AttachmentAdapter.addAttachmentToRun(runId, attachment).getAttachmentId();
         String deletedAttachmentId = attachmentId;
@@ -101,7 +142,15 @@ public class AttachmentAPITest extends BaseAPITest {
     }
 
     @Owner("Pavel")
-    @Test(groups = {"api"})
+    @Feature("Attachments")
+    @Description("Verify a test case attachment can be deleted")
+    @Severity(SeverityLevel.NORMAL)
+    @Test(
+            testName = "Verify a test case attachment can be deleted",
+            description = "Verify a test case attachment can be deleted",
+            groups = "api",
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void deleteAttachmentFromTestCase() {
         attachmentId = AttachmentAdapter.addAttachmentToCase(caseId, attachment).getAttachmentId();
         String deletedAttachmentId = attachmentId;

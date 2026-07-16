@@ -18,7 +18,7 @@ public class TestRunAdapter {
     private static final String PATH = "/index.php?/api/v2/";
 
 
-    @Step("Создаем тест-ран для тест-кейса")
+    @Step("Create a test run for a test case in project {projectId}")
     public static TestRunRs createTestRunForCase(String projectId, String runName, String runDescription,
                                                  TestCaseRs testCase) {
         TestRunRs testRunRs = createTestRun(TestRunRq.builder()
@@ -33,7 +33,7 @@ public class TestRunAdapter {
         return testRunRs;
     }
 
-    @Step("Создаем тест-ран")
+    @Step("Create a test run in project {projectId}")
     public static TestRunRs createTestRun(TestRunRq rq, String projectId) {
         return given()
                 .spec(spec)
@@ -50,7 +50,7 @@ public class TestRunAdapter {
                 .as(TestRunRs.class, ObjectMapperType.GSON);
     }
 
-    @Step("Удаляем тест-ран")
+    @Step("Delete test run {runId}")
     public static void deleteTestRun(Integer runId) {
         given()
                 .spec(spec)
@@ -64,6 +64,7 @@ public class TestRunAdapter {
                 .log().ifValidationFails();
     }
 
+    @Step("Delete test run {runId} if it was created")
     public static void deleteTestRunIfCreated(Integer runId) {
         if (runId != null) {
             deleteTestRun(runId);

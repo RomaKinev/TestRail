@@ -112,7 +112,6 @@ cp src/test/resources/config.properties.example \
 baseUrl=https://tms34.testrail.io
 email=your@email.com
 password=yourpassword
-apiKey=yourapikey
 ```
 
 ### 2. Запуск тестов

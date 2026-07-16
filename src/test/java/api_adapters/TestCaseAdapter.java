@@ -15,8 +15,7 @@ public class TestCaseAdapter {
 
     private static final String PATH = "/index.php?/api/v2/";
 
-
-    @Step("Создаем тест-кейс с секцией")
+    @Step("Create a test case with a section in project {projectId}")
     public static TestCaseRs createTestCaseWithSection(String projectId, String sectionName, String sectionDescription,
                                                        String caseTitle) {
         SectionRs sectionRs = SectionAdapter.createSection(SectionRq.builder()
@@ -31,7 +30,7 @@ public class TestCaseAdapter {
         return testCaseRs;
     }
 
-    @Step("Создаем тест-кейс")
+    @Step("Create a test case in section {sectionId}")
     public static TestCaseRs createTestCase(TestCaseRq rq, Integer sectionId) {
         return given()
                 .spec(spec)
@@ -48,7 +47,7 @@ public class TestCaseAdapter {
                 .as(TestCaseRs.class, ObjectMapperType.GSON);
     }
 
-    @Step("Удаляем тест-кейс")
+    @Step("Delete test case {caseId}")
     public static void deleteTestCase(Integer caseId) {
         given()
                 .spec(spec)
@@ -62,6 +61,7 @@ public class TestCaseAdapter {
                 .log().ifValidationFails();
     }
 
+    @Step("Delete test case {caseId} if it was created")
     public static void deleteTestCaseIfCreated(Integer caseId) {
         if (caseId != null) {
             deleteTestCase(caseId);

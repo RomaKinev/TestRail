@@ -8,8 +8,7 @@ import io.restassured.specification.RequestSpecification;
 
 import java.io.File;
 
-import static api_adapters.BaseAdapter.ok200;
-import static api_adapters.BaseAdapter.spec;
+import static api_adapters.BaseAdapter.*;
 import static io.restassured.RestAssured.given;
 
 
@@ -17,7 +16,7 @@ public class AttachmentAdapter {
 
     private static final String PATH = "/index.php?/api/v2/";
 
-    @Step("Добавляем вложение к тест-кейсу")
+    @Step("Add an attachment to test case {caseId}")
     public static AttachmentUploadRs addAttachmentToCase(Integer caseId, File attachment) {
         return given()
                 .spec(multipartSpec())
@@ -34,7 +33,7 @@ public class AttachmentAdapter {
                 .as(AttachmentUploadRs.class, ObjectMapperType.GSON);
     }
 
-    @Step("Добавляем вложение к тест-рану")
+    @Step("Add an attachment to test run {runId}")
     public static AttachmentUploadRs addAttachmentToRun(Integer runId, File attachment) {
         return given()
                 .spec(multipartSpec())
@@ -51,7 +50,7 @@ public class AttachmentAdapter {
                 .as(AttachmentUploadRs.class, ObjectMapperType.GSON);
     }
 
-    @Step("Получаем файл вложения")
+    @Step("Download attachment {attachmentId}")
     public static byte[] getAttachment(String attachmentId) {
         return given()
                 .spec(spec)
@@ -67,7 +66,7 @@ public class AttachmentAdapter {
                 .asByteArray();
     }
 
-    @Step("Получаем статус ответа для вложения")
+    @Step("Get the status code for attachment {attachmentId}")
     public static int getAttachmentStatusCode(String attachmentId) {
         return given()
                 .spec(spec)
@@ -80,7 +79,7 @@ public class AttachmentAdapter {
                 .statusCode();
     }
 
-    @Step("Удаляем вложение")
+    @Step("Delete attachment {attachmentId}")
     public static void deleteAttachment(String attachmentId) {
         given()
                 .spec(spec)
@@ -94,6 +93,7 @@ public class AttachmentAdapter {
                 .log().ifValidationFails();
     }
 
+    @Step("Delete attachment {attachmentId} if it was created")
     public static void deleteAttachmentIfCreated(String attachmentId) {
         if (attachmentId != null) {
             deleteAttachment(attachmentId);
