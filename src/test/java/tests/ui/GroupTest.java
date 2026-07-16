@@ -1,12 +1,10 @@
 package tests.ui;
 
 import config.TestConfig;
+import listeners.RetryAnalyzer;
 import ui.dto.Group;
 import org.aeonbits.owner.ConfigFactory;
-import io.qameta.allure.Description;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Owner;
-import io.qameta.allure.Severity;
+import io.qameta.allure.*;
 import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 
@@ -21,7 +19,13 @@ public class GroupTest extends BaseUITest {
     @Feature("Group Management")
     @Severity(SeverityLevel.NORMAL)
     @Description("Create user group")
-    @Test(priority = 1)
+    @Test(
+            testName = "Verify group can be created",
+            description = "Verify group can be created",
+            groups = "ui",
+            priority = 1,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void createGroupTest() {
         Group group = getGroup();
 
@@ -35,7 +39,13 @@ public class GroupTest extends BaseUITest {
     @Feature("Group Management")
     @Severity(SeverityLevel.NORMAL)
     @Description("Update user group")
-    @Test(priority = 2)
+    @Test(
+            testName = "Verify group can be updated",
+            description = "Verify group can be updated",
+            groups = "ui",
+            priority = 2,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void updateGroupTest() {
         Group group = getGroup();
 
@@ -49,7 +59,13 @@ public class GroupTest extends BaseUITest {
     @Feature("Group Management")
     @Severity(SeverityLevel.NORMAL)
     @Description("Delete user group")
-    @Test(priority = 3)
+    @Test(
+            testName = "Verify group can be deleted",
+            description = "Verify group can be deleted",
+            groups = "ui",
+            priority = 3,
+            retryAnalyzer = RetryAnalyzer.class
+    )
     public void deleteGroupTest() {
         Group group = getGroup();
 
