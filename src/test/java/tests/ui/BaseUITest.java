@@ -4,9 +4,8 @@ import com.codeborne.selenide.Selenide;
 import config.SelenideConfig;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import pages.*;
-import pages.ProjectsPage;
-import steps.*;
+import ui.pages.*;
+import ui.steps.*;
 
 public class BaseUITest {
 
@@ -20,6 +19,9 @@ public class BaseUITest {
     TestCaseCreatePage testCaseCreatePage;
     TestCasePage testCasePage;
     TestSuitesPage testSuitesPage;
+    TestRunPage testRunPage;
+    ReportsPage reportsPage;
+    TestRunStep testRunStep;
     MilestonePage milestonePage;
     MilestoneStep milestoneStep;
     UsersNRolesPage usersNRolesPage;
@@ -45,6 +47,9 @@ public class BaseUITest {
         testCaseCreatePage = new TestCaseCreatePage();
         testCasePage = new TestCasePage();
         testSuitesPage = new TestSuitesPage();
+        testRunPage = new TestRunPage();
+        reportsPage = new ReportsPage();
+        testRunStep = new TestRunStep(projectsPage, testSuitesPage, testRunPage, reportsPage);
         milestonePage = new MilestonePage();
         milestoneStep = new MilestoneStep(projectsPage, milestonePage, adminPage);
         usersNRolesPage = new UsersNRolesPage();

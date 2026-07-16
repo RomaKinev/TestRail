@@ -1,5 +1,6 @@
 package api.models.sections;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.*;
 
 
@@ -7,10 +8,13 @@ import lombok.*;
 @Builder
 public class SectionRq {
 
-    private Integer parent_id;
+    @SerializedName("parent_id")
+    public Integer parent_id;
 
-    private String name;
+    @SerializedName("name")
+    public String name;
 
-    private String description;
+    @SerializedName("description")
+    public String description;
 
 }
