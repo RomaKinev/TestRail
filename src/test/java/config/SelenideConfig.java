@@ -5,9 +5,11 @@ import com.codeborne.selenide.FileDownloadMode;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.aeonbits.owner.ConfigFactory;
+import org.jspecify.annotations.NonNull;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.HashMap;
+
 
 public class SelenideConfig {
 
@@ -28,17 +30,20 @@ public class SelenideConfig {
         Configuration.fileDownload = FileDownloadMode.FOLDER;
         Configuration.downloadsFolder = "target/downloads";
 
+        Configuration.browserCapabilities = getChromeOptions();
+    }
+
+    private static @NonNull ChromeOptions getChromeOptions() {
         ChromeOptions options = new ChromeOptions();
         HashMap<String, Object> chromePrefs = new HashMap<>();
         chromePrefs.put("credentials_enable_service", false);
         chromePrefs.put("profile.password_manager_enabled", false);
         options.setExperimentalOption("prefs", chromePrefs);
         options.addArguments("--incognito");
-        options.addArguments("--headless");
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--disable-infobars");
-        options.addArguments("--headless");
-        Configuration.browserCapabilities = options;
+//        options.addArguments("--headless");
+        return options;
     }
 }

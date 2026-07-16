@@ -1,21 +1,15 @@
 package ui.pages;
 
 import io.qameta.allure.Step;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import static com.codeborne.selenide.ClickOptions.usingDefaultMethod;
-import static com.codeborne.selenide.Condition.exist;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.executeJavaScript;
-import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selectors.*;
+import static com.codeborne.selenide.Selenide.*;
 
-public class ReportsPage {
 
-    private static final Logger log = LogManager.getLogger(ReportsPage.class);
+public class ReportsPage extends BasePage {
 
     public static final String REPORTS_NAV = "#navigation-reports";
     public static final String COMPARISON_FOR_CASES = "Comparison for Cases";
@@ -33,6 +27,7 @@ public class ReportsPage {
         $(REPORTS_NAV).click();
         $(byText(COMPARISON_FOR_CASES)).click();
         $(REPORT_NAME).shouldBe(visible);
+
         return this;
     }
 
@@ -40,8 +35,7 @@ public class ReportsPage {
     public ReportsPage selectSuiteAndAllRuns(String suiteName) {
         log.info("Select suite '{}' and all project runs for comparison", suiteName);
         $(SUITE_SELECT).selectOption(suiteName);
-        executeJavaScript("if(window.jQuery){jQuery(arguments[0]).trigger('change');}",
-                $(SUITE_SELECT).toWebElement());
+        triggerChange($(SUITE_SELECT));
         sleep(2000); // wait for the AJAX reload of the runs section for the selected suite
         $(ONLY_SELECTED_RUNS).click(usingDefaultMethod());
         $(byText(ADD_TEST_RUNS_LINK)).click(usingDefaultMethod());
@@ -49,6 +43,7 @@ public class ReportsPage {
         $$(RUN_CHECKBOX).forEach(cb -> cb.click(usingDefaultMethod()));
         $(ADD_RUNS_SUBMIT).click();
         sleep(1000);
+
         return this;
     }
 
@@ -56,6 +51,7 @@ public class ReportsPage {
     public ReportsPage generateReport() {
         log.info("Generate comparison report");
         $(REPORT_SUBMIT).click();
+
         return this;
     }
 
@@ -64,6 +60,7 @@ public class ReportsPage {
         log.info("Verify the comparison report is created");
         // a successful generation navigates away from the report creation form
         $(REPORT_SUBMIT).shouldNot(exist);
+
         return this;
     }
 }

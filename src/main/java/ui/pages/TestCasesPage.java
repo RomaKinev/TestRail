@@ -2,21 +2,12 @@ package ui.pages;
 
 import ui.dto.TestCase;
 import io.qameta.allure.Step;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
 
-public class TestCasesPage {
 
-    private static final Logger log = LogManager.getLogger(TestCasesPage.class);
-
-    TestCaseCreatePage testCaseCreatePage = new TestCaseCreatePage();
-    TestCasePage testCasePage = new TestCasePage();
-    ProjectsPage projectsPage = new ProjectsPage();
+public class TestCasesPage extends BasePage {
 
     public static final String TEST_CASES_TITLE = "//span[@id='sectionName-42']";
     public static final String ADD_TEST_CASE = "[data-testid='sidebarCasesAdd']";
@@ -40,6 +31,7 @@ public class TestCasesPage {
     public TestCasesPage isPageOpen() {
         log.info("Verify the test cases page is open");
         $x(TEST_CASES_TITLE).shouldBe(visible);
+
         return this;
     }
 
@@ -47,8 +39,9 @@ public class TestCasesPage {
     public TestCasePage addTestCase(TestCase testCase) {
         log.info("Add test case '{}'", testCase.getTitle());
         $(ADD_TEST_CASE).click();
-        testCaseCreatePage.isPageOpen()
+        testCaseCreatePage().isPageOpen()
                 .createTestCase(testCase);
+
         return new TestCasePage();
     }
 
@@ -57,10 +50,10 @@ public class TestCasesPage {
         String testCaseName = testCase.getTitle();
         log.info("Create and delete test case '{}' in project '{}'", testCaseName, projectName);
         $(ADD_TEST_CASE).click();
-        testCaseCreatePage.isPageOpen()
+        testCaseCreatePage().isPageOpen()
                 .createTestCase(testCase)
                 .isCaseCreated();
-        projectsPage.open()
+        projectsPage().open()
                 .openTestCasesByProject(projectName);
         $x(String.format(TEST_CASE_CHECKBOX, testCaseName)).click();
         $x(String.format(DELETE_TEST_CASE_BUTTON, testCaseName)).click();
@@ -68,6 +61,7 @@ public class TestCasesPage {
         $(DELETE_PERMANENTLY_BUTTON).click();
         $(DELETE_SECOND_WINDOW).shouldBe(visible);
         $(DELETE_CONFIRM_BUTTON).click();
+
         return this;
     }
 
@@ -75,6 +69,7 @@ public class TestCasesPage {
     public TestCasesPage isTestCaseNotVisible(String testCaseName) {
         log.info("Verify test case '{}' is not displayed", testCaseName);
         $x(String.format(TEST_CASE_NAME, testCaseName)).shouldNot(visible);
+
         return this;
     }
 
@@ -82,6 +77,7 @@ public class TestCasesPage {
     public String getFirstCaseTitle() {
         String title = $$(ANY_CASE_TITLE).first().shouldBe(visible).getText().trim();
         log.info("First test case in the list: '{}'", title);
+
         return title;
     }
 
@@ -89,6 +85,7 @@ public class TestCasesPage {
     public TestCasePage openTestCase(String testCaseName) {
         log.info("Open test case '{}'", testCaseName);
         $x(String.format(TEST_CASE_NAME, testCaseName)).click();
+
         return new TestCasePage();
     }
 
@@ -96,9 +93,10 @@ public class TestCasesPage {
     public TestCasePage editTestCase(String testCaseName, String newTestCaseTitle) {
         log.info("Edit test case '{}'", testCaseName);
         $(EDIT_TEST_CASE_BUTTON1).click();
-        testCaseCreatePage.isPageOpen()
+        testCaseCreatePage().isPageOpen()
                 .editTestCase(newTestCaseTitle)
                 .isCaseUpdated();
+
         return new TestCasePage();
     }
 
@@ -106,9 +104,10 @@ public class TestCasesPage {
     public TestCasePage changePriorityTestCase(String newPriority) {
         log.info("Change test case priority to '{}'", newPriority);
         $(EDIT_TEST_CASE_BUTTON1).click();
-        testCaseCreatePage.isPageOpen()
+        testCaseCreatePage().isPageOpen()
                 .changePriority(newPriority)
                 .isCaseUpdated();
+
         return new TestCasePage();
     }
 
@@ -116,9 +115,10 @@ public class TestCasesPage {
     public TestCasePage changeSectionTestCase(String newSection) {
         log.info("Move test case to section '{}'", newSection);
         $(EDIT_TEST_CASE_BUTTON1).click();
-        testCaseCreatePage.isPageOpen()
+        testCaseCreatePage().isPageOpen()
                 .changeSection(newSection)
                 .isCaseUpdated();
+
         return new TestCasePage();
     }
 
@@ -126,16 +126,18 @@ public class TestCasesPage {
     public TestCasesPage verifyCaseExistsInSection(String caseTitle, String sectionName) {
         log.info("Verify case '{}' is in section '{}'", caseTitle, sectionName);
         $x(String.format(CASE_IN_SECTION, sectionName, caseTitle)).shouldBe(visible);
+
         return this;
     }
 
     @Step("Change priority to a different one")
     public String changePriorityToDifferent() {
         $(EDIT_TEST_CASE_BUTTON1).click();
-        testCaseCreatePage.isPageOpen();
-        String current = testCaseCreatePage.getCurrentPriority();
+        testCaseCreatePage().isPageOpen();
+        String current = testCaseCreatePage().getCurrentPriority();
         String newPriority = current.equalsIgnoreCase("High") ? "Low" : "High";
-        testCaseCreatePage.changePriority(newPriority).isCaseUpdated();
+        testCaseCreatePage().changePriority(newPriority).isCaseUpdated();
+
         return newPriority;
     }
 }
