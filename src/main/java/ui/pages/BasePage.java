@@ -5,9 +5,10 @@ import org.apache.logging.log4j.*;
 
 import static com.codeborne.selenide.Selenide.executeJavaScript;
 
+
 public class BasePage {
 
-    public static final Logger log = LogManager.getLogger(BasePage.class);
+    protected static final Logger log = LogManager.getLogger(BasePage.class);
 
     protected static final String DASHBOARD_PATH = "/index.php?/dashboard";
     protected static final String ADMIN_PROJECTS_PATH = "/index.php?/admin/projects/overview";
@@ -39,6 +40,10 @@ public class BasePage {
 
     protected CreateProjectPage createProjectPage() {
         return new CreateProjectPage();
+    }
+
+    protected CreateMilestonePage createMilestonePage() {
+        return new CreateMilestonePage();
     }
 
     protected ProjectsPage projectsPage() {
