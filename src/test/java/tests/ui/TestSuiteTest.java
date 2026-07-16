@@ -3,17 +3,13 @@ package tests.ui;
 import ui.dto.Project;
 import ui.dto.Suite;
 import ui.dto.TestCase;
-import io.qameta.allure.Description;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Owner;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
 import static ui.dto.ProjectFactory.getProject;
 import static ui.dto.SuiteFactory.getSuite;
 import static ui.dto.TestCaseFactory.getTestCase;
-import static tests.ui.LoginTest.CONFIG;
+
 
 public class TestSuiteTest extends BaseUITest {
 

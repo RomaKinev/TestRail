@@ -1,18 +1,14 @@
 package tests.ui;
 
-import config.TestConfig;
 import listeners.RetryAnalyzer;
 import ui.dto.User;
-import org.aeonbits.owner.ConfigFactory;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
 import static ui.dto.UserFactory.getUser;
 
 
-public class UserTest extends BaseUITest {
-
-    public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
+public class UserNRolesTest extends BaseUITest {
 
     @Owner("Pavel")
     @Feature("User Management")

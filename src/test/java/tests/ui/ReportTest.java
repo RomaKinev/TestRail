@@ -1,10 +1,6 @@
 package tests.ui;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Owner;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
 import java.io.FileNotFoundException;
@@ -13,7 +9,7 @@ import static ui.dto.ProjectFactory.getProject;
 import static ui.dto.TestRunFactory.getRun;
 import static ui.dto.SuiteFactory.getSuite;
 import static ui.dto.TestCaseFactory.getTestCase;
-import static tests.ui.LoginTest.CONFIG;
+
 
 public class ReportTest extends BaseUITest {
 

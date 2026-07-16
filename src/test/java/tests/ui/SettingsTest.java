@@ -1,9 +1,7 @@
 package tests.ui;
 
-import config.TestConfig;
 import listeners.RetryAnalyzer;
 import ui.dto.User;
-import org.aeonbits.owner.ConfigFactory;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
@@ -11,8 +9,6 @@ import static ui.dto.UserFactory.getUser;
 
 
 public class SettingsTest extends BaseUITest {
-
-    public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
 
     @Owner("Pavel")
     @Feature("Settings")

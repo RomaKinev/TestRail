@@ -1,19 +1,14 @@
 package tests.ui;
 
-import config.TestConfig;
 import listeners.RetryAnalyzer;
 import ui.dto.Group;
-import org.aeonbits.owner.ConfigFactory;
 import io.qameta.allure.*;
-import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 
 import static ui.dto.GroupFactory.getGroup;
 
 
 public class GroupTest extends BaseUITest {
-
-    public static final TestConfig CONFIG = ConfigFactory.create(TestConfig.class);
 
     @Owner("Pavel")
     @Feature("Group Management")
