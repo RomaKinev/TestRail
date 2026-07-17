@@ -1,49 +1,52 @@
-#name: TestRail Automation CI
-#
-#on:
-#  push:
-#    branches: [ "master" ]
-#  pull_request:
-#    branches: [ "master" ]
-#  workflow_dispatch:
-#
-#  schedule:
-#    - cron: '0 */5 * * *'
-#
-#jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#    env:
-#      TESTRAIL_LOGIN: ${{secrets.TR_LOGIN}}
-#      TESTRAIL_PASSWORD: ${{secrets.TR_PASSWORD}}
-#    steps:
-#      - name: checkout
-#        uses: actions/checkout@v4
-#      - name: Set up JDK 17
-#        uses: actions/setup-java@v4
-#        with:
-#          java-version: '17'
-#          distribution: 'temurin'
-#          cache: maven
-#      - name: Run tests
-#        run: mvn clean test -Duser=$TR_LOGIN -Dpassword=$TR_PASSWORD
-#      - name: Get Allure history
-#        uses: actions/checkout@v2
-#        if: always()
-#        continue-on-error: true
-#        with:
-#          ref: gh-pages
-#          path: gh-pages
-#      - name: Allure Report action from marketplace
-#        uses: simple-elf/allure-report-action@master
-#        if: always()
-#        with:
-#          allure_results: target/allure-results
-#          allure_history: allure-history
-#      - name: Deploy report to Github Pages
-#        if: always()
-#        uses: peaceiris/actions-gh-pages@v2
-#        env:
-#          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          PUBLISH_BRANCH: gh-pages
-#          PUBLISH_DIR: allure-history
+name: TestRail Automation CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+  schedule:
+    - cron: '0 */3 * * *'
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    env:
+      TESTRAIL_EMAIL: ${{ secrets.TR_LOGIN }}
+      TESTRAIL_PASSWORD: ${{ secrets.TR_PASSWORD }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Run API tests
+        run: >
+          mvn clean test -Dgroups=api
+          -Demail="$TESTRAIL_EMAIL"
+          -Dpassword="$TESTRAIL_PASSWORD"
+      - name: Get Allure history
+        uses: actions/checkout@v2
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+      - name: Allure Report action from marketplace
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: target/allure-results
+          allure_history: allure-history
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
