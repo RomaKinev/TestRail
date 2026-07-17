@@ -28,5 +28,4 @@
             <AppenderRef ref="fileAppender" level="INFO"/>
         </Root>
     </Loggers>
-
 </Configuration>
