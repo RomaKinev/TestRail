@@ -1,25 +1,17 @@
 package ui.pages;
 
 import io.qameta.allure.Step;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
 import static com.codeborne.selenide.ClickOptions.usingDefaultMethod;
-import static com.codeborne.selenide.Condition.exist;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.executeJavaScript;
-import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.Selenide.*;
 
-public class TestRunPage {
 
-    private static final Logger log = LogManager.getLogger(TestRunPage.class);
+public class TestRunPage extends BasePage {
 
     public static final String TEST_TITLE_LINK = "a[href*='tests/view']:not(.link-noline)";
     public static final String ADD_RESULT_BUTTON = "#sidebar-tests-addresult";
@@ -56,6 +48,7 @@ public class TestRunPage {
     public TestRunPage openFirstTest() {
         log.info("Open the first test in the run");
         $(TEST_TITLE_LINK).click();
+
         return this;
     }
 
@@ -65,11 +58,11 @@ public class TestRunPage {
         $(ADD_RESULT_BUTTON).click();
         sleep(1000);
         $(RESULT_STATUS_SELECT).selectOption(status);
-        executeJavaScript("if(window.jQuery){jQuery(arguments[0]).trigger('change');}",
-                $(RESULT_STATUS_SELECT).toWebElement());
+        triggerChange($(RESULT_STATUS_SELECT));
         $(RESULT_COMMENT).click();
         $(RESULT_COMMENT).sendKeys(comment);
         $(RESULT_SUBMIT).click();
+
         return this;
     }
 
@@ -79,8 +72,7 @@ public class TestRunPage {
         $(ADD_RESULT_BUTTON).click();
         sleep(1000);
         $(RESULT_STATUS_SELECT).selectOption(status);
-        executeJavaScript("if(window.jQuery){jQuery(arguments[0]).trigger('change');}",
-                $(RESULT_STATUS_SELECT).toWebElement());
+        triggerChange($(RESULT_STATUS_SELECT));
         $(RESULT_COMMENT).click();
         $(RESULT_COMMENT).sendKeys(comment);
         // the '+' is covered by the zone text — click directly via JS so Dropzone creates the input
@@ -88,6 +80,7 @@ public class TestRunPage {
         $(FILE_INPUT).uploadFile(file);
         sleep(1000);
         $(RESULT_SUBMIT).click();
+
         return this;
     }
 
@@ -95,6 +88,7 @@ public class TestRunPage {
     public TestRunPage isResultAdded(String status) {
         log.info("Verify result '{}' is saved", status);
         $(RESULT_STATUS_LABEL).shouldBe(visible).shouldHave(text(status));
+
         return this;
     }
 
@@ -102,6 +96,7 @@ public class TestRunPage {
     public TestRunPage backToRun() {
         log.info("Go back to the run page");
         $(BACK_TO_RUN).click();
+
         return this;
     }
 
@@ -109,6 +104,7 @@ public class TestRunPage {
     public TestRunPage hasStatistic(String status, int count) {
         log.info("Verify run statistics: {} '{}'", count, status);
         $$(STAT_LEGEND).findBy(text(count + " " + status)).shouldBe(visible);
+
         return this;
     }
 
@@ -118,6 +114,7 @@ public class TestRunPage {
         $(EXPORT_DROPDOWN).click();
         $$(EXPORT_MENU_LINK).findBy(text(EXPORT_EXCEL_TEXT)).click();
         $(EXPORT_SUBMIT).shouldBe(visible);
+
         return $(EXPORT_SUBMIT).download();
     }
 
@@ -128,6 +125,7 @@ public class TestRunPage {
         $(STATUS_FILTER_EXPAND).click(usingDefaultMethod());
         $(STATUS_FILTER_SELECT).selectOption(status);
         $(FILTER_APPLY).click(usingDefaultMethod());
+
         return this;
     }
 
@@ -135,6 +133,7 @@ public class TestRunPage {
     public TestRunPage isTestVisible(String title) {
         log.info("Verify test '{}' is visible", title);
         $(byText(title)).shouldBe(visible);
+
         return this;
     }
 
@@ -142,6 +141,7 @@ public class TestRunPage {
     public TestRunPage isTestHidden(String title) {
         log.info("Verify test '{}' is hidden by the filter", title);
         $(byText(title)).shouldNot(exist);
+
         return this;
     }
 
@@ -151,6 +151,7 @@ public class TestRunPage {
         $$(TOOLBAR_BUTTON).findBy(text(CLOSE_RUN_TEXT)).click();
         $(CONFIRM_DIALOG).shouldBe(visible);
         $(CONFIRM_YES).click();
+
         return this;
     }
 
@@ -158,6 +159,7 @@ public class TestRunPage {
     public TestRunPage isRunClosed() {
         log.info("Verify the run is closed");
         $$(TOOLBAR_BUTTON).findBy(text(CLOSE_RUN_TEXT)).shouldNot(exist);
+
         return this;
     }
 }

@@ -11,24 +11,19 @@ import static com.codeborne.selenide.Selenide.*;
 import static ui.dict.Elements.*;
 
 
-public class GroupsPage {
-
-    private static final Logger log = LogManager.getLogger(GroupsPage.class);
+public class GroupsPage extends BasePage {
 
     private static final String GROUPS_HEADER_BUTTON = "[id=navigation-user-groups]";
     private static final String ADD_GROUP_BUTTON = "[data-testid=groupsTabAddButton]";
     private static final String GROUP_TITLE_INPUT_FIELD = "[data-testid=addEditGroupFormName]";
     private static final String CREATE_GROUP_BUTTON = "[data-testid=addEditGroupFormSaveButton]";
-    private static final String COLUMN_GROUP_TEXT_VALUE = "//span[@class='name' and text()='%s']";
     private static final String DELETE_GROUP_BUTTON = "//span[text()='%s']/ancestor::tr//div[@data-testid='groupsTabDeleteIcon']";
-    private static final String DELETE_GROUP_CHECKBOX = "//div[@id='deleteDialog']//input[@data-testid='deleteCheckBoxTestId']";
-    private static final String DELETE_GROUP_OK_BUTTON = "[data-testid=caseFieldsTabDeleteDialogButtonOk]";
 
 
     @Step("Add a new user group")
     public GroupsPage addGroup(Group group) {
         log.info("Create a new user group '{}'", group.getTitle());
-        Selenide.open("/index.php?/admin/users/overview");
+        Selenide.open(ADMIN_USERS_PATH);
         $(GROUPS_HEADER_BUTTON).shouldBe(visible).click();
         $(ADD_GROUP_BUTTON).shouldBe(visible).click();
         sleep(200);
@@ -36,7 +31,7 @@ public class GroupsPage {
         $(CREATE_GROUP_BUTTON).shouldBe(visible).click();
         sleep(200);
         $(byText(SUCCESSFULLY_ADDED_THE_NEW_USER_GROUP)).shouldBe(visible);
-        $x(String.format(COLUMN_GROUP_TEXT_VALUE, group.getTitle())).shouldBe(visible);
+        $x(String.format(NAMED_ITEM_TEXT, group.getTitle())).shouldBe(visible);
 
         return this;
     }
@@ -46,14 +41,14 @@ public class GroupsPage {
         String updatedGroupTitle = group.getTitle() + "_updated";
         log.info("Update user group '{}'", group.getTitle());
         sleep(200);
-        $x(String.format(COLUMN_GROUP_TEXT_VALUE, group.getTitle())).shouldBe(visible).click();
+        $x(String.format(NAMED_ITEM_TEXT, group.getTitle())).shouldBe(visible).click();
         $(GROUP_TITLE_INPUT_FIELD).shouldBe(visible).clear();
         sleep(200);
         $(GROUP_TITLE_INPUT_FIELD).shouldBe(visible).setValue(updatedGroupTitle);
         $(CREATE_GROUP_BUTTON).shouldBe(visible).click();
         sleep(200);
         $(byText(SUCCESSFULLY_UPDATED_THE_USER_GROUP)).shouldBe(visible);
-        $x(String.format(COLUMN_GROUP_TEXT_VALUE, updatedGroupTitle)).shouldBe(visible);
+        $x(String.format(NAMED_ITEM_TEXT, updatedGroupTitle)).shouldBe(visible);
 
         return this;
     }
@@ -65,12 +60,12 @@ public class GroupsPage {
         sleep(200);
         $x(String.format(DELETE_GROUP_BUTTON, group.getTitle())).shouldBe(visible).click();
         sleep(200);
-        $x(DELETE_GROUP_CHECKBOX).shouldBe(visible).click();
+        $x(DELETE_DIALOG_CHECKBOX_INPUT).shouldBe(visible).click();
         sleep(200);
-        $(DELETE_GROUP_OK_BUTTON).shouldBe(visible).click();
+        $(DELETE_CONFIRMATION_BUTTON).shouldBe(visible).click();
         sleep(200);
         $(byText(SUCCESSFULLY_DELETED_THE_USER_GROUP)).shouldBe(visible);
-        $x(String.format(COLUMN_GROUP_TEXT_VALUE, group.getTitle())).shouldNotBe(visible);
+        $x(String.format(NAMED_ITEM_TEXT, group.getTitle())).shouldNotBe(visible);
 
         return this;
     }

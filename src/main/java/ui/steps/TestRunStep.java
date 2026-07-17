@@ -1,17 +1,12 @@
 package ui.steps;
 
-import ui.dto.Project;
-import ui.dto.TestRun;
-import ui.dto.Suite;
-import ui.dto.TestCase;
-import lombok.extern.log4j.Log4j2;
-import ui.pages.ProjectsPage;
-import ui.pages.ReportsPage;
-import ui.pages.TestRunPage;
-import ui.pages.TestSuitesPage;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import ui.dto.*;
+import lombok.extern.log4j.Log4j2;
+import ui.pages.*;
+
+import java.io.*;
+
 
 @Log4j2
 public class TestRunStep {
@@ -22,7 +17,7 @@ public class TestRunStep {
     ReportsPage reportsPage;
 
     public TestRunStep(ProjectsPage projectsPage, TestSuitesPage testSuitesPage,
-                   TestRunPage testRunPage, ReportsPage reportsPage) {
+                       TestRunPage testRunPage, ReportsPage reportsPage) {
         this.projectsPage = projectsPage;
         this.testSuitesPage = testSuitesPage;
         this.testRunPage = testRunPage;

@@ -2,19 +2,15 @@ package ui.pages;
 
 import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Step;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.*;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.Selenide.*;
 import static ui.dict.Elements.LOGIN_PAGE;
 
-public class LoginPage {
 
-    private static final Logger log = LogManager.getLogger(LoginPage.class);
+public class LoginPage extends BasePage {
 
     public final String LOGIN = "[data-testid='loginIdName']";
     public final String PASSWORD = "[data-testid='loginPasswordFormDialog']";
@@ -25,6 +21,7 @@ public class LoginPage {
     public LoginPage isPageOpen() {
         log.info("Verify the login page is open");
         $(byText(LOGIN_PAGE)).shouldBe(visible);
+
         return this;
     }
 
@@ -32,6 +29,7 @@ public class LoginPage {
     public LoginPage open() {
         log.info("Open the login page");
         Selenide.open("/index.php?/auth/login/");
+
         return this;
     }
 
@@ -42,6 +40,7 @@ public class LoginPage {
         $(LOGIN).setValue(login);
         $(PASSWORD).setValue(password);
         $(LOG_IN_BUTTON).click();
+
         return new ProjectsPage();
     }
 
@@ -51,6 +50,7 @@ public class LoginPage {
         $(LOGIN).setValue(login);
         $(PASSWORD).setValue(password);
         $(LOG_IN_BUTTON).click();
+
         return this;
     }
 
@@ -58,6 +58,7 @@ public class LoginPage {
     public LoginPage shouldShowError(String expectedText) {
         log.info("Verify error message: '{}'", expectedText);
         $(ERROR_MESSAGE).shouldBe(visible).shouldHave(text(expectedText));
+
         return this;
     }
 }

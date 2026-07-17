@@ -6,43 +6,21 @@ import com.codeborne.selenide.SelenideElement;
 import ui.dto.Milestone;
 import ui.dto.Project;
 import io.qameta.allure.Step;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import static com.codeborne.selenide.Condition.exactText;
-import static com.codeborne.selenide.Condition.exist;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
+
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Selenide.*;
 
 
-public class MilestonePage {
+public class MilestonePage extends BasePage {
 
-    private static final Logger log = LogManager.getLogger(MilestonePage.class);
-
-    CreateProjectPage createProjectPage = new CreateProjectPage();
-    CreateMilestonePage createMilestonePage = new CreateMilestonePage();
-
-    public final String ADD_PROJECT_BUTTON = "[data-testid='sidebarProjectsAddButton']";
-    public static final String PROJECT_NAME_INPUT = "[data-testid='addProjectNameInput']";
-    public final String PROJECT_DESCRIPTION_INPUT = "[data-testid='addEditProjectAnnouncement'] .fr-element[contenteditable='true']";
-    public static final String CREATE_PROJECT_BUTTON = "[data-testid='addEditProjectAddButton']";
-    public final String PROJECT_NAME_IN_TABLE = "//tr[.//a[normalize-space(text())='%s']]";
-    public static final String DELETE_PROJECT_BUTTON =
-            "//tr[.//a[normalize-space(text())='%s']]" +
-                    "//div[@data-testid='projectDeleteButton']";
-    public final String DELETE_PROJECT_BUTTON_OK = "[data-testid='caseFieldsTabDeleteDialogButtonOk']";
-    public final String DELETE_CHECKBOX_CONFIRM = "[data-testid='caseFieldsTabDeleteDialogCheckbox'] label";
     public static final String ADD_MILESTONE_BUTTON = "[data-testid='navigationMilestonesAdd']";
     public static final String MILESTONE_TITLE_INPUT = "[data-testid='addEditMilestoneName']";
-    public final String MILESTONE_DESCRIPTION_INPUT = "[data-testid='editSectionDescription'] .fr-element[contenteditable='true']";
     public static final String CREATE_MILESTONE_BUTTON = "[data-testid='milestoneButtonOk']";
     public static final String MILESTONE_TITLE_FIELD_ON_MILESTONES_PAGE = "//div[contains(@class, 'flex-milestones-row') and .//text()='%s']";
-    public static final String DELETE_MILESTONE_BUTTON_OK = "[data-testid='caseFieldsTabDeleteDialogButtonOk']";
     public static final String MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE = "//div['completed']//a[text()='%s']";
     public static final String EDIT_MILESTONE_BUTTON = ".button-edit";
-    public static final String MILESTONE_PAGE_TITLE_HEADER = "[data-testid='testCaseContentHeaderTitle']";
     public static final String COMPLETE_MILESTONE_BUTTON = "[data-testid='addEditMilestoneIsCompleted']";
     public static final String MILESTONE_COMPLETED_MESSAGE = "[data-testid='messageHelp']";
     public static final String STATUS_AND_ACTIVITY_PAGE_STATS_TEXT = ".chart-legend-description";
@@ -56,7 +34,7 @@ public class MilestonePage {
     @Step("Open the projects dashboard")
     public MilestonePage openDashboard() {
         log.info("Open the projects dashboard");
-        Selenide.open("/index.php?/dashboard/");
+        Selenide.open(DASHBOARD_PATH);
 
         return this;
     }
@@ -65,11 +43,11 @@ public class MilestonePage {
     public MilestonePage createProjectForMilestone(Project project) {
         log.info("Create project '{}'", project.getName());
         $(ADD_PROJECT_BUTTON).shouldBe(visible).click();
-        createProjectPage.isPageOpen();
-        sleep(100);
+        createProjectPage().isPageOpen();
+        sleep(200);
         $(PROJECT_NAME_INPUT).setValue(project.getName());
-        $x(PROJECT_DESCRIPTION_INPUT).click();
-        $x(PROJECT_DESCRIPTION_INPUT).sendKeys(project.getDescription());
+        $(PROJECT_DESCRIPTION_INPUT).shouldBe(visible).click();
+        $(PROJECT_DESCRIPTION_INPUT).shouldBe(visible).setValue(project.getDescription());
         $(CREATE_PROJECT_BUTTON).click();
 
         return this;
@@ -78,14 +56,14 @@ public class MilestonePage {
     @Step("Create milestone '{milestone.title}'")
     public MilestonePage createMilestone(Project project, Milestone milestone) {
         log.info("Open the menu of the pre-created project '{}'", project.getName());
-        Selenide.open("/index.php?/dashboard");
+        Selenide.open(DASHBOARD_PATH);
         $(projectMilestonesButton(project)).click();
         log.info("Create milestone '{}'", milestone.getTitle());
         $(ADD_MILESTONE_BUTTON).click();
-        createMilestonePage.isPageOpen();
-        sleep(100);
+        createMilestonePage().isPageOpen();
+        sleep(200);
         $(MILESTONE_TITLE_INPUT).setValue(milestone.getTitle());
-        $(MILESTONE_DESCRIPTION_INPUT).sendKeys(milestone.getDescription());
+        $(DESCRIPTION_EDITOR).sendKeys(milestone.getDescription());
         $(CREATE_MILESTONE_BUTTON).click();
 
         return this;
@@ -94,10 +72,11 @@ public class MilestonePage {
     @Step("Delete project '{0}'")
     public MilestonePage deleteProject(Project project) {
         log.info("Delete project '{}'", project.getName());
-        Selenide.open("/index.php?/admin/projects/overview");
-        $x((String.format(DELETE_PROJECT_BUTTON, project.getName()))).click();
-        $(DELETE_CHECKBOX_CONFIRM).click();
-        $(DELETE_PROJECT_BUTTON_OK).click();
+        Selenide.open(ADMIN_PROJECTS_PATH);
+        sleep(200);
+        $x((String.format(PROJECT_DELETE_BUTTON, project.getName()))).click();
+        $(DELETE_CONFIRMATION_CHECKBOX).click();
+        $(DELETE_CONFIRMATION_BUTTON).click();
 
         return this;
     }
@@ -105,10 +84,11 @@ public class MilestonePage {
     @Step("Delete milestone '{milestone.title}' in project '{project.name}'")
     public MilestonePage deleteMilestone(Project project, Milestone milestone) {
         log.info("Delete milestone {} in project {}", project.getName(), milestone.getTitle());
-        Selenide.open("/index.php?/dashboard");
+        Selenide.open(DASHBOARD_PATH);
+        sleep(200);
         $(projectMilestonesButton(project)).click();
         $(deleteMilestoneButton(milestone)).click();
-        $(DELETE_MILESTONE_BUTTON_OK).click();
+        $(DELETE_CONFIRMATION_BUTTON).click();
 
         return this;
     }
@@ -116,8 +96,9 @@ public class MilestonePage {
     @Step("Verify project '{0}' is deleted")
     public MilestonePage isProjectDeleted(Project project) {
         log.info("Verify project '{}' is deleted", project.getName());
-        Selenide.open("/index.php?/admin/projects/overview");
-        $x((String.format(PROJECT_NAME_IN_TABLE, project.getName()))).shouldNot(exist);
+        sleep(200);
+        Selenide.open(ADMIN_PROJECTS_PATH);
+        $x((String.format(PROJECT_ROW, project.getName()))).shouldNot(exist);
 
         return this;
     }
@@ -125,7 +106,8 @@ public class MilestonePage {
     @Step("Verify milestone '{0}' was deleted")
     public MilestonePage isMilestoneDeleted(Project project, Milestone milestone) {
         log.info("Verify milestone '{}' was deleted", milestone.getTitle());
-        Selenide.open("/index.php?/dashboard");
+        Selenide.open(DASHBOARD_PATH);
+        sleep(200);
         $(projectMilestonesButton(project)).click();
         $x((String.format(MILESTONE_TITLE_FIELD_ON_MILESTONES_PAGE, milestone.getTitle()))).shouldNotBe(exist);
 
@@ -136,10 +118,12 @@ public class MilestonePage {
     public MilestonePage updateMilestone(Project project, Milestone milestone) {
         String updatedTitle = milestone.getTitle() + "_updated";
         log.info("Update milestone {} in project {}", project.getName(), milestone.getTitle());
-        Selenide.open("/index.php?/dashboard");
+        Selenide.open(DASHBOARD_PATH);
+        sleep(200);
         $(projectMilestonesButton(project)).click();
         $x(String.format(MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE, milestone.getTitle())).click();
-        $(MILESTONE_PAGE_TITLE_HEADER).shouldBe(visible).shouldHave(text(milestone.getTitle()));
+        sleep(200);
+        $(CONTENT_HEADER_TITLE).shouldBe(visible).shouldHave(text(milestone.getTitle()));
         $(EDIT_MILESTONE_BUTTON).shouldBe(visible);
         $(EDIT_MILESTONE_BUTTON).click();
         sleep(200);
@@ -153,10 +137,11 @@ public class MilestonePage {
     public MilestonePage isMileStoneUpdated(Project project, Milestone milestone) {
         String updatedTitle = milestone.getTitle() + "_updated";
         log.info("Verify milestone '{}' was updated", milestone.getTitle());
-        Selenide.open("/index.php?/dashboard");
+        Selenide.open(DASHBOARD_PATH);
+        sleep(200);
         $(projectMilestonesButton(project)).click();
         $x(String.format(MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE, updatedTitle)).click();
-        $(MILESTONE_PAGE_TITLE_HEADER).shouldHave(exactText(updatedTitle));
+        $(CONTENT_HEADER_TITLE).shouldHave(exactText(updatedTitle));
 
         return this;
     }
@@ -164,12 +149,12 @@ public class MilestonePage {
     @Step("Complete milestone '{milestone.title}' in project '{project.name}'")
     public MilestonePage completeMilestone(Project project, Milestone milestone) {
         log.info("Complete milestone {} in project {}", project.getName(), milestone.getTitle());
-        Selenide.open("/index.php?/dashboard");
+        Selenide.open(DASHBOARD_PATH);
         $(projectMilestonesButton(project)).click();
         $x(String.format(MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE, milestone.getTitle())).click();
-        sleep(100);
+        sleep(200);
         $(EDIT_MILESTONE_BUTTON).click();
-        sleep(100);
+        sleep(200);
         $(COMPLETE_MILESTONE_BUTTON).click();
         $(CREATE_MILESTONE_BUTTON).click();
 
@@ -179,7 +164,8 @@ public class MilestonePage {
     @Step("Verify milestone '{0}' was completed")
     public MilestonePage isMilestoneCompleted(Project project, Milestone milestone) {
         log.info("Verify milestone '{}' was completed", milestone.getTitle());
-        Selenide.open("/index.php?/dashboard");
+        Selenide.open(DASHBOARD_PATH);
+        sleep(200);
         $(projectMilestonesButton(project)).click();
         $x(String.format(MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE, milestone.getTitle())).click();
         $(MILESTONE_COMPLETED_MESSAGE).shouldHave(exactText("This milestone is completed. You can also close test runs & plans in this milestone to archive them permanently."));
@@ -190,7 +176,8 @@ public class MilestonePage {
     @Step("Verify milestone '{0}' data on the Status page")
     public MilestonePage checkMilestoneStatsOnStatusPage(Project project, Milestone milestone) {
         log.info("Verify milestone '{}' stats on the Status page ", milestone.getTitle());
-        Selenide.open("/index.php?/dashboard");
+        Selenide.open(DASHBOARD_PATH);
+        sleep(200);
         $(projectMilestonesButton(project)).click();
         $x(String.format(MILESTONE_TITLE_BUTTON_ON_MILESTONES_PAGE, milestone.getTitle())).click();
         ElementsCollection statusPageStats = $$(STATUS_AND_ACTIVITY_PAGE_STATS_TEXT).shouldHave(sizeGreaterThan(0));
@@ -206,6 +193,7 @@ public class MilestonePage {
     public MilestonePage checkMilestoneStatsOnActivityPage(Milestone milestone) {
         log.info("Verify milestone '{}' stats on the Activity page ", milestone.getTitle());
         $(ACTIVITY_SIDE_BAR_BUTTON).click();
+        sleep(200);
         ElementsCollection activityPageStats = $$(STATUS_AND_ACTIVITY_PAGE_STATS_TEXT).shouldHave(sizeGreaterThan(0));
         for (SelenideElement activityPageStat : activityPageStats) {
             activityPageStat.shouldHave(text("0% set to"));
@@ -218,6 +206,7 @@ public class MilestonePage {
     public MilestonePage checkMilestoneStatsOnProgressPage(Milestone milestone) {
         log.info("Verify milestone '{}' stats on the Progress page ", milestone.getTitle());
         $(PROGRESS_SIDE_BAR_BUTTON).click();
+        sleep(200);
         $(ERROR_MESSAGE).shouldHave(text("No test runs available for displaying the progress of this milestone."));
 
         return this;
@@ -227,6 +216,7 @@ public class MilestonePage {
     public MilestonePage checkMilestoneStatsOnDefectsPage(Milestone milestone) {
         log.info("Verify milestone '{}' stats on the Defects page ", milestone.getTitle());
         $(DEFECTS_SIDE_BAR_BUTTON).click();
+        sleep(200);
         $(ERROR_MESSAGE).shouldHave(text("No test runs available for displaying the defects of this milestone."));
 
         return this;
