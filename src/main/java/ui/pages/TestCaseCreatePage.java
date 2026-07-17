@@ -12,6 +12,8 @@ public class TestCaseCreatePage extends BasePage {
     public final String TEST_CASE_INPUT_TITLE = "[data-testid='addEditCaseTitle']";
     public final String TEST_CASE_DROP_DOWN_SECTION = "[data-testid='editCaseSectionId']";
     public final String TEST_CASE_DROP_DOWN_PRIORITY = "[data-testid='editCasePriorityId']";
+    public final String TEST_CASE_PRECONDITIONS =
+            "#custom_preconds_display .fr-element[contenteditable='true']";
     public final String TEST_CASE_ADD_BUTTON = "[id='accept']";
 
     @Step("Verify the test case creation form is open")
@@ -57,6 +59,16 @@ public class TestCaseCreatePage extends BasePage {
         log.info("Change test case section to '{}'", newSection);
         $(TEST_CASE_DROP_DOWN_SECTION).selectOption(newSection);
         triggerChange($(TEST_CASE_DROP_DOWN_SECTION));
+        $(TEST_CASE_ADD_BUTTON).click();
+
+        return new TestCasePage();
+    }
+
+    @Step("Fill the custom field 'Preconditions' with '{0}'")
+    public TestCasePage fillCustomField(String value) {
+        log.info("Fill the custom field 'Preconditions' with '{}'", value);
+        $(TEST_CASE_PRECONDITIONS).shouldBe(visible).click();
+        $(TEST_CASE_PRECONDITIONS).sendKeys(value);
         $(TEST_CASE_ADD_BUTTON).click();
 
         return new TestCasePage();
