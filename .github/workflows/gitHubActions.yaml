@@ -10,10 +10,14 @@ on:
   schedule:
     - cron: '0 */3 * * *'
 
+permissions:
+  contents: write
+
 jobs:
   api-tests:
     runs-on: ubuntu-latest
     env:
+      TESTRAIL_BASE_URL: https://supertester.testrail.io
       TESTRAIL_EMAIL: ${{ secrets.TR_LOGIN }}
       TESTRAIL_PASSWORD: ${{ secrets.TR_PASSWORD }}
     steps:
@@ -28,6 +32,7 @@ jobs:
       - name: Run API tests
         run: >
           mvn clean test -Dgroups=api
+          -DbaseUrl="$TESTRAIL_BASE_URL"
           -Demail="$TESTRAIL_EMAIL"
           -Dpassword="$TESTRAIL_PASSWORD"
       - name: Get Allure history
