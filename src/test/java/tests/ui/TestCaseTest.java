@@ -51,9 +51,9 @@ public class TestCaseTest extends BaseUITest {
         projectsPage.isPageOpen()
                 .openTestCasesByProject("Test")
                 .isPageOpen();
-        testCasesPage.isPageOpen()
-                .openTestCase("case")
-                .isCaseOpen("case");
+        String caseTitle = testCasesPage.isPageOpen().getFirstCaseTitle();
+        testCasesPage.openTestCase(caseTitle)
+                .isCaseOpen(caseTitle);
     }
 
     @Owner("Roma")
@@ -108,15 +108,31 @@ public class TestCaseTest extends BaseUITest {
     @Owner("Roma")
     @Feature("Test Cases")
     @Severity(SeverityLevel.NORMAL)
-    @Description("Priority change is reflected in case history")
-    @Test(description = "Priority change is reflected in case history", groups = {"ui"})
-    public void priorityChangeInHistoryTest() {
-        String caseTitle = "case";
+    @Description("Fill a custom field (Preconditions) of a test case")
+    @Test(description = "Fill a custom field of a test case", groups = {"ui"})
+    public void fillCustomFieldTest() {
+        String preconditions = "Autotest precondition";
 
         loginStep.auth(CONFIG.email(), CONFIG.password());
         projectsPage.isPageOpen()
                 .openTestCasesByProject("Test")
                 .isPageOpen();
+        String caseTitle = testCasesPage.getFirstCaseTitle();
+        testCasesPage.openTestCase(caseTitle);
+        testCasesPage.fillCustomFieldTestCase(preconditions);
+    }
+
+    @Owner("Roma")
+    @Feature("Test Cases")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Priority change is reflected in case history")
+    @Test(description = "Priority change is reflected in case history", groups = {"ui"})
+    public void priorityChangeInHistoryTest() {
+        loginStep.auth(CONFIG.email(), CONFIG.password());
+        projectsPage.isPageOpen()
+                .openTestCasesByProject("Test")
+                .isPageOpen();
+        String caseTitle = testCasesPage.getFirstCaseTitle();
         testCasesPage.openTestCase(caseTitle);
         String newPriority = testCasesPage.changePriorityToDifferent();
         testCasePage.openHistory()

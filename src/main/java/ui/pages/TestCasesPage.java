@@ -3,13 +3,13 @@ package ui.pages;
 import ui.dto.TestCase;
 import io.qameta.allure.Step;
 
+import static com.codeborne.selenide.ClickOptions.usingDefaultMethod;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 
 
 public class TestCasesPage extends BasePage {
 
-    public static final String TEST_CASES_TITLE = "//span[@id='sectionName-42']";
     public static final String ADD_TEST_CASE = "[data-testid='sidebarCasesAdd']";
     public static final String TEST_CASE_NAME = "//span[text()='%s']";
     public static final String TEST_CASE_CHECKBOX = "//span[text()='%s']/ancestor::tr//input[@type='checkbox']";
@@ -30,7 +30,7 @@ public class TestCasesPage extends BasePage {
     @Step("Verify the test cases page is open")
     public TestCasesPage isPageOpen() {
         log.info("Verify the test cases page is open");
-        $x(TEST_CASES_TITLE).shouldBe(visible);
+        $(ADD_TEST_CASE).shouldBe(visible);
 
         return this;
     }
@@ -84,7 +84,7 @@ public class TestCasesPage extends BasePage {
     @Step("Open test case '{0}'")
     public TestCasePage openTestCase(String testCaseName) {
         log.info("Open test case '{}'", testCaseName);
-        $x(String.format(TEST_CASE_NAME, testCaseName)).click();
+        $x(String.format(TEST_CASE_NAME, testCaseName)).click(usingDefaultMethod());
 
         return new TestCasePage();
     }
@@ -106,6 +106,17 @@ public class TestCasesPage extends BasePage {
         $(EDIT_TEST_CASE_BUTTON1).click();
         testCaseCreatePage().isPageOpen()
                 .changePriority(newPriority)
+                .isCaseUpdated();
+
+        return new TestCasePage();
+    }
+
+    @Step("Fill the custom field of the test case")
+    public TestCasePage fillCustomFieldTestCase(String value) {
+        log.info("Fill the custom field with '{}'", value);
+        $(EDIT_TEST_CASE_BUTTON1).click();
+        testCaseCreatePage().isPageOpen()
+                .fillCustomField(value)
                 .isCaseUpdated();
 
         return new TestCasePage();

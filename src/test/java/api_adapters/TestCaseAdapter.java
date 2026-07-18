@@ -1,6 +1,7 @@
 package api_adapters;
 
 import api.models.attachments.*;
+import api.models.cases.TestCasesRs;
 import api.models.sections.*;
 import io.qameta.allure.Step;
 import io.restassured.mapper.ObjectMapperType;
@@ -36,6 +37,39 @@ public class TestCaseAdapter {
                 .log().ifValidationFails()
                 .when()
                 .post(PATH + "add_case/{sectionId}")
+                .then()
+                .spec(ok200)
+                .log().ifValidationFails()
+                .extract()
+                .as(TestCaseRs.class, ObjectMapperType.GSON);
+    }
+
+    @Step("Get test cases of project {projectId}")
+    public static TestCasesRs getCases(String projectId) {
+        return given()
+                .spec(spec)
+                .urlEncodingEnabled(false)
+                .pathParam("projectId", projectId)
+                .log().ifValidationFails()
+                .when()
+                .get(PATH + "get_cases/{projectId}")
+                .then()
+                .spec(ok200)
+                .log().ifValidationFails()
+                .extract()
+                .as(TestCasesRs.class, ObjectMapperType.GSON);
+    }
+
+    @Step("Update test case {caseId}")
+    public static TestCaseRs updateCase(Integer caseId, TestCaseRq rq) {
+        return given()
+                .spec(spec)
+                .urlEncodingEnabled(false)
+                .pathParam("caseId", caseId)
+                .body(rq, ObjectMapperType.GSON)
+                .log().ifValidationFails()
+                .when()
+                .post(PATH + "update_case/{caseId}")
                 .then()
                 .spec(ok200)
                 .log().ifValidationFails()

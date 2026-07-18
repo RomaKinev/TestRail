@@ -25,7 +25,6 @@
         <snakeyaml.version>2.5</snakeyaml.version>
         <rest-assured.version>6.0.0</rest-assured.version>
         <gson.version>2.14.0</gson.version>
-        <json-schema-validator.version>6.0.0</json-schema-validator.version>
         <allure-rest-assured.version>2.35.3</allure-rest-assured.version>
         <jackson.version>2.18.9</jackson.version>
         <rhino.version>1.8.1</rhino.version>
@@ -117,14 +116,7 @@
             <version>${gson.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Source: https://mvnrepository.com/artifact/io.rest-assured/json-schema-validator -->
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>json-schema-validator</artifactId>
-            <version>${json-schema-validator.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- Override vulnerable transitives of json-schema-validator. Keep Jackson modules aligned. -->
+        <!-- Pin Jackson (RestAssured's default JSON object mapper) to a non-vulnerable, aligned version. -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
