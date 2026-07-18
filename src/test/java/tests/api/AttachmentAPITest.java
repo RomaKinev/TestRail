@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import static org.testng.Assert.*;
 
 
+@Test(testName = "Attachments functionality tests")
 public class AttachmentAPITest extends BaseAPITest {
 
     private static final String PROJECT_CODE = "2";

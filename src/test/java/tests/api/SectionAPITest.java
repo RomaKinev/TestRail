@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 
+@Test(testName = "Sections functionality tests")
 public class SectionAPITest extends BaseAPITest {
 
     private static final String PROJECT_CODE = "2";

@@ -11,6 +11,7 @@ import static ui.dto.SuiteFactory.getSuite;
 import static ui.dto.TestCaseFactory.getTestCase;
 
 
+@Test(testName = "Reports functionality tests")
 public class ReportTest extends BaseUITest {
 
     @Owner("Roma")

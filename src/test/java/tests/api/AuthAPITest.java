@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 
+@Test(testName = "API authentication functionality tests")
 public class AuthAPITest extends BaseAPITest {
 
     private static final String INVALID_EMAIL = "invalid_user@example.com";

@@ -9,6 +9,7 @@ import static ui.dto.SuiteFactory.getSuite;
 import static ui.dto.TestCaseFactory.getTestCase;
 
 
+@Test(testName = "Test suites functionality tests")
 public class TestSuiteTest extends BaseUITest {
 
     @Owner("Roma")

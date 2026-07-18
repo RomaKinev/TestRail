@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import static ui.dto.UserFactory.getUser;
 
 
+@Test(testName = "Settings functionality tests")
 public class SettingsTest extends BaseUITest {
 
     @Owner("Pavel")

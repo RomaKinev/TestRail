@@ -12,6 +12,7 @@ import org.testng.annotations.*;
 import static org.testng.Assert.*;
 
 
+@Test(testName = "Test runs API functionality tests")
 public class TestRunAPITest extends BaseAPITest {
 
     private static final String PROJECT_NAME = "API run tests project";

@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import static ui.dto.RolesFactory.getRole;
 
 
+@Test(testName = "Role management functionality tests")
 public class RolesTest extends BaseUITest {
 
     @Owner("Pavel")
