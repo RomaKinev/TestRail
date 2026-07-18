@@ -37,6 +37,7 @@ public class TestRunPage extends BasePage {
     public static final String EXPORT_MENU_LINK = "#exportDropdown a";
     public static final String EXPORT_EXCEL_TEXT = "Export to Excel";
     public static final String EXPORT_SUBMIT = "#exportSubmit";
+    private static final long EXPORT_DOWNLOAD_TIMEOUT = 30_000;
 
     // --- Close run ---
     public static final String TOOLBAR_BUTTON = "a.toolbar-button";
@@ -115,7 +116,7 @@ public class TestRunPage extends BasePage {
         $$(EXPORT_MENU_LINK).findBy(text(EXPORT_EXCEL_TEXT)).click();
         $(EXPORT_SUBMIT).shouldBe(visible);
 
-        return $(EXPORT_SUBMIT).download();
+        return $(EXPORT_SUBMIT).download(EXPORT_DOWNLOAD_TIMEOUT);
     }
 
     @Step("Filter tests by status '{0}'")
