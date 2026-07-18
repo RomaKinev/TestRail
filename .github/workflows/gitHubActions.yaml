@@ -3,28 +3,24 @@ name: TestRail Automation CI
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
   workflow_dispatch:
-
   schedule:
     - cron: '0 */3 * * *'
 
 permissions:
   contents: write
 
+env:
+  TESTRAIL_BASE_URL: https://supertester.testrail.io
+  TESTRAIL_EMAIL: ${{ secrets.TR_LOGIN }}
+  TESTRAIL_PASSWORD: ${{ secrets.TR_PASSWORD }}
+
 jobs:
   api-tests:
     runs-on: ubuntu-latest
-    env:
-      TESTRAIL_BASE_URL: https://supertester.testrail.io
-      TESTRAIL_EMAIL: ${{ secrets.TR_LOGIN }}
-      TESTRAIL_PASSWORD: ${{ secrets.TR_PASSWORD }}
     steps:
-      - name: checkout
-        uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -32,23 +28,76 @@ jobs:
       - name: Run API tests
         run: >
           mvn clean test -Dgroups=api
-          -DbaseUrl="$TESTRAIL_BASE_URL"
-          -Demail="$TESTRAIL_EMAIL"
-          -Dpassword="$TESTRAIL_PASSWORD"
+          -DbaseUrl="$TESTRAIL_BASE_URL" -Demail="$TESTRAIL_EMAIL" -Dpassword="$TESTRAIL_PASSWORD"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-api
+          path: target/allure-results
+
+  ui-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Run UI smoke tests
+        run: >
+          mvn clean test -Dgroups=smoke -Dheadless=true
+          -DbaseUrl="$TESTRAIL_BASE_URL" -Demail="$TESTRAIL_EMAIL" -Dpassword="$TESTRAIL_PASSWORD"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-ui-smoke
+          path: target/allure-results
+
+  ui-regression:
+    needs: ui-smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Run UI regression tests
+        run: >
+          mvn clean test -Dgroups=ui -Dheadless=true
+          -DbaseUrl="$TESTRAIL_BASE_URL" -Demail="$TESTRAIL_EMAIL" -Dpassword="$TESTRAIL_PASSWORD"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-ui-regression
+          path: target/allure-results
+
+  report:
+    needs: [ api-tests, ui-smoke, ui-regression ]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all allure results
+        uses: actions/download-artifact@v4
+        with:
+          path: allure-results
+          merge-multiple: true
       - name: Get Allure history
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         if: always()
         continue-on-error: true
         with:
           ref: gh-pages
           path: gh-pages
-      - name: Allure Report action from marketplace
+      - name: Generate Allure report
         uses: simple-elf/allure-report-action@master
         if: always()
         with:
-          allure_results: target/allure-results
+          allure_results: allure-results
           allure_history: allure-history
-      - name: Deploy report to Github Pages
+      - name: Deploy report to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v2
         env:

@@ -12,6 +12,8 @@ public class TestCasesPage extends BasePage {
 
     public static final String ADD_TEST_CASE = "[data-testid='sidebarCasesAdd']";
     public static final String TEST_CASE_NAME = "//span[text()='%s']";
+    public static final String TEST_CASE_LINK =
+            "//a[.//span[@data-testid='sectionCaseTitle' and normalize-space(text())=\"%s\"]]";
     public static final String TEST_CASE_CHECKBOX = "//span[text()='%s']/ancestor::tr//input[@type='checkbox']";
     public static final String EDIT_TEST_CASE_BUTTON1 = "[data-testid='testCaseEditButton']";
     public static final String DELETE_TEST_CASE_BUTTON = "//span[text()='%s']/ancestor::tr//a[@class='deleteLink']";
@@ -84,7 +86,7 @@ public class TestCasesPage extends BasePage {
     @Step("Open test case '{0}'")
     public TestCasePage openTestCase(String testCaseName) {
         log.info("Open test case '{}'", testCaseName);
-        $x(String.format(TEST_CASE_NAME, testCaseName)).click(usingDefaultMethod());
+        $x(String.format(TEST_CASE_LINK, testCaseName)).shouldBe(visible).click(usingDefaultMethod());
 
         return new TestCasePage();
     }
