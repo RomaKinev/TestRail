@@ -51,6 +51,7 @@ public class LoginPage extends BasePage {
     public LoginPage loginWithError(@Param(mode = Parameter.Mode.MASKED) String login,
                                     @Param(mode = Parameter.Mode.MASKED) String password) {
         log.info("Log in with invalid credentials as '{}'", login);
+        sleep(2000);
         $(LOGIN).setValue(login);
         $(PASSWORD).setValue(password);
         $(LOG_IN_BUTTON).click();

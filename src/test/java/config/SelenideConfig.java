@@ -38,12 +38,14 @@ public class SelenideConfig {
         HashMap<String, Object> chromePrefs = new HashMap<>();
         chromePrefs.put("credentials_enable_service", false);
         chromePrefs.put("profile.password_manager_enabled", false);
+        chromePrefs.put("download.prompt_for_download", false);
+        chromePrefs.put("download.directory_upgrade", true);
+        chromePrefs.put("safebrowsing.enabled", true);
         options.setExperimentalOption("prefs", chromePrefs);
-        options.addArguments("--incognito");
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--disable-infobars");
-        options.addArguments("--headless");
+        options.addArguments("--headless=new");
         return options;
     }
 }
