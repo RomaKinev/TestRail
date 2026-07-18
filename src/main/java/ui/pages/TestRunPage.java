@@ -40,8 +40,7 @@ public class TestRunPage extends BasePage {
     private static final long EXPORT_DOWNLOAD_TIMEOUT = 30_000;
 
     // --- Close run ---
-    public static final String TOOLBAR_BUTTON = "a.toolbar-button";
-    public static final String CLOSE_RUN_TEXT = "Close";
+    public static final String CLOSE_RUN_BUTTON = "a[tooltip-header='Close Run']";
     public static final String CONFIRM_DIALOG = "#dialog-ident-confirmDialog";
     public static final String CONFIRM_YES = "#dialog-ident-confirmDialog a.button-ok";
 
@@ -149,7 +148,7 @@ public class TestRunPage extends BasePage {
     @Step("Close test run")
     public TestRunPage closeRun() {
         log.info("Close test run");
-        $$(TOOLBAR_BUTTON).findBy(text(CLOSE_RUN_TEXT)).click();
+        $(CLOSE_RUN_BUTTON).shouldBe(visible).click();
         $(CONFIRM_DIALOG).shouldBe(visible);
         $(CONFIRM_YES).click();
 
@@ -159,7 +158,7 @@ public class TestRunPage extends BasePage {
     @Step("Verify the run is closed (not editable)")
     public TestRunPage isRunClosed() {
         log.info("Verify the run is closed");
-        $$(TOOLBAR_BUTTON).findBy(text(CLOSE_RUN_TEXT)).shouldNot(exist);
+        $(CLOSE_RUN_BUTTON).shouldNot(exist);
 
         return this;
     }
