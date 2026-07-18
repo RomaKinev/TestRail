@@ -14,6 +14,8 @@ public class LoginStep {
     public void auth(String login, String password) {
         loginPage.open()
                 .isPageOpen()
-                .login(login, password);
+                .login(login, password)
+                .open()          // explicitly land on the projects dashboard (bypasses the onboarding page)
+                .isPageOpen();
     }
 }

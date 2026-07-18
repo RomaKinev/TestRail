@@ -53,6 +53,11 @@ jobs:
         with:
           name: allure-ui-smoke
           path: target/allure-results
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ui-smoke-diagnostics
+          path: build/reports/tests
 
   ui-regression:
     needs: ui-smoke
@@ -76,6 +81,11 @@ jobs:
         with:
           name: allure-ui-regression
           path: target/allure-results
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ui-regression-diagnostics
+          path: build/reports/tests
 
   report:
     needs: [ api-tests, ui-smoke, ui-regression ]
