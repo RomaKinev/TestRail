@@ -1,4 +1,4 @@
-name: Allure Test Report Pipeline
+name: TestRail Automation Pipeline
 
 on:
   push:
