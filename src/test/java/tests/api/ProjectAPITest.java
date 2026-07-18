@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 
+@Test(testName = "Projects API functionality tests")
 public class ProjectAPITest extends BaseAPITest {
 
     private static final String PROJECT_NAME = "API test project";

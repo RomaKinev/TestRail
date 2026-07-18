@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import static ui.dict.Elements.LOGIN_ERROR;
 
 
+@Test(testName = "Authentication functionality tests")
 public class LoginTest extends BaseUITest {
 
     @Owner("Roma")

@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import static ui.dto.ProjectFactory.getProject;
 
 
+@Test(testName = "Project management functionality tests")
 public class ProjectsTest extends BaseUITest {
 
     @Owner("Roma")

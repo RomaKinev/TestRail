@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import static ui.dto.GroupFactory.getGroup;
 
 
+@Test(testName = "Group management functionality tests")
 public class GroupTest extends BaseUITest {
 
     @Owner("Pavel")

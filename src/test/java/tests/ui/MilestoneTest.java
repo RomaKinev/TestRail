@@ -9,6 +9,7 @@ import static ui.dto.MilestoneFactory.getMilestone;
 import static ui.dto.ProjectFactory.getProject;
 
 
+@Test(testName = "Milestones functionality tests")
 public class MilestoneTest extends BaseUITest {
 
     @Owner("Pavel")

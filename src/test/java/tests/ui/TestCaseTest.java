@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import static ui.dto.TestCaseFactory.getTestCase;
 
 
+@Test(testName = "Test cases functionality tests")
 public class TestCaseTest extends BaseUITest {
 
     private static final String PROJECT = "Test";
