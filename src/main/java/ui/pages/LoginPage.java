@@ -1,10 +1,8 @@
 package ui.pages;
 
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SetValueOptions;
-import io.qameta.allure.Param;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
-import io.qameta.allure.model.Parameter;
 import org.apache.logging.log4j.*;
 
 import static com.codeborne.selenide.Condition.*;
@@ -36,26 +34,26 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    @Step("Log in")
-    public ProjectsPage login(@Param(mode = Parameter.Mode.MASKED) String login,
-                              @Param(mode = Parameter.Mode.MASKED) String password) {
-        log.info("Log in as user '{}'", login);
-        sleep(2000);
-        $(LOGIN).setValue(SetValueOptions.withText(login).sensitive());
-        $(PASSWORD).setValue(SetValueOptions.withText(password).sensitive());
-        $(LOG_IN_BUTTON).click();
+    public ProjectsPage login(String login, String password) {
+        Allure.step("Log in", () -> {
+            log.info("Log in with configured credentials");
+            sleep(2000);
+            $(LOGIN).setValue(login);
+            $(PASSWORD).setValue(password);
+            $(LOG_IN_BUTTON).click();
+        });
 
         return new ProjectsPage();
     }
 
-    @Step("Log in with invalid credentials")
-    public LoginPage loginWithError(@Param(mode = Parameter.Mode.MASKED) String login,
-                                    @Param(mode = Parameter.Mode.MASKED) String password) {
-        log.info("Log in with invalid credentials as '{}'", login);
-        sleep(2000);
-        $(LOGIN).setValue(SetValueOptions.withText(login).sensitive());
-        $(PASSWORD).setValue(SetValueOptions.withText(password).sensitive());
-        $(LOG_IN_BUTTON).click();
+    public LoginPage loginWithError(String login, String password) {
+        Allure.step("Log in with invalid credentials", () -> {
+            log.info("Attempt login expected to fail");
+            sleep(2000);
+            $(LOGIN).setValue(login);
+            $(PASSWORD).setValue(password);
+            $(LOG_IN_BUTTON).click();
+        });
 
         return this;
     }

@@ -1,13 +1,15 @@
 package api_adapters;
 
 import api.models.projects.*;
-import io.qameta.allure.Param;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
-import io.qameta.allure.model.Parameter;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.mapper.ObjectMapperType;
 
 import static api_adapters.BaseAdapter.*;
+import static io.restassured.config.LogConfig.logConfig;
+import static io.restassured.config.RestAssuredConfig.config;
 import static io.restassured.RestAssured.given;
 
 
@@ -30,19 +32,19 @@ public class ProjectAdapter {
                 .as(ProjectsRs.class, ObjectMapperType.GSON);
     }
 
-    @Step("Get projects list status code")
-    public static int getProjectsStatusCode(@Param(mode = Parameter.Mode.MASKED) String email,
-                                            @Param(mode = Parameter.Mode.MASKED) String password) {
-        return given()
-                .baseUri(CONFIG.baseUrl())
-                .auth().preemptive().basic(email, password)
-                .contentType(ContentType.JSON)
-                .urlEncodingEnabled(false)
-                .when()
-                .get(PATH + "get_projects")
-                .then()
-                .extract()
-                .statusCode();
+    public static int getProjectsStatusCode(String email, String password) {
+        return Allure.step("Get projects list status code", () -> given()
+                    .baseUri(CONFIG.baseUrl())
+                    .auth().preemptive().basic(email, password)
+                    .contentType(ContentType.JSON)
+                    .config(config().logConfig(logConfig().blacklistHeader("Authorization")))
+                    .filter(new AllureRestAssured())
+                    .urlEncodingEnabled(false)
+                    .when()
+                    .get(PATH + "get_projects")
+                    .then()
+                    .extract()
+                    .statusCode());
     }
 
     @Step("Create a project")

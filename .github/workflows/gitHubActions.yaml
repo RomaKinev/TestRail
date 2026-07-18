@@ -29,8 +29,12 @@ jobs:
         run: >
           mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/api_tests_suit.xml
           -DbaseUrl="$TESTRAIL_BASE_URL" -Demail="$TESTRAIL_EMAIL" -Dpassword="$TESTRAIL_PASSWORD"
-      - uses: actions/upload-artifact@v4
+      - name: Redact secrets from Allure results
+        id: redact
         if: always()
+        run: bash scripts/redact-allure-results.sh target/allure-results
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.redact.outcome == 'success'
         with:
           name: allure-api
           path: target/allure-results
@@ -48,8 +52,12 @@ jobs:
         run: >
           mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/smoke_tests_suit.xml -Dheadless=true
           -DbaseUrl="$TESTRAIL_BASE_URL" -Demail="$TESTRAIL_EMAIL" -Dpassword="$TESTRAIL_PASSWORD"
-      - uses: actions/upload-artifact@v4
+      - name: Redact secrets from Allure results
+        id: redact
         if: always()
+        run: bash scripts/redact-allure-results.sh target/allure-results
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.redact.outcome == 'success'
         with:
           name: allure-ui-smoke
           path: target/allure-results
@@ -76,8 +84,12 @@ jobs:
         run: >
           mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/ui_tests_suit.xml -Dheadless=true
           -DbaseUrl="$TESTRAIL_BASE_URL" -Demail="$TESTRAIL_EMAIL" -Dpassword="$TESTRAIL_PASSWORD"
-      - uses: actions/upload-artifact@v4
+      - name: Redact secrets from Allure results
+        id: redact
         if: always()
+        run: bash scripts/redact-allure-results.sh target/allure-results
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.redact.outcome == 'success'
         with:
           name: allure-ui-regression
           path: target/allure-results
@@ -92,31 +104,34 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Download all Allure results
         uses: actions/download-artifact@v4
         with:
           path: allure-results
           pattern: allure-*
           merge-multiple: true
-      - name: Get Allure history
-        uses: actions/checkout@v4
+      - name: Verify merged Allure results are redacted
+        id: redact
         if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
+        run: bash scripts/redact-allure-results.sh allure-results
       - name: Generate Allure report
-        uses: simple-elf/allure-report-action@master
-        if: always()
+        id: generate
+        uses: simple-elf/allure-report-action@v1.14
+        if: always() && steps.redact.outcome == 'success'
         with:
           allure_results: allure-results
           allure_history: allure-history
           gh_pages: gh-pages
+          keep_reports: 1
           report_name: API, Smoke and Regression test suites
       - name: Deploy report to GitHub Pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v2
-        env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: allure-history
+        if: always() && steps.generate.outcome == 'success'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
+          # Replace the branch history so reports created before redaction are
+          # no longer retained in GitHub Pages or in old gh-pages commits.
+          force_orphan: true

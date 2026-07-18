@@ -2,7 +2,6 @@ package api_adapters;
 
 import api.models.attachments.*;
 import io.qameta.allure.Step;
-import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.mapper.ObjectMapperType;
 import io.restassured.specification.RequestSpecification;
 
@@ -97,6 +96,7 @@ public class AttachmentAdapter {
         return given()
                 .baseUri(BaseAdapter.CONFIG.baseUrl())
                 .auth().preemptive().basic(BaseAdapter.CONFIG.email(), BaseAdapter.CONFIG.password())
-                .filter(new AllureRestAssured());
+                .config(SECURE_LOG_CONFIG)
+                .filter(ALLURE_FILTER);
     }
 }
