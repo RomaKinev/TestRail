@@ -3,6 +3,7 @@ package config;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.FileDownloadMode;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.aeonbits.owner.ConfigFactory;
 import org.jspecify.annotations.NonNull;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -16,8 +17,7 @@ public class SelenideConfig {
 
     public static void configure() {
 
-        SelenideLogger.addListener("AllureSelenide", new RedactingAllureSelenide()
-                .includeSelenideSteps(false)
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .screenshots(true)
                 .savePageSource(true));
 
@@ -27,9 +27,6 @@ public class SelenideConfig {
         Configuration.clickViaJs = true;
         Configuration.browserSize = "1920x1080";
         Configuration.headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
-        // Keep only the sanitized attachments created by RedactingAllureSelenide.
-        Configuration.screenshots = false;
-        Configuration.savePageSource = false;
         Configuration.fileDownload = FileDownloadMode.FOLDER;
         Configuration.downloadsFolder = "target/downloads";
 
