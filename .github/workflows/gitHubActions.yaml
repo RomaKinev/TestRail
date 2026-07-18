@@ -61,7 +61,6 @@ jobs:
 
   ui-regression:
     needs: ui-smoke
-    if: always()
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
