@@ -1,0 +1,6 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"Login with valid credentials","6186","Login with valid credentials","Surefire suite","2026-07-18","passed","2026-07-18","Authentication functionality tests","Authentication functionality tests","tests.ui.LoginTest","loginTest"
+"Create test run","32119","Create test run","Surefire suite","2026-07-18","passed","2026-07-18","Test runs functionality tests","Test runs functionality tests","tests.ui.TestRunTest","createRunTest"
+"Create a new project","10395","Create a new project","Surefire suite","2026-07-18","passed","2026-07-18","Project management functionality tests","Project management functionality tests","tests.ui.ProjectsTest","createProjectTest"
+"Create a new test case","11388","Create a new test case","Surefire suite","2026-07-18","passed","2026-07-18","Test cases functionality tests","Test cases functionality tests","tests.ui.TestCaseTest","testCaseCreationTest"
+"Create test suite","15225","Create test suite","Surefire suite","2026-07-18","passed","2026-07-18","Test suites functionality tests","Test suites functionality tests","tests.ui.TestSuiteTest","createSuiteTest"
