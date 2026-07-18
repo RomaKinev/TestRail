@@ -3,10 +3,13 @@ package api_adapters;
 import api.models.projects.*;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.mapper.ObjectMapperType;
 
 import static api_adapters.BaseAdapter.*;
+import static io.restassured.config.LogConfig.logConfig;
+import static io.restassured.config.RestAssuredConfig.config;
 import static io.restassured.RestAssured.given;
 
 
@@ -34,6 +37,8 @@ public class ProjectAdapter {
                     .baseUri(CONFIG.baseUrl())
                     .auth().preemptive().basic(email, password)
                     .contentType(ContentType.JSON)
+                    .config(config().logConfig(logConfig().blacklistHeader("Authorization")))
+                    .filter(new AllureRestAssured())
                     .urlEncodingEnabled(false)
                     .when()
                     .get(PATH + "get_projects")
