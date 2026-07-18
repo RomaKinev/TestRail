@@ -20,8 +20,7 @@
 | Owner                 | 1.0.12 | Конфигурация |
 | JavaFaker             | 1.0.2 | Генерация тестовых данных |
 | REST Assured          | 6.0.0 | API-тестирование |
-| Gson                  | 2.14.0 | API-тестирование |
-| Json Schema Validator | 6.0.0 | API-тестирование |
+| Gson                  | 2.14.0 | (De)сериализация JSON в API-тестах |
 
 ---
 
@@ -30,19 +29,20 @@
 ```
 src/
 ├── main/java/
-│   └── api/             # Архитектура для API тестов
-│        ├── adapters/   # Адаптеры с созданием запросов
-│        └── models/     # Модели с соответствующими модулями для API-тестов каждого типа
-│   ├── dict/            # Константы и тексты (Elements)
-│   ├── dto/             # Модели данных + фабрики (Project, TestCase)
-│   ├── pages/           # Page Object Model
-│   └── steps/           # Step-объекты для Allure (Login, Project)
+│   ├── api/
+│   │   └── models/       # DTO запросов/ответов API (projects, cases, runs, results, sections, attachments)
+│   └── ui/
+│       ├── dict/         # Константы и тексты (Elements)
+│       ├── dto/          # Модели данных + фабрики (Project, Suite, TestCase, ...)
+│       ├── pages/        # Page Object Model
+│       └── steps/        # Step-объекты (оркестрация сценариев)
 └── test/java/
-    ├── config/          # TestConfig, SelenideConfig
-    ├── listeners/       # TestListener (логи + retry), RetryAnalyzer
+    ├── api_adapters/     # Адаптеры REST Assured (запросы к API)
+    ├── config/           # TestConfig, SelenideConfig
+    ├── listeners/        # TestListener (логи + скриншот), RetryAnalyzer
     └── tests/
-        ├── ui/          # UI-тесты
-        └── api/         # API-тесты
+        ├── ui/           # UI-тесты
+        └── api/          # API-тесты
 ```
 
 > TestNG-listener подключён через ServiceLoader:
@@ -60,21 +60,20 @@ src/
 |---|-------|---|
 | Аутентификация | 5/5   | ✅ |
 | Управление проектами | 3/5   | ✅ *(пагинация/фильтр — нет функционала)* |
-| Тест-кейсы | 7/8   | ✅ *(копирование исключено)* |
+| Тест-кейсы | 7/8   | ✅ *(копирование — нет функционала; custom field покрыт)* |
 | Test Suites | 4/4   | ✅ |
 | Test Runs | 5/5   | ✅ |
 | Отчёты | 3/3   | ✅ *(экспорт — Excel; сравнение ранов — отчёт Comparison for Cases)* |
 
-#### API-тесты (запланированы)
+#### API-тесты
 
 | Раздел | Тесты | Статус |
 |---|-------|---|
-| Аутентификация | 2     | ⏳ |
-| Проекты | 2     | ⏳ |
-| Тест-кейсы | 3     | ⏳ |
-| Test Runs | 2     | ⏳ |
-| Результаты | 1     | ⏳ |
-###
+| Аутентификация | 2     | ✅ |
+| Проекты | 2     | ✅ |
+| Тест-кейсы | 3     | ✅ |
+| Test Runs | 2     | ✅ |
+| Результаты | 1     | ✅ |
 
 ### Павел
 
@@ -109,10 +108,12 @@ cp src/test/resources/config.properties.example \
 ```
 
 ```properties
-baseUrl=https://tms34.testrail.io
+baseUrl=https://your_instance.testrail.io
 email=your@email.com
 password=yourpassword
 ```
+
+> `config.properties` в git не коммитится (в `.gitignore`).
 
 ### 2. Запуск тестов
 
@@ -123,6 +124,9 @@ mvn clean test
 # Только UI тесты
 mvn clean test -Dgroups=ui
 
+# Только API тесты
+mvn clean test -Dgroups=api
+
 # Только smoke (ключевой happy-path каждого раздела)
 mvn clean test -Dgroups=smoke
 
@@ -130,7 +134,7 @@ mvn clean test -Dgroups=smoke
 mvn clean test -Dheadless=true
 ```
 
-> Группы: `ui` — все UI-тесты, `smoke` — ключевые сценарии
+> Группы: `ui` — все UI-тесты, `api` — все API-тесты, `smoke` — ключевые сценарии
 > (`loginTest`, `createProjectTest`, `testCaseCreationTest`, `createSuiteTest`, `createRunTest`).
 
 ### 3. Allure отчёт
@@ -145,14 +149,24 @@ mvn allure:report
 
 ---
 
+## CI/CD
+
+GitHub Actions (`.github/workflows/gitHubActions.yaml`):
+- запускает API-тесты (`mvn clean test -Dgroups=api`) на push/PR в `master`, по расписанию и вручную;
+- публикует Allure-отчёт на GitHub Pages (ветка `gh-pages`) с накоплением истории (Trend).
+
+---
+
 ## Паттерны
 
 - **Page Object Model** — каждая страница в отдельном классе
 - **Fluent interface** — цепочки вызовов методов
 - **Builder Pattern** — построение тестовых данных
-- **Step Pattern** — `@Step` аннотации для Allure-отчётов
+- **Step-объекты** — оркестрация сценариев поверх страниц (Login, Project, TestCase, TestSuite, TestRun, Milestone, ...); `@Step` — на методах страниц для Allure
+- **API Adapter** — статические адаптеры REST Assured поверх общей спецификации (`BaseAdapter`)
+- **Изоляция данных API** — каждый API-класс создаёт свой проект через API и удаляет его в `@AfterClass`
 - **DataProvider** — параметризация негативных сценариев
-- **JSON serialization and deserialization** - обработка Json-объектов для автоматизации API
+- **JSON (de)serialization** — обработка JSON через Gson в API-тестах
 - **TestNG Listener** — `TestListener` (`ITestListener`): логирование жизненного цикла тестов + скриншот при падении
 - **Retry** — `RetryAnalyzer` (`IRetryAnalyzer`) + `IAnnotationTransformer`: авто-перезапуск упавших тестов (до 2 повторов), навешивается на все `@Test` без правки тестов
 - **Allure-метаданные** — `@Owner`, `@Feature`, `@Severity`, `@Description` на UI-тестах
