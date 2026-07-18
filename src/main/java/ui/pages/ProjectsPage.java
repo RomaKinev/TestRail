@@ -16,8 +16,8 @@ public class ProjectsPage extends BasePage {
     public final String PROFILE_DROPDOWN = "[data-testid='userDropdown']";
     public final String LOGOUT_BUTTON = "[data-testid='logoutButton']";
     public static final String SUITE_MODE_MULTIPLE = "[data-testid='addEditProjectSuiteModeMulti']";
-    public final String TEST_CASES_PAGE_BUTTON = "//a[text()='%s']/ancestor::div[2]//a[text()='Test Cases']";
-    public static final String PROJECT_LINK = "//a[normalize-space(text())='%s']";
+    public final String TEST_CASES_PAGE_BUTTON = "//a[text()=\"%s\"]/ancestor::div[2]//a[text()='Test Cases']";
+    public static final String PROJECT_LINK = "//a[normalize-space(text())=\"%s\"]";
     public static final String NAVIGATE_TO_SUITES = "[data-testid='navigateToSuitesButton']";
     public static final String NAVIGATE_TO_RUNS = "#navigation-runs-dropdown";
 

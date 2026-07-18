@@ -1,6 +1,5 @@
 package tests.ui;
 
-import ui.dto.TestCase;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
@@ -9,20 +8,18 @@ import static ui.dto.TestCaseFactory.getTestCase;
 
 public class TestCaseTest extends BaseUITest {
 
+    private static final String PROJECT = "Test";
+    private static final String TARGET_SECTION = "section1";
+    private static final String PRECONDITIONS = "Autotest precondition";
+
     @Owner("Roma")
     @Feature("Test Cases")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Create a new test case")
     @Test(description = "Create a new test case", groups = {"ui", "smoke"})
     public void testCaseCreationTest() {
-        TestCase testCase = getTestCase();
         loginStep.auth(CONFIG.email(), CONFIG.password());
-        projectsPage.isPageOpen()
-                .openTestCasesByProject("Test")
-                .isPageOpen();
-        testCasesPage.isPageOpen()
-                .addTestCase(testCase);
-        testCasePage.isCaseCreated();
+        testCaseStep.createTestCase(PROJECT, getTestCase());
     }
 
     @Owner("Roma")
@@ -31,14 +28,8 @@ public class TestCaseTest extends BaseUITest {
     @Description("Create and then delete a test case")
     @Test(description = "Create and then delete a test case", groups = {"ui"})
     public void testCaseCreationAndDeletionTest() {
-        TestCase testCase = getTestCase();
         loginStep.auth(CONFIG.email(), CONFIG.password());
-        projectsPage.isPageOpen()
-                .openTestCasesByProject("Test")
-                .isPageOpen();
-        testCasesPage.isPageOpen()
-                .addAndDeleteTestCase("Test", testCase)
-                .isTestCaseNotVisible(testCase.getTitle());
+        testCaseStep.createAndDeleteTestCase(PROJECT, getTestCase());
     }
 
     @Owner("Roma")
@@ -48,12 +39,7 @@ public class TestCaseTest extends BaseUITest {
     @Test(description = "Open an existing test case", groups = {"ui"})
     public void openTestCaseTest() {
         loginStep.auth(CONFIG.email(), CONFIG.password());
-        projectsPage.isPageOpen()
-                .openTestCasesByProject("Test")
-                .isPageOpen();
-        String caseTitle = testCasesPage.isPageOpen().getFirstCaseTitle();
-        testCasesPage.openTestCase(caseTitle)
-                .isCaseOpen(caseTitle);
+        testCaseStep.openFirstCase(PROJECT);
     }
 
     @Owner("Roma")
@@ -63,12 +49,7 @@ public class TestCaseTest extends BaseUITest {
     @Test(description = "Edit test case title via edit form", groups = {"ui"})
     public void editTestCaseTest() {
         loginStep.auth(CONFIG.email(), CONFIG.password());
-        projectsPage.isPageOpen()
-                .openTestCasesByProject("Test")
-                .isPageOpen();
-        String caseTitle = testCasesPage.getFirstCaseTitle();
-        testCasesPage.openTestCase(caseTitle);
-        testCasesPage.editTestCase(caseTitle, caseTitle + "_edited");
+        testCaseStep.editFirstCaseTitle(PROJECT);
     }
 
     @Owner("Roma")
@@ -78,12 +59,7 @@ public class TestCaseTest extends BaseUITest {
     @Test(description = "Change test case priority", groups = {"ui"})
     public void changePriorityInTestCaseTest() {
         loginStep.auth(CONFIG.email(), CONFIG.password());
-        projectsPage.isPageOpen()
-                .openTestCasesByProject("Test")
-                .isPageOpen();
-        String caseTitle = testCasesPage.getFirstCaseTitle();
-        testCasesPage.openTestCase(caseTitle);
-        testCasesPage.changePriorityToDifferent();
+        testCaseStep.changeFirstCasePriority(PROJECT);
     }
 
     @Owner("Roma")
@@ -92,17 +68,8 @@ public class TestCaseTest extends BaseUITest {
     @Description("Move test case to another section via edit form")
     @Test(description = "Move test case to another section via edit form", groups = {"ui"})
     public void moveTestCaseToSectionTest() {
-        String targetSection = "section1";
-
         loginStep.auth(CONFIG.email(), CONFIG.password());
-        projectsPage.isPageOpen()
-                .openTestCasesByProject("Test")
-                .isPageOpen();
-        String caseTitle = testCasesPage.getFirstCaseTitle();
-        testCasesPage.openTestCase(caseTitle);
-        testCasesPage.changeSectionTestCase(targetSection)
-                .backToCases()
-                .verifyCaseExistsInSection(caseTitle, targetSection);
+        testCaseStep.moveFirstCaseToSection(PROJECT, TARGET_SECTION);
     }
 
     @Owner("Roma")
@@ -111,15 +78,8 @@ public class TestCaseTest extends BaseUITest {
     @Description("Fill a custom field (Preconditions) of a test case")
     @Test(description = "Fill a custom field of a test case", groups = {"ui"})
     public void fillCustomFieldTest() {
-        String preconditions = "Autotest precondition";
-
         loginStep.auth(CONFIG.email(), CONFIG.password());
-        projectsPage.isPageOpen()
-                .openTestCasesByProject("Test")
-                .isPageOpen();
-        String caseTitle = testCasesPage.getFirstCaseTitle();
-        testCasesPage.openTestCase(caseTitle);
-        testCasesPage.fillCustomFieldTestCase(preconditions);
+        testCaseStep.fillFirstCaseCustomField(PROJECT, PRECONDITIONS);
     }
 
     @Owner("Roma")
@@ -129,13 +89,6 @@ public class TestCaseTest extends BaseUITest {
     @Test(description = "Priority change is reflected in case history", groups = {"ui"})
     public void priorityChangeInHistoryTest() {
         loginStep.auth(CONFIG.email(), CONFIG.password());
-        projectsPage.isPageOpen()
-                .openTestCasesByProject("Test")
-                .isPageOpen();
-        String caseTitle = testCasesPage.getFirstCaseTitle();
-        testCasesPage.openTestCase(caseTitle);
-        String newPriority = testCasesPage.changePriorityToDifferent();
-        testCasePage.openHistory()
-                .historyLatestContains("Priority", newPriority);
+        testCaseStep.changeFirstCasePriorityAndCheckHistory(PROJECT);
     }
 }

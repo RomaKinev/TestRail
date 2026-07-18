@@ -1,8 +1,6 @@
 package tests.ui;
 
-import ui.dto.Project;
 import ui.dto.Suite;
-import ui.dto.TestCase;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
@@ -19,17 +17,8 @@ public class TestSuiteTest extends BaseUITest {
     @Description("Create test suite")
     @Test(description = "Create test suite", groups = {"ui", "smoke"})
     public void createSuiteTest() {
-        Project project = getProject();
-        Suite suite = getSuite();
         loginStep.auth(CONFIG.email(), CONFIG.password());
-        projectsPage.isPageOpen().createProjectWithSuites(project);
-        projectsPage.open()
-                .isPageOpen()
-                .openProject(project.getName())
-                .goToTestSuites()
-                .openAddSuiteForm()
-                .createSuite(suite)
-                .isSuiteCreated();
+        testSuiteStep.createSuite(getProject(), getSuite());
     }
 
     @Owner("Roma")
@@ -38,18 +27,10 @@ public class TestSuiteTest extends BaseUITest {
     @Description("Suite shows test cases count")
     @Test(description = "Suite shows test cases count", groups = {"ui"})
     public void suiteShowsCasesCountTest() {
-        Project project = getProject();
         Suite suite = getSuite();
         loginStep.auth(CONFIG.email(), CONFIG.password());
-        projectsPage.isPageOpen().createProjectWithSuites(project);
-        projectsPage.open()
-                .openProject(project.getName())
-                .goToTestSuites()
-                .openAddSuiteForm()
-                .createSuite(suite)
-                .isSuiteCreated();
-        projectsPage.goToTestSuites()
-                .hasCasesCount(suite.getName(), 0);
+        testSuiteStep.createSuite(getProject(), suite);
+        testSuiteStep.checkCasesCount(suite, 0);
     }
 
     @Owner("Roma")
@@ -58,22 +39,11 @@ public class TestSuiteTest extends BaseUITest {
     @Description("Add test case to suite")
     @Test(description = "Add test case to suite", groups = {"ui"})
     public void addCaseToSuiteTest() {
-        Project project = getProject();
         Suite suite = getSuite();
-        TestCase testCase = getTestCase();
-
         loginStep.auth(CONFIG.email(), CONFIG.password());
-        projectsPage.isPageOpen().createProjectWithSuites(project);
-        projectsPage.open()
-                .openProject(project.getName())
-                .goToTestSuites()
-                .openAddSuiteForm()
-                .createSuite(suite)
-                .isSuiteCreated();
-        testSuitesPage.addTestCaseToSuite(testCase)
-                .isCaseCreated();
-        projectsPage.goToTestSuites()
-                .hasCasesCount(suite.getName(), 1);
+        testSuiteStep.createSuite(getProject(), suite);
+        testSuiteStep.addCaseToSuite(getTestCase());
+        testSuiteStep.checkCasesCount(suite, 1);
     }
 
     @Owner("Roma")
@@ -82,19 +52,9 @@ public class TestSuiteTest extends BaseUITest {
     @Description("Delete test suite")
     @Test(description = "Delete test suite", groups = {"ui"})
     public void deleteSuiteTest() {
-        Project project = getProject();
         Suite suite = getSuite();
         loginStep.auth(CONFIG.email(), CONFIG.password());
-        projectsPage.isPageOpen().createProjectWithSuites(project);
-        projectsPage.open()
-                .openProject(project.getName())
-                .goToTestSuites()
-                .openAddSuiteForm()
-                .createSuite(suite)
-                .isSuiteCreated();
-        projectsPage.goToTestSuites()
-                .openSuiteEdit(suite.getName())
-                .deleteSuite()
-                .isSuiteDeleted(suite.getName());
+        testSuiteStep.createSuite(getProject(), suite);
+        testSuiteStep.deleteSuite(suite);
     }
 }

@@ -20,11 +20,11 @@ public class BaseUITest {
     AdminPage adminPage;
     LoginStep loginStep;
     ProjectStep projectStep;
-    CreateProjectPage createProjectPage;
     TestCasesPage testCasesPage;
-    TestCaseCreatePage testCaseCreatePage;
     TestCasePage testCasePage;
+    TestCaseStep testCaseStep;
     TestSuitesPage testSuitesPage;
+    TestSuiteStep testSuiteStep;
     TestRunPage testRunPage;
     ReportsPage reportsPage;
     TestRunStep testRunStep;
@@ -48,11 +48,11 @@ public class BaseUITest {
         adminPage = new AdminPage();
         loginStep = new LoginStep(loginPage);
         projectStep = new ProjectStep();
-        createProjectPage = new CreateProjectPage();
         testCasesPage = new TestCasesPage();
-        testCaseCreatePage = new TestCaseCreatePage();
         testCasePage = new TestCasePage();
+        testCaseStep = new TestCaseStep(projectsPage, testCasesPage, testCasePage);
         testSuitesPage = new TestSuitesPage();
+        testSuiteStep = new TestSuiteStep(projectsPage, testSuitesPage);
         testRunPage = new TestRunPage();
         reportsPage = new ReportsPage();
         testRunStep = new TestRunStep(projectsPage, testSuitesPage, testRunPage, reportsPage);
