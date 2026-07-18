@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.Duration;
 
 import static com.codeborne.selenide.ClickOptions.usingDefaultMethod;
 import static com.codeborne.selenide.Condition.*;
@@ -148,7 +149,7 @@ public class TestRunPage extends BasePage {
     @Step("Close test run")
     public TestRunPage closeRun() {
         log.info("Close test run");
-        $(CLOSE_RUN_BUTTON).shouldBe(visible).click();
+        $(CLOSE_RUN_BUTTON).shouldBe(visible, Duration.ofSeconds(20)).click();
         $(CONFIRM_DIALOG).shouldBe(visible);
         $(CONFIRM_YES).click();
 
