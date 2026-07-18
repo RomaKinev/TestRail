@@ -6,6 +6,8 @@
         <groups>
             <run>
                 <include name="ui"/>
+                <!-- Smoke scenarios run in their own suite and must not be duplicated here. -->
+                <exclude name="smoke"/>
             </run>
         </groups>
         <packages>
