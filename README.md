@@ -169,4 +169,4 @@ GitHub Actions (`.github/workflows/gitHubActions.yaml`):
 - **JSON (de)serialization** — обработка JSON через Gson в API-тестах
 - **TestNG Listener** — `TestListener` (`ITestListener`): логирование жизненного цикла тестов + скриншот при падении
 - **Retry** — `RetryAnalyzer` (`IRetryAnalyzer`) + `IAnnotationTransformer`: авто-перезапуск упавших тестов (до 2 повторов), навешивается на все `@Test` без правки тестов
-- **Allure-метаданные** — `@Owner`, `@Feature`, `@Severity`, `@Description` на UI-тестах
+- **Allure-метаданные** — `@Owner`, `@Feature`, `@Severity`, `@Description` на тестах
