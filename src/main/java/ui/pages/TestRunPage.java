@@ -41,7 +41,7 @@ public class TestRunPage extends BasePage {
     private static final long EXPORT_DOWNLOAD_TIMEOUT = 30_000;
 
     // --- Close run ---
-    public static final String CLOSE_RUN_BUTTON = "a[tooltip-header='Close Run']";
+    public static final String CLOSE_RUN_BUTTON = "[data-testid='runTestCloseRunButton']";
     public static final String CONFIRM_DIALOG = "#dialog-ident-confirmDialog";
     public static final String CONFIRM_YES = "#dialog-ident-confirmDialog a.button-ok";
 

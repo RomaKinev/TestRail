@@ -37,6 +37,7 @@ public class TestSuitesPage extends  BasePage {
     @Step("Create suite '{suite.name}'")
     public TestSuitesPage createSuite(Suite suite) {
         log.info("Create suite '{}'", suite.getName());
+        sleep(2000);
         $(DESCRIPTION_EDITOR).click();
         $(DESCRIPTION_EDITOR).sendKeys(suite.getDescription());
         $(SUITE_NAME_INPUT).setValue(suite.getName()).shouldHave(value(suite.getName()));
