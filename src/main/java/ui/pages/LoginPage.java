@@ -1,6 +1,7 @@
 package ui.pages;
 
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SetValueOptions;
 import io.qameta.allure.Param;
 import io.qameta.allure.Step;
 import io.qameta.allure.model.Parameter;
@@ -40,8 +41,8 @@ public class LoginPage extends BasePage {
                               @Param(mode = Parameter.Mode.MASKED) String password) {
         log.info("Log in as user '{}'", login);
         sleep(2000);
-        $(LOGIN).setValue(login);
-        $(PASSWORD).setValue(password);
+        $(LOGIN).setValue(SetValueOptions.withText(login).sensitive());
+        $(PASSWORD).setValue(SetValueOptions.withText(password).sensitive());
         $(LOG_IN_BUTTON).click();
 
         return new ProjectsPage();
@@ -52,8 +53,8 @@ public class LoginPage extends BasePage {
                                     @Param(mode = Parameter.Mode.MASKED) String password) {
         log.info("Log in with invalid credentials as '{}'", login);
         sleep(2000);
-        $(LOGIN).setValue(login);
-        $(PASSWORD).setValue(password);
+        $(LOGIN).setValue(SetValueOptions.withText(login).sensitive());
+        $(PASSWORD).setValue(SetValueOptions.withText(password).sensitive());
         $(LOG_IN_BUTTON).click();
 
         return this;
