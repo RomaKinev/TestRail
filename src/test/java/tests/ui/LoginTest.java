@@ -3,7 +3,6 @@ package tests.ui;
 import com.codeborne.selenide.Selenide;
 import org.testng.annotations.DataProvider;
 import io.qameta.allure.*;
-import io.qameta.allure.model.Parameter;
 import org.testng.annotations.Test;
 
 import static ui.dict.Elements.LOGIN_ERROR;
@@ -37,8 +36,8 @@ public class LoginTest extends BaseUITest {
     @DataProvider(name = "Invalid Credentials")
     public Object[][] invalidCredentials() {
         return new Object[][]{
-                {"invalid@email.com", CONFIG.password()},
-                {CONFIG.email(), "invalidPassword"}
+                {InvalidCredentialCase.INVALID_EMAIL},
+                {InvalidCredentialCase.INVALID_PASSWORD}
         };
     }
 
@@ -47,8 +46,14 @@ public class LoginTest extends BaseUITest {
     @Severity(SeverityLevel.NORMAL)
     @Description("Login with invalid credentials shows error")
     @Test(description = "Login with invalid credentials shows error", dataProvider = "Invalid Credentials", groups = {"ui"})
-    public void loginWithInvalidCredentialsTest(@Param(mode = Parameter.Mode.MASKED) String email,
-                                                @Param(mode = Parameter.Mode.MASKED) String password) {
+    public void loginWithInvalidCredentialsTest(InvalidCredentialCase credentialCase) {
+        String email = credentialCase == InvalidCredentialCase.INVALID_EMAIL
+                ? "invalid@email.com"
+                : CONFIG.email();
+        String password = credentialCase == InvalidCredentialCase.INVALID_PASSWORD
+                ? "invalidPassword"
+                : CONFIG.password();
+
         loginPage.open()
                 .isPageOpen()
                 .loginWithError(email, password)
@@ -66,5 +71,10 @@ public class LoginTest extends BaseUITest {
         Selenide.clearBrowserCookies();
         projectsPage.open();
         loginPage.isPageOpen();
+    }
+
+    private enum InvalidCredentialCase {
+        INVALID_EMAIL,
+        INVALID_PASSWORD
     }
 }

@@ -1,9 +1,8 @@
 package api_adapters;
 
 import api.models.projects.*;
-import io.qameta.allure.Param;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
-import io.qameta.allure.model.Parameter;
 import io.restassured.http.ContentType;
 import io.restassured.mapper.ObjectMapperType;
 
@@ -30,19 +29,17 @@ public class ProjectAdapter {
                 .as(ProjectsRs.class, ObjectMapperType.GSON);
     }
 
-    @Step("Get projects list status code")
-    public static int getProjectsStatusCode(@Param(mode = Parameter.Mode.MASKED) String email,
-                                            @Param(mode = Parameter.Mode.MASKED) String password) {
-        return given()
-                .baseUri(CONFIG.baseUrl())
-                .auth().preemptive().basic(email, password)
-                .contentType(ContentType.JSON)
-                .urlEncodingEnabled(false)
-                .when()
-                .get(PATH + "get_projects")
-                .then()
-                .extract()
-                .statusCode();
+    public static int getProjectsStatusCode(String email, String password) {
+        return Allure.step("Get projects list status code", () -> given()
+                    .baseUri(CONFIG.baseUrl())
+                    .auth().preemptive().basic(email, password)
+                    .contentType(ContentType.JSON)
+                    .urlEncodingEnabled(false)
+                    .when()
+                    .get(PATH + "get_projects")
+                    .then()
+                    .extract()
+                    .statusCode());
     }
 
     @Step("Create a project")
