@@ -56,6 +56,9 @@ jobs:
 
   ui-regression:
     needs: ui-smoke
+    # Run after Smoke has finished even when Smoke has failed, so that every
+    # scheduled suite can contribute its own report.
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -79,11 +82,15 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - name: Download all allure results
+      # Do not merge artifacts: one Allure results directory always represents
+      # one launch. Keeping the artifact folders gives each suite its own report.
+      - name: Download suite-specific Allure results
         uses: actions/download-artifact@v4
         with:
           path: allure-results
-          merge-multiple: true
+      - name: Prepare suite result directories
+        if: always()
+        run: mkdir -p allure-results/allure-api allure-results/allure-ui-smoke allure-results/allure-ui-regression
       - name: Get Allure history
         uses: actions/checkout@v4
         if: always()
@@ -91,12 +98,54 @@ jobs:
         with:
           ref: gh-pages
           path: gh-pages
-      - name: Generate Allure report
+      - name: Generate API Allure report
         uses: simple-elf/allure-report-action@master
         if: always()
         with:
-          allure_results: allure-results
+          allure_results: allure-results/allure-api
+          allure_report: allure-report/api
           allure_history: allure-history
+          gh_pages: gh-pages
+          subfolder: api
+          report_name: API test suite
+      - name: Generate Smoke Allure report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: allure-results/allure-ui-smoke
+          allure_report: allure-report/smoke
+          allure_history: allure-history
+          gh_pages: gh-pages
+          subfolder: smoke
+          report_name: Smoke test suite
+      - name: Generate Regression Allure report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: allure-results/allure-ui-regression
+          allure_report: allure-report/regression
+          allure_history: allure-history
+          gh_pages: gh-pages
+          subfolder: regression
+          report_name: Regression test suite
+      - name: Create suite report index
+        if: always()
+        run: |
+          run_number="${{ github.run_number }}"
+          printf '%s\n' \
+            '<!doctype html>' \
+            '<html lang="en">' \
+            '<head><meta charset="utf-8"><title>Allure reports</title></head>' \
+            '<body>' \
+            "<h1>Allure reports: run ${run_number}</h1>" \
+            '<ul>' \
+            "<li><a href=\"api/${run_number}/\">API</a></li>" \
+            "<li><a href=\"smoke/${run_number}/\">Smoke</a></li>" \
+            "<li><a href=\"regression/${run_number}/\">Regression</a></li>" \
+            '</ul>' \
+            '</body>' \
+            '</html>' \
+            > allure-history/index.html
       - name: Deploy report to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v2
