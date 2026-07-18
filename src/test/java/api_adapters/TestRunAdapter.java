@@ -1,7 +1,7 @@
 package api_adapters;
 
 import api.models.attachments.*;
-import api.models.runs.RunsRs;
+import api.models.runs.TestRunsRs;
 import io.qameta.allure.Step;
 import io.restassured.mapper.ObjectMapperType;
 
@@ -45,7 +45,7 @@ public class TestRunAdapter {
     }
 
     @Step("Get test runs of project {projectId}")
-    public static RunsRs getRuns(String projectId) {
+    public static TestRunsRs getRuns(String projectId) {
         return given()
                 .spec(spec)
                 .urlEncodingEnabled(false)
@@ -57,7 +57,7 @@ public class TestRunAdapter {
                 .spec(ok200)
                 .log().ifValidationFails()
                 .extract()
-                .as(RunsRs.class, ObjectMapperType.GSON);
+                .as(TestRunsRs.class, ObjectMapperType.GSON);
     }
 
     @Step("Delete test run {runId} if it was created")

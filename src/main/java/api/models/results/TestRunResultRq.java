@@ -5,7 +5,7 @@ import lombok.*;
 
 @Data
 @Builder
-public class ResultRq {
+public class TestRunResultRq {
 
     private Integer status_id;
 

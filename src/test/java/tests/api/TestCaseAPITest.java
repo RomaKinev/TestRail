@@ -1,23 +1,45 @@
 package tests.api;
 
 import api.models.attachments.*;
-import api.models.cases.CasesRs;
+import api.models.cases.TestCasesRs;
+import api.models.projects.*;
 import api_adapters.*;
 import io.qameta.allure.*;
 import listeners.RetryAnalyzer;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import static org.testng.Assert.*;
 
 
 public class TestCaseAPITest extends BaseAPITest {
 
-    private static final String PROJECT_CODE = "3";
+    private static final String PROJECT_NAME = "API case tests project";
     private static final String SECTION_NAME = "API case tests section";
     private static final String SECTION_DESCRIPTION = "Section for test case API tests";
     private static final String CASE_TITLE = "API test case";
     private static final String UPDATED_CASE_TITLE = "API test case_updated";
+    private static final Integer SINGLE_SUITE_MODE = 1;
+    private ProjectRs project;
     private TestCaseRs testCase;
+
+    @BeforeClass(alwaysRun = true)
+    public void createProject() {
+        project = ProjectAdapter.createProject(ProjectRq.builder()
+                .name(PROJECT_NAME)
+                .suite_mode(SINGLE_SUITE_MODE)
+                .build());
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void deleteProject() {
+        if (project != null) {
+            ProjectAdapter.deleteProjectIfCreated(project.getId());
+        }
+    }
+
+    private String projectId() {
+        return String.valueOf(project.getId());
+    }
 
     @Owner("Roma")
     @Feature("Test Cases API")
@@ -31,7 +53,7 @@ public class TestCaseAPITest extends BaseAPITest {
             retryAnalyzer = RetryAnalyzer.class
     )
     public void createTestCase() {
-        testCase = TestCaseAdapter.createTestCaseWithSection(PROJECT_CODE, SECTION_NAME,
+        testCase = TestCaseAdapter.createTestCaseWithSection(projectId(), SECTION_NAME,
                 SECTION_DESCRIPTION, CASE_TITLE);
 
         assertNotNull(testCase.getId(), "The created test case ID was not returned.");
@@ -51,7 +73,7 @@ public class TestCaseAPITest extends BaseAPITest {
     )
     public void getTestCases() {
         assertNotNull(testCase, "Test case must be created before retrieving the list.");
-        CasesRs casesRs = TestCaseAdapter.getCases(PROJECT_CODE);
+        TestCasesRs casesRs = TestCaseAdapter.getCases(projectId());
 
         assertTrue(casesRs.getCases().stream().anyMatch(c -> c.getId().equals(testCase.getId())),
                 "The created test case was not found in the project cases list.");

@@ -1,19 +1,20 @@
 package tests.api;
 
 import api.models.attachments.*;
+import api.models.projects.*;
 import api.models.results.*;
-import api.models.runs.RunsRs;
+import api.models.runs.TestRunsRs;
 import api_adapters.*;
 import io.qameta.allure.*;
 import listeners.RetryAnalyzer;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import static org.testng.Assert.*;
 
 
 public class TestRunAPITest extends BaseAPITest {
 
-    private static final String PROJECT_CODE = "3";
+    private static final String PROJECT_NAME = "API run tests project";
     private static final String SECTION_NAME = "API run tests section";
     private static final String SECTION_DESCRIPTION = "Section for test run API tests";
     private static final String CASE_TITLE = "API run test case";
@@ -21,8 +22,29 @@ public class TestRunAPITest extends BaseAPITest {
     private static final String RUN_DESCRIPTION = "Test run created by API test";
     private static final String RESULT_COMMENT = "Result added by API test";
     private static final Integer PASSED_STATUS_ID = 1;
+    private static final Integer SINGLE_SUITE_MODE = 1;
+    private ProjectRs project;
     private TestCaseRs testCase;
     private TestRunRs testRun;
+
+    @BeforeClass(alwaysRun = true)
+    public void createProject() {
+        project = ProjectAdapter.createProject(ProjectRq.builder()
+                .name(PROJECT_NAME)
+                .suite_mode(SINGLE_SUITE_MODE)
+                .build());
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void deleteProject() {
+        if (project != null) {
+            ProjectAdapter.deleteProjectIfCreated(project.getId());
+        }
+    }
+
+    private String projectId() {
+        return String.valueOf(project.getId());
+    }
 
     @Owner("Roma")
     @Feature("Test Runs API")
@@ -36,10 +58,10 @@ public class TestRunAPITest extends BaseAPITest {
             retryAnalyzer = RetryAnalyzer.class
     )
     public void getTestRuns() {
-        testCase = TestCaseAdapter.createTestCaseWithSection(PROJECT_CODE, SECTION_NAME,
+        testCase = TestCaseAdapter.createTestCaseWithSection(projectId(), SECTION_NAME,
                 SECTION_DESCRIPTION, CASE_TITLE);
-        testRun = TestRunAdapter.createTestRunForCase(PROJECT_CODE, RUN_NAME, RUN_DESCRIPTION, testCase);
-        RunsRs runsRs = TestRunAdapter.getRuns(PROJECT_CODE);
+        testRun = TestRunAdapter.createTestRunForCase(projectId(), RUN_NAME, RUN_DESCRIPTION, testCase);
+        TestRunsRs runsRs = TestRunAdapter.getRuns(projectId());
 
         assertTrue(runsRs.getRuns().stream().anyMatch(r -> r.getId().equals(testRun.getId())),
                 "The created test run was not found in the project runs list.");
@@ -58,11 +80,11 @@ public class TestRunAPITest extends BaseAPITest {
     )
     public void addResultForCase() {
         assertNotNull(testRun, "Test run must be created before adding a result.");
-        ResultRq resultRq = ResultRq.builder()
+        TestRunResultRq resultRq = TestRunResultRq.builder()
                 .status_id(PASSED_STATUS_ID)
                 .comment(RESULT_COMMENT)
                 .build();
-        ResultRs resultRs = ResultAdapter.addResultForCase(testRun.getId(), testCase.getId(), resultRq);
+        TestRunResultRs resultRs = TestRunResultAdapter.addResultForCase(testRun.getId(), testCase.getId(), resultRq);
 
         assertNotNull(resultRs.getId(), "The created result ID was not returned.");
         assertEquals(resultRs.getStatusId(), PASSED_STATUS_ID, "The result status does not match.");
@@ -81,7 +103,7 @@ public class TestRunAPITest extends BaseAPITest {
     )
     public void getResultsForRun() {
         assertNotNull(testRun, "Test run must be created before retrieving results.");
-        ResultsRs resultsRs = ResultAdapter.getResultsForRun(testRun.getId());
+        TestRunResultsRs resultsRs = TestRunResultAdapter.getResultsForRun(testRun.getId());
 
         assertFalse(resultsRs.getResults().isEmpty(), "The test run results list is empty.");
         assertEquals(resultsRs.getResults().get(0).getStatusId(), PASSED_STATUS_ID,

@@ -7,7 +7,7 @@ import java.util.List;
 
 
 @Data
-public class RunsRs {
+public class TestRunsRs {
 
     private Integer size;
 

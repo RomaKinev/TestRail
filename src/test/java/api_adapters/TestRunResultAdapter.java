@@ -8,12 +8,12 @@ import static api_adapters.BaseAdapter.*;
 import static io.restassured.RestAssured.given;
 
 
-public class ResultAdapter {
+public class TestRunResultAdapter {
 
     private static final String PATH = "/index.php?/api/v2/";
 
     @Step("Add a result for case {caseId} in run {runId}")
-    public static ResultRs addResultForCase(Integer runId, Integer caseId, ResultRq rq) {
+    public static TestRunResultRs addResultForCase(Integer runId, Integer caseId, TestRunResultRq rq) {
         return given()
                 .spec(spec)
                 .urlEncodingEnabled(false)
@@ -27,11 +27,11 @@ public class ResultAdapter {
                 .spec(ok200)
                 .log().ifValidationFails()
                 .extract()
-                .as(ResultRs.class, ObjectMapperType.GSON);
+                .as(TestRunResultRs.class, ObjectMapperType.GSON);
     }
 
     @Step("Get results for run {runId}")
-    public static ResultsRs getResultsForRun(Integer runId) {
+    public static TestRunResultsRs getResultsForRun(Integer runId) {
         return given()
                 .spec(spec)
                 .urlEncodingEnabled(false)
@@ -43,6 +43,6 @@ public class ResultAdapter {
                 .spec(ok200)
                 .log().ifValidationFails()
                 .extract()
-                .as(ResultsRs.class, ObjectMapperType.GSON);
+                .as(TestRunResultsRs.class, ObjectMapperType.GSON);
     }
 }

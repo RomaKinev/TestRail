@@ -5,7 +5,7 @@ import lombok.Data;
 
 
 @Data
-public class ResultRs {
+public class TestRunResultRs {
 
     private Integer id;
 

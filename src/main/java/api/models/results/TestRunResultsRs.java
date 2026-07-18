@@ -6,10 +6,10 @@ import java.util.List;
 
 
 @Data
-public class ResultsRs {
+public class TestRunResultsRs {
 
     private Integer size;
 
-    private List<ResultRs> results;
+    private List<TestRunResultRs> results;
 
 }
