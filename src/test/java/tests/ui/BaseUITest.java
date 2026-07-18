@@ -24,7 +24,9 @@ public class BaseUITest {
     TestCasesPage testCasesPage;
     TestCaseCreatePage testCaseCreatePage;
     TestCasePage testCasePage;
+    TestCaseStep testCaseStep;
     TestSuitesPage testSuitesPage;
+    TestSuiteStep testSuiteStep;
     TestRunPage testRunPage;
     ReportsPage reportsPage;
     TestRunStep testRunStep;
@@ -52,7 +54,9 @@ public class BaseUITest {
         testCasesPage = new TestCasesPage();
         testCaseCreatePage = new TestCaseCreatePage();
         testCasePage = new TestCasePage();
+        testCaseStep = new TestCaseStep(projectsPage, testCasesPage, testCasePage);
         testSuitesPage = new TestSuitesPage();
+        testSuiteStep = new TestSuiteStep(projectsPage, testSuitesPage);
         testRunPage = new TestRunPage();
         reportsPage = new ReportsPage();
         testRunStep = new TestRunStep(projectsPage, testSuitesPage, testRunPage, reportsPage);
