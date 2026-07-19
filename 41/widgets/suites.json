@@ -1,1 +1,0 @@
-{"total":2,"items":[{"uid":"c29789aba3ab285494721a97e08675cf","name":"UI Regression tests","statistic":{"failed":3,"broken":0,"skipped":0,"passed":42,"unknown":0,"total":45}},{"uid":"141659d0d3f9426d103825c14b897efc","name":"API regression tests","statistic":{"failed":0,"broken":0,"skipped":0,"passed":23,"unknown":0,"total":23}}]}
