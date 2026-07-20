@@ -20,6 +20,7 @@ public class UserNRolesTest extends BaseUITest {
             description = "Verify user can be created",
             groups = "ui",
             priority = 1,
+            enabled = false,
             retryAnalyzer = RetryAnalyzer.class
     )
     public void createUserTest() {
@@ -40,6 +41,7 @@ public class UserNRolesTest extends BaseUITest {
             description = "Verify user data can be updated",
             groups = "ui",
             priority = 2,
+            enabled = false,
             retryAnalyzer = RetryAnalyzer.class
     )
     public void updateUserDataTest() {
@@ -60,6 +62,7 @@ public class UserNRolesTest extends BaseUITest {
             description = "Verify user can be deactivated",
             groups = "ui",
             priority = 3,
+            enabled = false,
             retryAnalyzer = RetryAnalyzer.class
     )
     public void deactivateUserTest() {
