@@ -28,6 +28,7 @@ public class ReportTest extends BaseUITest {
     @Feature("Reports")
     @Severity(SeverityLevel.NORMAL)
     @Description("Export run results to a file")
+    @Flaky
     @Test(description = "Export run results to a file", groups = {"ui"})
     public void exportRunResultsTest() throws FileNotFoundException {
         loginStep.auth(CONFIG.email(), CONFIG.password());
