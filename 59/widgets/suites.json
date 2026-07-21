@@ -1,1 +1,0 @@
-{"total":2,"items":[{"uid":"e67c14bf3778651454375b4c990d618b","name":"UI Smoke tests","statistic":{"failed":0,"broken":1,"skipped":0,"passed":4,"unknown":0,"total":5}},{"uid":"141659d0d3f9426d103825c14b897efc","name":"API regression tests","statistic":{"failed":0,"broken":0,"skipped":0,"passed":23,"unknown":0,"total":23}}]}
